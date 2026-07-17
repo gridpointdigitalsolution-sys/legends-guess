@@ -31,7 +31,7 @@ Legend: [x] done · [~] in progress · [ ] todo
 - [ ] Analytics (measure promos) — GA4 or Plausible snippet (placeholder wired, id later)
 - [ ] SEO: per-legend content / programmatic pages (later phase, big organic-traffic lever)
 
-## E. Roster expansion — accuracy-first waves toward 1,000+/sport
+## E. Roster expansion — accuracy-first waves. TARGET: football → 1,000; basketball → 500 (then 1,000). Push both little by little.
 - [x] Wave 1+2: 218 (138 ⚽ / 80 🏀)
 - [x] Wave 3: 300 (186 ⚽ / 114 🏀)
 - [x] Wave 4: 380 (226 ⚽ / 154 🏀) — historic greats, EuroLeague, women's, Asia/Latam/Africa
