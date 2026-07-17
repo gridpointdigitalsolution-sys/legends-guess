@@ -33,7 +33,7 @@ Legend: [x] done · [~] in progress · [ ] todo
 ## E. Roster expansion — accuracy-first waves toward 1,000+/sport
 - [x] Wave 1+2: 218 (138 ⚽ / 80 🏀)
 - [x] Wave 3: 300 (186 ⚽ / 114 🏀)
-- [x] Wave 4: 380 (226 ⚽ / 154 🏀) — historic greats, EuroLeague, women's, Asia/Latam/Africa
+- [x] Wave 4: 420 (246 ⚽ / 174 🏀) — historic greats, EuroLeague, women's, Asia/Latam/Africa
 - [ ] Continue waves → 500 → 1,000 per sport (verify every club order + era before shipping)
 
 ## F. Deploy — VPS + Cloudflare  (PENDING user VPS settings)
