@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legends Guess — Daily Football &amp; Basketball Player Puzzle + Highlights</title>
+<meta name="description" content="Legends Guess: guess the mystery football (soccer) or basketball legend from their career, then watch their best highlights. New puzzles daily, endless practice mode. Free to play.">
+<meta name="keywords" content="football quiz, soccer player guessing game, basketball legends quiz, guess the player, football highlights, NBA legends, daily football game">
+<meta property="og:title" content="Legends Guess — Football &amp; Basketball Player Puzzle">
+<meta property="og:description" content="Guess the legend from their career, then watch them play. Free daily puzzles.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+:root{
+  --bg:#0a0f1e;--bg2:#0d1730;--card:#13203c;--card2:#1a294c;
+  --ftbl:#22c55e;--ftbl-d:#16a34a;--bball:#f97316;--bball-d:#ea580c;
+  --gold:#fbbf24;--blue:#3b82f6;--text:#eef3ff;--muted:#8497bd;--line:#213255;--red:#ef4444;
+  --accent:var(--ftbl);--accent-d:var(--ftbl-d);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:linear-gradient(180deg,#0a0f1e,#0b1428);color:var(--text);min-height:100vh}
+button{font-family:inherit;cursor:pointer;border:none}input{font-family:inherit}
+header{position:sticky;top:0;z-index:50;background:rgba(10,15,30,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hin{max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:11px 16px}
+.logo{font-weight:900;font-size:1.2rem;letter-spacing:-.02em}
+.logo b{color:var(--accent)}
+.hbtns{display:flex;gap:7px}
+.ico{background:var(--card);color:var(--text);width:37px;height:37px;border-radius:10px;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.ico:hover{background:var(--card2)}
+main{max-width:560px;margin:0 auto;padding:14px 16px 60px}
+.ad-slot{background:var(--bg2);border:1px dashed #26385f;border-radius:10px;color:#3a4f7d;font-size:.68rem;text-align:center;padding:8px;margin:14px 0;letter-spacing:.05em}
+.sport{display:flex;background:var(--card);border-radius:12px;padding:4px;gap:4px;margin-bottom:12px}
+.sport button{flex:1;padding:10px;border-radius:9px;font-weight:800;font-size:.92rem;color:var(--muted);background:transparent;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.sport button.on{color:#08210f}
+.sport button.on.ft{background:var(--ftbl)}
+.sport button.on.bb{background:var(--bball);color:#2a1403}
+.howstrip{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 13px;margin-bottom:12px;font-size:.82rem;color:var(--muted);line-height:1.5}
+.howstrip b{color:var(--text)}
+.howstrip .step{color:var(--accent);font-weight:800}
+.top-strip{display:flex;justify-content:space-between;align-items:center;margin:2px 0 10px;font-size:.84rem;color:var(--muted)}
+.top-strip b{color:var(--gold)}
+.mode-tag{background:var(--card);padding:4px 10px;border-radius:999px;font-size:.72rem;font-weight:700;color:var(--accent)}
+.qhead{font-size:1.05rem;font-weight:800;margin:2px 0 4px;text-align:center}
+.qhead .tries{color:var(--muted);font-weight:600;font-size:.86rem}
+#clues{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+.clue{background:var(--card);border-radius:13px;padding:11px 14px;display:flex;align-items:center;gap:12px;border-left:4px solid var(--accent);animation:pop .22s ease}
+.clue.locked{border-left-color:#26385f}
+.clue .k{font-size:.66rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);min-width:82px}
+.clue .v{font-weight:700;font-size:.96rem}
+.clue.locked .v{color:#3a4f7d}
+@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:scale(1);opacity:1}}
+#guessRows{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}
+.grow{background:var(--bg2);border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.9rem;border:1px solid var(--line)}
+.grow.wrong{border-color:#57324a;color:#f3a0b8}
+.grow.right{border-color:var(--accent);color:var(--accent)}
+.grow .num{color:var(--muted);font-size:.72rem;margin-right:9px}
+.iwrap{position:relative;margin-bottom:9px}
+#gi{width:100%;padding:14px 16px;border-radius:12px;border:2px solid #2a3b63;background:var(--card);color:var(--text);font-size:1rem;font-weight:600;outline:none}
+#gi:focus{border-color:var(--accent)}
+#sug{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--card2);border-radius:12px;overflow:hidden;box-shadow:0 8px 30px rgba(0,0,0,.4);z-index:40;max-height:230px;overflow-y:auto;display:none}
+#sug div{padding:11px 16px;font-weight:600;font-size:.9rem;border-bottom:1px solid #223258}
+#sug div:hover,#sug div.hl{background:var(--accent-d);color:#fff}
+.btn{width:100%;padding:14px;border-radius:12px;font-weight:800;font-size:1rem;transition:transform .1s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn-p{background:var(--accent);color:#06210f}
+.btn-p:hover{background:var(--accent-d);color:#eafff2}
+.btn-g{background:var(--card);color:var(--text)}
+.btn-gold{background:var(--gold);color:#3b2a03}
+.brow{display:flex;gap:8px;margin-top:8px}.brow .btn{flex:1}
+.mbg{position:fixed;inset:0;background:rgba(4,7,15,.82);display:none;align-items:flex-end;justify-content:center;z-index:100}
+.mbg.open{display:flex}
+.modal{background:var(--bg2);border-radius:20px 20px 0 0;padding:22px 20px 30px;max-width:560px;width:100%;max-height:90vh;overflow-y:auto;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.modal h2{font-size:1.35rem;margin-bottom:10px}.modal p{color:var(--muted);font-size:.9rem;line-height:1.55;margin-bottom:9px}
+.close{float:right;background:var(--card);color:var(--text);width:34px;height:34px;border-radius:9px}
+.wtitle{text-align:center;font-size:1.7rem;font-weight:900;margin-bottom:4px}
+.wtitle .em{font-size:2rem}
+.wsub{text-align:center;color:var(--muted);font-size:.92rem;margin-bottom:18px}
+.stepcard{display:flex;gap:13px;align-items:flex-start;background:var(--card);border-radius:14px;padding:14px;margin-bottom:10px}
+.stepcard .n{flex-shrink:0;width:30px;height:30px;border-radius:50%;background:var(--accent);color:#06210f;font-weight:900;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.stepcard .t b{font-size:.98rem}.stepcard .t p{margin:2px 0 0;font-size:.84rem;color:var(--muted);line-height:1.45}
+.wpick{display:flex;gap:10px;margin-top:16px}
+.wpick button{flex:1;padding:16px;border-radius:14px;font-weight:900;font-size:1.05rem;color:#08210f;display:flex;flex-direction:column;align-items:center;gap:4px}
+.wpick .p-ft{background:var(--ftbl)}.wpick .p-bb{background:var(--bball);color:#2a1403}
+.wpick small{font-weight:600;font-size:.72rem;opacity:.8}
+.remoji{font-size:2.5rem;text-align:center;margin:4px 0}
+.rname{text-align:center;font-size:1.4rem;font-weight:900;color:var(--accent);margin-bottom:3px}
+.rsub{text-align:center;color:var(--muted);font-size:.86rem;margin-bottom:12px}
+.rgrid{text-align:center;font-size:1.35rem;letter-spacing:2px;margin:8px 0 14px}
+.watch-h{font-weight:900;font-size:1.05rem;margin:12px 0 4px;text-align:center}
+.watch-sub{text-align:center;color:var(--muted);font-size:.78rem;margin-bottom:10px}
+.watch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.wbtn{padding:14px;border-radius:12px;font-weight:800;font-size:.92rem;text-align:center;text-decoration:none;color:#fff;display:flex;align-items:center;justify-content:center;gap:7px}
+.wbtn:active{transform:scale(.97)}
+.w-yt{background:#ff0033}.w-yt2{background:#c1121f}.w-tk{background:#111;border:1px solid #333}.w-ig{background:linear-gradient(45deg,#f09433,#dc2743,#bc1888)}
+.stats{display:flex;gap:8px;margin:12px 0}
+.stat{flex:1;background:var(--card);border-radius:12px;padding:12px;text-align:center}
+.stat .n{font-size:1.4rem;font-weight:900;color:var(--gold)}
+.stat .l{font-size:.66rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.legal{background:var(--card);border-radius:12px;padding:11px 13px;font-size:.74rem;color:var(--muted);line-height:1.55;margin-top:10px}
+footer{text-align:center;color:#3a4f7d;font-size:.74rem;padding:22px 16px;line-height:1.7}
+footer a{color:#5975ad;text-decoration:none;cursor:pointer}
+@media(min-width:600px){.mbg{align-items:center}.modal{border-radius:20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="hin">
+    <div class="logo">🏅 Legends<b>Guess</b></div>
+    <div class="hbtns">
+      <button class="ico" id="statsBtn" title="Stats">📊</button>
+      <button class="ico" id="helpBtn" title="How to play">❓</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="ad-slot">AD SPACE — top banner (activate after AdSense approval)</div>
+
+  <div class="sport">
+    <button id="ftBtn" class="on ft" data-s="⚽">⚽ Football</button>
+    <button id="bbBtn" data-s="🏀">🏀 Basketball</button>
+  </div>
+
+  <div class="howstrip">
+    <span class="step">How to play:</span> Guess the mystery legend from the clues below. <b>Each wrong guess reveals a new clue</b> (you get 6 tries). Solve it and their <b>🎬 highlights unlock</b> — watch them play instantly.
+  </div>
+
+  <div class="top-strip">
+    <div>Puzzle <b id="pNo">#—</b></div>
+    <div class="mode-tag" id="modeTag">DAILY</div>
+    <div>Streak 🔥 <b id="streakTop">0</b></div>
+  </div>
+
+  <div class="qhead">Who is this legend? <span class="tries" id="triesLeft">6 guesses left</span></div>
+
+  <section id="clues"></section>
+  <section id="guessRows"></section>
+
+  <div class="iwrap" id="iwrap">
+    <input id="gi" type="text" autocomplete="off" placeholder="Type a legend's name…">
+    <div id="sug"></div>
+  </div>
+  <button class="btn btn-p" id="guessBtn">SUBMIT GUESS</button>
+  <div class="brow">
+    <button class="btn btn-g" id="revealBtn">Give up → see answer + 🎬</button>
+    <button class="btn btn-g" id="endlessBtn">🎲 Endless</button>
+  </div>
+
+  <div class="ad-slot">AD SPACE — in-content (activate after AdSense approval)</div>
+</main>
+
+<!-- WELCOME -->
+<div class="mbg" id="welcome"><div class="modal">
+  <div class="wtitle"><span class="em">⚽🏀</span> Legends Guess</div>
+  <div class="wsub">Guess the legend. Watch them play. New puzzle every day — free.</div>
+  <div class="stepcard"><div class="n">1</div><div class="t"><b>Pick your sport</b><p>Football (soccer) or Basketball — tap to switch anytime.</p></div></div>
+  <div class="stepcard"><div class="n">2</div><div class="t"><b>Guess the mystery legend</b><p>You see clues about their career (their clubs/teams, nation, era). Type a name and submit. Wrong? A new clue is revealed. You get 6 tries.</p></div></div>
+  <div class="stepcard"><div class="n">3</div><div class="t"><b>Watch them play 🎬</b><p>Once you solve it (or give up), buttons appear to watch that legend's best highlights on YouTube, TikTok &amp; more.</p></div></div>
+  <div class="wpick">
+    <button class="p-ft" id="startFt">⚽<span>Play Football</span></button>
+    <button class="p-bb" id="startBb">🏀<span>Play Basketball</span></button>
+  </div>
+</div></div>
+
+<!-- help -->
+<div class="mbg" id="helpModal"><div class="modal">
+  <button class="close" data-close="helpModal">✕</button>
+  <h2>How to play 🏅</h2>
+  <p><b>1. Pick a sport</b> — ⚽ Football or 🏀 Basketball at the top.</p>
+  <p><b>2. Guess the legend</b> — the cards show clues about their career (clubs/teams they played for, in order, plus nation, era, and their initial). Type a name in the box and press SUBMIT GUESS.</p>
+  <p><b>3. Wrong guess = new clue.</b> Each miss unlocks the next clue. You have 6 guesses total.</p>
+  <p><b>4. Watch them play 🎬</b> — when you solve it (or press "Give up"), highlight buttons appear so you can watch their best moments instantly.</p>
+  <p>Come back daily for a new puzzle in each sport, keep your 🔥 streak, and use 🎲 Endless for unlimited games.</p>
+</div></div>
+
+<!-- stats -->
+<div class="mbg" id="statsModal"><div class="modal">
+  <button class="close" data-close="statsModal">✕</button>
+  <h2>Your stats 📊</h2>
+  <div class="stats">
+    <div class="stat"><div class="n" id="stPlayed">0</div><div class="l">Played</div></div>
+    <div class="stat"><div class="n" id="stWins">0</div><div class="l">Wins</div></div>
+    <div class="stat"><div class="n" id="stStreak">0</div><div class="l">Streak</div></div>
+    <div class="stat"><div class="n" id="stBest">0</div><div class="l">Best</div></div>
+  </div>
+  <p style="font-size:.78rem">Stats save on this device when your browser allows it.</p>
+</div></div>
+
+<!-- result + watch -->
+<div class="mbg" id="resultModal"><div class="modal">
+  <button class="close" data-close="resultModal">✕</button>
+  <div class="remoji" id="rEmoji">🏆</div>
+  <div class="rname" id="rName">—</div>
+  <div class="rsub" id="rSub">—</div>
+  <div class="rgrid" id="rGrid">—</div>
+  <div class="watch-h">🎬 Watch <span id="watchName">them</span> play</div>
+  <div class="watch-sub">Tap to see their best highlights (opens the original creators)</div>
+  <div class="watch" id="watch"></div>
+  <button class="btn btn-p" id="shareWa" style="margin-top:10px">Share result on WhatsApp 💬</button>
+  <div class="brow">
+    <button class="btn btn-g" id="shareX">Share on X</button>
+    <button class="btn btn-g" id="copyBtn">Copy</button>
+  </div>
+  <div class="brow"><button class="btn btn-gold" id="againBtn">🎲 Play another (Endless)</button></div>
+  <div class="ad-slot" style="margin-top:14px">AD SPACE — result screen (highest value)</div>
+  <div class="legal">We host no videos. Highlight buttons open the original creators on YouTube/TikTok/Instagram — they keep all views &amp; credit. Unofficial fan game, not affiliated with any league, club or player.</div>
+</div></div>
+
+<footer>
+  <b>LegendsGuess</b> — free daily football &amp; basketball player puzzles + highlights.<br>
+  Fan-made · We host no video · Rights belong to their owners.<br>
+  <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a>
+</footer>
+
+<script>
+'use strict';
+const DATA=[
+/* ================= FOOTBALL ⚽ ================= */
+{s:"⚽",n:"Lionel Messi",f:"🇦🇷",c:"Argentina",p:"Forward",b:2004,cl:["Barcelona","Paris Saint-Germain","Inter Miami"],q:"Lionel Messi best dribbling goals"},
+{s:"⚽",n:"Cristiano Ronaldo",f:"🇵🇹",c:"Portugal",p:"Forward",b:2002,cl:["Sporting CP","Manchester United","Real Madrid","Juventus","Al-Nassr"],q:"Cristiano Ronaldo best goals skills"},
+{s:"⚽",n:"Ronaldinho",f:"🇧🇷",c:"Brazil",p:"Forward",b:1998,cl:["Gremio","Paris Saint-Germain","Barcelona","AC Milan","Flamengo"],q:"Ronaldinho best skills magic"},
+{s:"⚽",n:"Diego Maradona",f:"🇦🇷",c:"Argentina",p:"Forward",b:1976,cl:["Argentinos Juniors","Boca Juniors","Barcelona","Napoli","Sevilla"],q:"Diego Maradona best goals dribbling"},
+{s:"⚽",n:"Zinedine Zidane",f:"🇫🇷",c:"France",p:"Midfielder",b:1989,cl:["Cannes","Bordeaux","Juventus","Real Madrid"],q:"Zinedine Zidane best skills"},
+{s:"⚽",n:"Ronaldo Nazario",f:"🇧🇷",c:"Brazil",p:"Forward",b:1993,cl:["Cruzeiro","PSV Eindhoven","Barcelona","Inter Milan","Real Madrid","AC Milan"],q:"Ronaldo R9 best goals dribbling"},
+{s:"⚽",n:"Neymar",f:"🇧🇷",c:"Brazil",p:"Forward",b:2009,cl:["Santos","Barcelona","Paris Saint-Germain","Al-Hilal"],q:"Neymar best skills dribbling"},
+{s:"⚽",n:"Kylian Mbappe",f:"🇫🇷",c:"France",p:"Forward",b:2015,cl:["Monaco","Paris Saint-Germain","Real Madrid"],q:"Kylian Mbappe best goals speed"},
+{s:"⚽",n:"Erling Haaland",f:"🇳🇴",c:"Norway",p:"Forward",b:2016,cl:["Molde","RB Salzburg","Borussia Dortmund","Manchester City"],q:"Erling Haaland best goals"},
+{s:"⚽",n:"Thierry Henry",f:"🇫🇷",c:"France",p:"Forward",b:1994,cl:["Monaco","Juventus","Arsenal","Barcelona","New York Red Bulls"],q:"Thierry Henry best goals Arsenal"},
+{s:"⚽",n:"Zlatan Ibrahimovic",f:"🇸🇪",c:"Sweden",p:"Forward",b:1999,cl:["Malmo","Ajax","Juventus","Inter Milan","Barcelona","AC Milan","Paris Saint-Germain","Manchester United","LA Galaxy"],q:"Zlatan Ibrahimovic best goals skills"},
+{s:"⚽",n:"Andres Iniesta",f:"🇪🇸",c:"Spain",p:"Midfielder",b:2002,cl:["Barcelona","Vissel Kobe"],q:"Andres Iniesta best dribbling"},
+{s:"⚽",n:"Xavi",f:"🇪🇸",c:"Spain",p:"Midfielder",b:1998,cl:["Barcelona","Al Sadd"],q:"Xavi best passes goals"},
+{s:"⚽",n:"Kaka",f:"🇧🇷",c:"Brazil",p:"Midfielder",b:2001,cl:["Sao Paulo","AC Milan","Real Madrid","Orlando City"],q:"Kaka best goals dribbling"},
+{s:"⚽",n:"David Beckham",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Midfielder",b:1993,cl:["Manchester United","Real Madrid","LA Galaxy","AC Milan","Paris Saint-Germain"],q:"David Beckham best free kicks"},
+{s:"⚽",n:"Steven Gerrard",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Midfielder",b:1998,cl:["Liverpool","LA Galaxy"],q:"Steven Gerrard best goals Liverpool"},
+{s:"⚽",n:"Frank Lampard",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Midfielder",b:1995,cl:["West Ham United","Chelsea","Manchester City","New York City FC"],q:"Frank Lampard best goals"},
+{s:"⚽",n:"Wayne Rooney",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Forward",b:2002,cl:["Everton","Manchester United","DC United","Derby County"],q:"Wayne Rooney best goals"},
+{s:"⚽",n:"Luis Suarez",f:"🇺🇾",c:"Uruguay",p:"Forward",b:2005,cl:["Nacional","Ajax","Liverpool","Barcelona","Atletico Madrid","Inter Miami"],q:"Luis Suarez best goals"},
+{s:"⚽",n:"Sergio Ramos",f:"🇪🇸",c:"Spain",p:"Defender",b:2004,cl:["Sevilla","Real Madrid","Paris Saint-Germain","Monterrey"],q:"Sergio Ramos best goals defending"},
+{s:"⚽",n:"Andrea Pirlo",f:"🇮🇹",c:"Italy",p:"Midfielder",b:1998,cl:["Brescia","Inter Milan","AC Milan","Juventus","New York City FC"],q:"Andrea Pirlo best free kicks passes"},
+{s:"⚽",n:"Francesco Totti",f:"🇮🇹",c:"Italy",p:"Forward",b:1993,cl:["Roma"],q:"Francesco Totti best goals Roma"},
+{s:"⚽",n:"Gareth Bale",f:"🏴󠁧󠁢󠁷󠁬󠁳󠁿",c:"Wales",p:"Forward",b:2006,cl:["Southampton","Tottenham Hotspur","Real Madrid","Los Angeles FC"],q:"Gareth Bale best goals speed"},
+{s:"⚽",n:"Luka Modric",f:"🇭🇷",c:"Croatia",p:"Midfielder",b:2003,cl:["Dinamo Zagreb","Tottenham Hotspur","Real Madrid","AC Milan"],q:"Luka Modric best passes goals"},
+{s:"⚽",n:"Karim Benzema",f:"🇫🇷",c:"France",p:"Forward",b:2004,cl:["Lyon","Real Madrid","Al-Ittihad"],q:"Karim Benzema best goals skills"},
+{s:"⚽",n:"Robert Lewandowski",f:"🇵🇱",c:"Poland",p:"Forward",b:2006,cl:["Lech Poznan","Borussia Dortmund","Bayern Munich","Barcelona"],q:"Robert Lewandowski best goals"},
+{s:"⚽",n:"Mohamed Salah",f:"🇪🇬",c:"Egypt",p:"Forward",b:2010,cl:["El Mokawloon","Basel","Chelsea","Roma","Liverpool"],q:"Mohamed Salah best goals Liverpool"},
+{s:"⚽",n:"Sadio Mane",f:"🇸🇳",c:"Senegal",p:"Forward",b:2011,cl:["Metz","RB Salzburg","Southampton","Liverpool","Bayern Munich","Al-Nassr"],q:"Sadio Mane best goals"},
+{s:"⚽",n:"Kevin De Bruyne",f:"🇧🇪",c:"Belgium",p:"Midfielder",b:2008,cl:["Genk","Chelsea","Wolfsburg","Manchester City","Napoli"],q:"Kevin De Bruyne best assists goals"},
+{s:"⚽",n:"Didier Drogba",f:"🇨🇮",c:"Ivory Coast",p:"Forward",b:1998,cl:["Guingamp","Marseille","Chelsea","Galatasaray","Montreal Impact"],q:"Didier Drogba best goals Chelsea"},
+{s:"⚽",n:"Samuel Eto'o",f:"🇨🇲",c:"Cameroon",p:"Forward",b:1997,cl:["Real Madrid","Mallorca","Barcelona","Inter Milan","Chelsea","Everton"],q:"Samuel Eto'o best goals"},
+{s:"⚽",n:"Yaya Toure",f:"🇨🇮",c:"Ivory Coast",p:"Midfielder",b:2001,cl:["ASEC Mimosas","Beveren","Olympiacos","Monaco","Barcelona","Manchester City"],q:"Yaya Toure best goals Manchester City"},
+{s:"⚽",n:"Jay-Jay Okocha",f:"🇳🇬",c:"Nigeria",p:"Midfielder",b:1992,cl:["Enugu Rangers","Eintracht Frankfurt","Fenerbahce","Paris Saint-Germain","Bolton Wanderers"],q:"Jay-Jay Okocha best skills"},
+{s:"⚽",n:"Nwankwo Kanu",f:"🇳🇬",c:"Nigeria",p:"Forward",b:1993,cl:["Iwuanyanwu Nationale","Ajax","Inter Milan","Arsenal","West Bromwich Albion","Portsmouth"],q:"Nwankwo Kanu best skills goals"},
+{s:"⚽",n:"George Weah",f:"🇱🇷",c:"Liberia",p:"Forward",b:1988,cl:["Monaco","Paris Saint-Germain","AC Milan","Chelsea","Manchester City"],q:"George Weah best goals AC Milan"},
+{s:"⚽",n:"Victor Osimhen",f:"🇳🇬",c:"Nigeria",p:"Forward",b:2017,cl:["Wolfsburg","Charleroi","Lille","Napoli","Galatasaray"],q:"Victor Osimhen best goals"},
+{s:"⚽",n:"Mohammed Kudus",f:"🇬🇭",c:"Ghana",p:"Midfielder",b:2018,cl:["Nordsjaelland","Ajax","West Ham United","Tottenham Hotspur"],q:"Mohammed Kudus best skills goals"},
+{s:"⚽",n:"Riyad Mahrez",f:"🇩🇿",c:"Algeria",p:"Forward",b:2009,cl:["Le Havre","Leicester City","Manchester City","Al-Ahli"],q:"Riyad Mahrez best skills goals"},
+{s:"⚽",n:"Achraf Hakimi",f:"🇲🇦",c:"Morocco",p:"Defender",b:2016,cl:["Real Madrid","Borussia Dortmund","Inter Milan","Paris Saint-Germain"],q:"Achraf Hakimi best goals speed"},
+{s:"⚽",n:"Michael Essien",f:"🇬🇭",c:"Ghana",p:"Midfielder",b:2000,cl:["Bastia","Lyon","Chelsea","Real Madrid","AC Milan"],q:"Michael Essien best goals Chelsea"},
+{s:"⚽",n:"Jude Bellingham",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Midfielder",b:2019,cl:["Birmingham City","Borussia Dortmund","Real Madrid"],q:"Jude Bellingham best goals skills"},
+{s:"⚽",n:"Vinicius Junior",f:"🇧🇷",c:"Brazil",p:"Forward",b:2017,cl:["Flamengo","Real Madrid"],q:"Vinicius Junior best dribbling skills"},
+{s:"⚽",n:"Harry Kane",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Forward",b:2011,cl:["Tottenham Hotspur","Bayern Munich"],q:"Harry Kane best goals"},
+{s:"⚽",n:"Son Heung-min",f:"🇰🇷",c:"South Korea",p:"Forward",b:2010,cl:["Hamburg","Bayer Leverkusen","Tottenham Hotspur","Los Angeles FC"],q:"Son Heung-min best goals"},
+{s:"⚽",n:"Manuel Neuer",f:"🇩🇪",c:"Germany",p:"Goalkeeper",b:2006,cl:["Schalke 04","Bayern Munich"],q:"Manuel Neuer best saves"},
+{s:"⚽",n:"Gianluigi Buffon",f:"🇮🇹",c:"Italy",p:"Goalkeeper",b:1995,cl:["Parma","Juventus","Paris Saint-Germain"],q:"Gianluigi Buffon best saves"},
+{s:"⚽",n:"Iker Casillas",f:"🇪🇸",c:"Spain",p:"Goalkeeper",b:1999,cl:["Real Madrid","Porto"],q:"Iker Casillas best saves"},
+{s:"⚽",n:"Roberto Carlos",f:"🇧🇷",c:"Brazil",p:"Defender",b:1993,cl:["Palmeiras","Inter Milan","Real Madrid","Fenerbahce"],q:"Roberto Carlos best free kicks"},
+{s:"⚽",n:"Paolo Maldini",f:"🇮🇹",c:"Italy",p:"Defender",b:1985,cl:["AC Milan"],q:"Paolo Maldini best defending"},
+{s:"⚽",n:"Rivaldo",f:"🇧🇷",c:"Brazil",p:"Forward",b:1991,cl:["Palmeiras","Deportivo La Coruna","Barcelona","AC Milan","Olympiacos"],q:"Rivaldo best goals"},
+{s:"⚽",n:"Ryan Giggs",f:"🏴󠁧󠁢󠁷󠁬󠁳󠁿",c:"Wales",p:"Midfielder",b:1990,cl:["Manchester United"],q:"Ryan Giggs best goals dribbling"},
+{s:"⚽",n:"Sergio Aguero",f:"🇦🇷",c:"Argentina",p:"Forward",b:2003,cl:["Independiente","Atletico Madrid","Manchester City","Barcelona"],q:"Sergio Aguero best goals"},
+{s:"⚽",n:"James Rodriguez",f:"🇨🇴",c:"Colombia",p:"Midfielder",b:2006,cl:["Envigado","Porto","Monaco","Real Madrid","Bayern Munich","Everton"],q:"James Rodriguez best goals World Cup"},
+{s:"⚽",n:"Alexis Sanchez",f:"🇨🇱",c:"Chile",p:"Forward",b:2005,cl:["Cobreloa","Udinese","Barcelona","Arsenal","Manchester United","Inter Milan"],q:"Alexis Sanchez best goals"},
+{s:"⚽",n:"Gabriel Batistuta",f:"🇦🇷",c:"Argentina",p:"Forward",b:1988,cl:["Newell's Old Boys","River Plate","Boca Juniors","Fiorentina","Roma","Inter Milan"],q:"Gabriel Batistuta best goals"},
+{s:"⚽",n:"Ademola Lookman",f:"🇳🇬",c:"Nigeria",p:"Forward",b:2015,cl:["Charlton Athletic","Everton","RB Leipzig","Atalanta"],q:"Ademola Lookman best goals Atalanta"},
+{s:"⚽",n:"Asamoah Gyan",f:"🇬🇭",c:"Ghana",p:"Forward",b:2003,cl:["Liberty Professionals","Udinese","Rennes","Sunderland","Al-Ain"],q:"Asamoah Gyan best goals"},
+{s:"⚽",n:"Pierre-Emerick Aubameyang",f:"🇬🇦",c:"Gabon",p:"Forward",b:2008,cl:["Saint-Etienne","Borussia Dortmund","Arsenal","Barcelona","Marseille"],q:"Aubameyang best goals speed"},
+/* ================= BASKETBALL 🏀 ================= */
+{s:"🏀",n:"Michael Jordan",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1984,cl:["Chicago Bulls","Washington Wizards"],q:"Michael Jordan best plays dunks"},
+{s:"🏀",n:"LeBron James",f:"🇺🇸",c:"USA",p:"Forward",b:2003,cl:["Cleveland Cavaliers","Miami Heat","Cleveland Cavaliers","Los Angeles Lakers"],q:"LeBron James best plays dunks"},
+{s:"🏀",n:"Kobe Bryant",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1996,cl:["Los Angeles Lakers"],q:"Kobe Bryant best plays highlights"},
+{s:"🏀",n:"Magic Johnson",f:"🇺🇸",c:"USA",p:"Point Guard",b:1979,cl:["Los Angeles Lakers"],q:"Magic Johnson best plays assists"},
+{s:"🏀",n:"Larry Bird",f:"🇺🇸",c:"USA",p:"Forward",b:1979,cl:["Boston Celtics"],q:"Larry Bird best plays highlights"},
+{s:"🏀",n:"Shaquille O'Neal",f:"🇺🇸",c:"USA",p:"Center",b:1992,cl:["Orlando Magic","Los Angeles Lakers","Miami Heat","Phoenix Suns","Cleveland Cavaliers","Boston Celtics"],q:"Shaquille O'Neal best dunks plays"},
+{s:"🏀",n:"Tim Duncan",f:"🇺🇸",c:"USA",p:"Forward",b:1997,cl:["San Antonio Spurs"],q:"Tim Duncan best plays highlights"},
+{s:"🏀",n:"Kareem Abdul-Jabbar",f:"🇺🇸",c:"USA",p:"Center",b:1969,cl:["Milwaukee Bucks","Los Angeles Lakers"],q:"Kareem Abdul-Jabbar skyhook highlights"},
+{s:"🏀",n:"Stephen Curry",f:"🇺🇸",c:"USA",p:"Point Guard",b:2009,cl:["Golden State Warriors"],q:"Stephen Curry best three pointers"},
+{s:"🏀",n:"Kevin Durant",f:"🇺🇸",c:"USA",p:"Forward",b:2007,cl:["Seattle SuperSonics","Oklahoma City Thunder","Golden State Warriors","Brooklyn Nets","Phoenix Suns"],q:"Kevin Durant best plays scoring"},
+{s:"🏀",n:"Allen Iverson",f:"🇺🇸",c:"USA",p:"Point Guard",b:1996,cl:["Philadelphia 76ers","Denver Nuggets","Detroit Pistons","Memphis Grizzlies"],q:"Allen Iverson best crossovers plays"},
+{s:"🏀",n:"Hakeem Olajuwon",f:"🇳🇬",c:"Nigeria/USA",p:"Center",b:1984,cl:["Houston Rockets","Toronto Raptors"],q:"Hakeem Olajuwon dream shake highlights"},
+{s:"🏀",n:"Wilt Chamberlain",f:"🇺🇸",c:"USA",p:"Center",b:1959,cl:["Philadelphia Warriors","San Francisco Warriors","Philadelphia 76ers","Los Angeles Lakers"],q:"Wilt Chamberlain highlights 100 points"},
+{s:"🏀",n:"Bill Russell",f:"🇺🇸",c:"USA",p:"Center",b:1956,cl:["Boston Celtics"],q:"Bill Russell highlights blocks"},
+{s:"🏀",n:"Dirk Nowitzki",f:"🇩🇪",c:"Germany",p:"Forward",b:1998,cl:["Dallas Mavericks"],q:"Dirk Nowitzki best plays fadeaway"},
+{s:"🏀",n:"Kevin Garnett",f:"🇺🇸",c:"USA",p:"Forward",b:1995,cl:["Minnesota Timberwolves","Boston Celtics","Brooklyn Nets"],q:"Kevin Garnett best plays highlights"},
+{s:"🏀",n:"Dwyane Wade",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:2003,cl:["Miami Heat","Chicago Bulls","Cleveland Cavaliers"],q:"Dwyane Wade best plays dunks"},
+{s:"🏀",n:"Charles Barkley",f:"🇺🇸",c:"USA",p:"Forward",b:1984,cl:["Philadelphia 76ers","Phoenix Suns","Houston Rockets"],q:"Charles Barkley best plays highlights"},
+{s:"🏀",n:"Scottie Pippen",f:"🇺🇸",c:"USA",p:"Forward",b:1987,cl:["Chicago Bulls","Houston Rockets","Portland Trail Blazers"],q:"Scottie Pippen best plays"},
+{s:"🏀",n:"Steve Nash",f:"🇨🇦",c:"Canada",p:"Point Guard",b:1996,cl:["Phoenix Suns","Dallas Mavericks","Los Angeles Lakers"],q:"Steve Nash best assists plays"},
+{s:"🏀",n:"Giannis Antetokounmpo",f:"🇬🇷",c:"Greece",p:"Forward",b:2013,cl:["Milwaukee Bucks"],q:"Giannis Antetokounmpo best dunks plays"},
+{s:"🏀",n:"Nikola Jokic",f:"🇷🇸",c:"Serbia",p:"Center",b:2015,cl:["Denver Nuggets"],q:"Nikola Jokic best passes plays"},
+{s:"🏀",n:"Luka Doncic",f:"🇸🇮",c:"Slovenia",p:"Guard",b:2018,cl:["Dallas Mavericks","Los Angeles Lakers"],q:"Luka Doncic best plays"},
+{s:"🏀",n:"Kawhi Leonard",f:"🇺🇸",c:"USA",p:"Forward",b:2011,cl:["San Antonio Spurs","Toronto Raptors","Los Angeles Clippers"],q:"Kawhi Leonard best plays highlights"},
+{s:"🏀",n:"James Harden",f:"🇺🇸",c:"USA",p:"Guard",b:2009,cl:["Oklahoma City Thunder","Houston Rockets","Brooklyn Nets","Philadelphia 76ers","Los Angeles Clippers"],q:"James Harden best plays scoring"},
+{s:"🏀",n:"Russell Westbrook",f:"🇺🇸",c:"USA",p:"Point Guard",b:2008,cl:["Oklahoma City Thunder","Houston Rockets","Washington Wizards","Los Angeles Lakers","LA Clippers"],q:"Russell Westbrook best dunks plays"},
+{s:"🏀",n:"Chris Paul",f:"🇺🇸",c:"USA",p:"Point Guard",b:2005,cl:["New Orleans Hornets","Los Angeles Clippers","Houston Rockets","Oklahoma City Thunder","Phoenix Suns","Golden State Warriors"],q:"Chris Paul best assists plays"},
+{s:"🏀",n:"Carmelo Anthony",f:"🇺🇸",c:"USA",p:"Forward",b:2003,cl:["Denver Nuggets","New York Knicks","Oklahoma City Thunder","Portland Trail Blazers","Los Angeles Lakers"],q:"Carmelo Anthony best scoring plays"},
+{s:"🏀",n:"Paul Pierce",f:"🇺🇸",c:"USA",p:"Forward",b:1998,cl:["Boston Celtics","Brooklyn Nets","Washington Wizards","Los Angeles Clippers"],q:"Paul Pierce best plays"},
+{s:"🏀",n:"Ray Allen",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1996,cl:["Milwaukee Bucks","Seattle SuperSonics","Boston Celtics","Miami Heat"],q:"Ray Allen best three pointers"},
+{s:"🏀",n:"Yao Ming",f:"🇨🇳",c:"China",p:"Center",b:2002,cl:["Houston Rockets"],q:"Yao Ming best plays highlights"},
+{s:"🏀",n:"Reggie Miller",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1987,cl:["Indiana Pacers"],q:"Reggie Miller best three pointers clutch"},
+{s:"🏀",n:"Karl Malone",f:"🇺🇸",c:"USA",p:"Forward",b:1985,cl:["Utah Jazz","Los Angeles Lakers"],q:"Karl Malone best plays highlights"},
+{s:"🏀",n:"John Stockton",f:"🇺🇸",c:"USA",p:"Point Guard",b:1984,cl:["Utah Jazz"],q:"John Stockton best assists plays"},
+{s:"🏀",n:"David Robinson",f:"🇺🇸",c:"USA",p:"Center",b:1989,cl:["San Antonio Spurs"],q:"David Robinson best plays highlights"},
+{s:"🏀",n:"Patrick Ewing",f:"🇺🇸",c:"USA",p:"Center",b:1985,cl:["New York Knicks","Seattle SuperSonics","Orlando Magic"],q:"Patrick Ewing best plays"},
+{s:"🏀",n:"Tracy McGrady",f:"🇺🇸",c:"USA",p:"Forward",b:1997,cl:["Toronto Raptors","Orlando Magic","Houston Rockets"],q:"Tracy McGrady best plays 13 points 33 seconds"},
+{s:"🏀",n:"Vince Carter",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1998,cl:["Toronto Raptors","New Jersey Nets","Orlando Magic","Dallas Mavericks","Atlanta Hawks"],q:"Vince Carter best dunks"},
+{s:"🏀",n:"Damian Lillard",f:"🇺🇸",c:"USA",p:"Point Guard",b:2012,cl:["Portland Trail Blazers","Milwaukee Bucks"],q:"Damian Lillard best clutch three pointers"},
+{s:"🏀",n:"Joel Embiid",f:"🇨🇲",c:"Cameroon",p:"Center",b:2016,cl:["Philadelphia 76ers"],q:"Joel Embiid best plays highlights"},
+{s:"🏀",n:"Jayson Tatum",f:"🇺🇸",c:"USA",p:"Forward",b:2017,cl:["Boston Celtics"],q:"Jayson Tatum best plays highlights"},
+{s:"🏀",n:"Manu Ginobili",f:"🇦🇷",c:"Argentina",p:"Guard",b:2002,cl:["San Antonio Spurs"],q:"Manu Ginobili best plays euro step"},
+{s:"🏀",n:"Tony Parker",f:"🇫🇷",c:"France",p:"Point Guard",b:2001,cl:["San Antonio Spurs","Charlotte Hornets"],q:"Tony Parker best plays highlights"},
+{s:"🏀",n:"Dennis Rodman",f:"🇺🇸",c:"USA",p:"Forward",b:1986,cl:["Detroit Pistons","San Antonio Spurs","Chicago Bulls","Los Angeles Lakers"],q:"Dennis Rodman best rebounds defense"},
+{s:"🏀",n:"Pau Gasol",f:"🇪🇸",c:"Spain",p:"Forward",b:2001,cl:["Memphis Grizzlies","Los Angeles Lakers","Chicago Bulls","San Antonio Spurs"],q:"Pau Gasol best plays highlights"},
+{s:"🏀",n:"Derrick Rose",f:"🇺🇸",c:"USA",p:"Point Guard",b:2008,cl:["Chicago Bulls","New York Knicks","Minnesota Timberwolves","Detroit Pistons"],q:"Derrick Rose best plays MVP"},
+{s:"🏀",n:"Anthony Davis",f:"🇺🇸",c:"USA",p:"Forward",b:2012,cl:["New Orleans Pelicans","Los Angeles Lakers","Dallas Mavericks"],q:"Anthony Davis best plays blocks"},
+{s:"🏀",n:"Isiah Thomas",f:"🇺🇸",c:"USA",p:"Point Guard",b:1981,cl:["Detroit Pistons"],q:"Isiah Thomas best plays highlights"},
+{s:"🏀",n:"Clyde Drexler",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1983,cl:["Portland Trail Blazers","Houston Rockets"],q:"Clyde Drexler best dunks plays"},
+{s:"🏀",n:"Gary Payton",f:"🇺🇸",c:"USA",p:"Point Guard",b:1990,cl:["Seattle SuperSonics","Los Angeles Lakers","Boston Celtics","Miami Heat"],q:"Gary Payton best defense plays"},
+{s:"🏀",n:"Dikembe Mutombo",f:"🇨🇩",c:"DR Congo",p:"Center",b:1991,cl:["Denver Nuggets","Atlanta Hawks","Philadelphia 76ers","New Jersey Nets","Houston Rockets"],q:"Dikembe Mutombo best blocks finger wag"},
+/* ===== WAVE 2 — FOOTBALL: classics, more Africa/Asia/Latam, women's ===== */
+{s:"⚽",n:"Pele",f:"🇧🇷",c:"Brazil",p:"Forward",b:1956,cl:["Santos","New York Cosmos"],q:"Pele best goals skills"},
+{s:"⚽",n:"Johan Cruyff",f:"🇳🇱",c:"Netherlands",p:"Forward",b:1964,cl:["Ajax","Barcelona","Los Angeles Aztecs","Washington Diplomats","Feyenoord"],q:"Johan Cruyff best goals turn"},
+{s:"⚽",n:"Franz Beckenbauer",f:"🇩🇪",c:"Germany",p:"Defender",b:1964,cl:["Bayern Munich","New York Cosmos","Hamburg"],q:"Franz Beckenbauer best plays"},
+{s:"⚽",n:"Gerd Muller",f:"🇩🇪",c:"Germany",p:"Forward",b:1964,cl:["Bayern Munich","Fort Lauderdale Strikers"],q:"Gerd Muller best goals"},
+{s:"⚽",n:"Marco van Basten",f:"🇳🇱",c:"Netherlands",p:"Forward",b:1981,cl:["Ajax","AC Milan"],q:"Marco van Basten best goals volley"},
+{s:"⚽",n:"Ruud Gullit",f:"🇳🇱",c:"Netherlands",p:"Midfielder",b:1979,cl:["Feyenoord","PSV Eindhoven","AC Milan","Sampdoria","Chelsea"],q:"Ruud Gullit best goals"},
+{s:"⚽",n:"Frank Rijkaard",f:"🇳🇱",c:"Netherlands",p:"Midfielder",b:1980,cl:["Ajax","Real Zaragoza","AC Milan","Ajax"],q:"Frank Rijkaard best plays"},
+{s:"⚽",n:"Dennis Bergkamp",f:"🇳🇱",c:"Netherlands",p:"Forward",b:1986,cl:["Ajax","Inter Milan","Arsenal"],q:"Dennis Bergkamp best goals"},
+{s:"⚽",n:"Patrick Kluivert",f:"🇳🇱",c:"Netherlands",p:"Forward",b:1994,cl:["Ajax","AC Milan","Barcelona","Newcastle United","Valencia","PSV Eindhoven"],q:"Patrick Kluivert best goals"},
+{s:"⚽",n:"Clarence Seedorf",f:"🇳🇱",c:"Netherlands",p:"Midfielder",b:1992,cl:["Ajax","Sampdoria","Real Madrid","Inter Milan","AC Milan","Botafogo"],q:"Clarence Seedorf best goals"},
+{s:"⚽",n:"Ruud van Nistelrooy",f:"🇳🇱",c:"Netherlands",p:"Forward",b:1997,cl:["Heerenveen","PSV Eindhoven","Manchester United","Real Madrid","Hamburg","Malaga"],q:"Ruud van Nistelrooy best goals"},
+{s:"⚽",n:"Edwin van der Sar",f:"🇳🇱",c:"Netherlands",p:"Goalkeeper",b:1990,cl:["Ajax","Juventus","Fulham","Manchester United"],q:"Edwin van der Sar best saves"},
+{s:"⚽",n:"Arjen Robben",f:"🇳🇱",c:"Netherlands",p:"Forward",b:2000,cl:["Groningen","PSV Eindhoven","Chelsea","Real Madrid","Bayern Munich"],q:"Arjen Robben best goals cut inside"},
+{s:"⚽",n:"Robin van Persie",f:"🇳🇱",c:"Netherlands",p:"Forward",b:2001,cl:["Feyenoord","Arsenal","Manchester United","Fenerbahce","Feyenoord"],q:"Robin van Persie best goals"},
+{s:"⚽",n:"Wesley Sneijder",f:"🇳🇱",c:"Netherlands",p:"Midfielder",b:2002,cl:["Ajax","Real Madrid","Inter Milan","Galatasaray","Nice"],q:"Wesley Sneijder best goals"},
+{s:"⚽",n:"Roberto Baggio",f:"🇮🇹",c:"Italy",p:"Forward",b:1985,cl:["Fiorentina","Juventus","AC Milan","Bologna","Inter Milan","Brescia"],q:"Roberto Baggio best goals"},
+{s:"⚽",n:"Paolo Rossi",f:"🇮🇹",c:"Italy",p:"Forward",b:1976,cl:["Vicenza","Juventus","AC Milan"],q:"Paolo Rossi best goals 1982"},
+{s:"⚽",n:"Alessandro Del Piero",f:"🇮🇹",c:"Italy",p:"Forward",b:1993,cl:["Padova","Juventus","Sydney FC","Delhi Dynamos"],q:"Del Piero best goals Juventus"},
+{s:"⚽",n:"Filippo Inzaghi",f:"🇮🇹",c:"Italy",p:"Forward",b:1995,cl:["Piacenza","Parma","Atalanta","Juventus","AC Milan"],q:"Filippo Inzaghi best goals"},
+{s:"⚽",n:"Fabio Cannavaro",f:"🇮🇹",c:"Italy",p:"Defender",b:1992,cl:["Napoli","Parma","Inter Milan","Juventus","Real Madrid","Al-Ahli"],q:"Fabio Cannavaro best defending"},
+{s:"⚽",n:"Alessandro Nesta",f:"🇮🇹",c:"Italy",p:"Defender",b:1993,cl:["Lazio","AC Milan","Montreal Impact"],q:"Alessandro Nesta best defending"},
+{s:"⚽",n:"Andriy Shevchenko",f:"🇺🇦",c:"Ukraine",p:"Forward",b:1994,cl:["Dynamo Kyiv","AC Milan","Chelsea","AC Milan","Dynamo Kyiv"],q:"Andriy Shevchenko best goals"},
+{s:"⚽",n:"Pavel Nedved",f:"🇨🇿",c:"Czechia",p:"Midfielder",b:1992,cl:["Sparta Prague","Lazio","Juventus"],q:"Pavel Nedved best goals"},
+{s:"⚽",n:"Hristo Stoichkov",f:"🇧🇬",c:"Bulgaria",p:"Forward",b:1984,cl:["CSKA Sofia","Barcelona","Parma","Barcelona","Kashiwa Reysol","Chicago Fire","DC United"],q:"Hristo Stoichkov best goals"},
+{s:"⚽",n:"Luis Figo",f:"🇵🇹",c:"Portugal",p:"Midfielder",b:1989,cl:["Sporting CP","Barcelona","Real Madrid","Inter Milan"],q:"Luis Figo best skills goals"},
+{s:"⚽",n:"Rui Costa",f:"🇵🇹",c:"Portugal",p:"Midfielder",b:1990,cl:["Benfica","Fiorentina","AC Milan","Benfica"],q:"Rui Costa best goals assists"},
+{s:"⚽",n:"Deco",f:"🇵🇹",c:"Portugal",p:"Midfielder",b:1997,cl:["Porto","Barcelona","Chelsea","Fluminense"],q:"Deco best goals assists"},
+{s:"⚽",n:"Raul",f:"🇪🇸",c:"Spain",p:"Forward",b:1994,cl:["Real Madrid","Schalke 04","Al Sadd","New York Cosmos"],q:"Raul best goals Real Madrid"},
+{s:"⚽",n:"Carles Puyol",f:"🇪🇸",c:"Spain",p:"Defender",b:1999,cl:["Barcelona"],q:"Carles Puyol best defending"},
+{s:"⚽",n:"Gerard Pique",f:"🇪🇸",c:"Spain",p:"Defender",b:2004,cl:["Barcelona","Manchester United","Zaragoza","Barcelona"],q:"Gerard Pique best defending goals"},
+{s:"⚽",n:"Sergio Busquets",f:"🇪🇸",c:"Spain",p:"Midfielder",b:2008,cl:["Barcelona","Inter Miami"],q:"Sergio Busquets best plays"},
+{s:"⚽",n:"David Silva",f:"🇪🇸",c:"Spain",p:"Midfielder",b:2004,cl:["Valencia","Manchester City","Real Sociedad"],q:"David Silva best goals assists"},
+{s:"⚽",n:"Fernando Torres",f:"🇪🇸",c:"Spain",p:"Forward",b:2001,cl:["Atletico Madrid","Liverpool","Chelsea","AC Milan","Atletico Madrid","Sagan Tosu"],q:"Fernando Torres best goals"},
+{s:"⚽",n:"David Villa",f:"🇪🇸",c:"Spain",p:"Forward",b:2001,cl:["Sporting Gijon","Zaragoza","Valencia","Barcelona","Atletico Madrid","New York City FC","Vissel Kobe"],q:"David Villa best goals"},
+{s:"⚽",n:"Diego Forlan",f:"🇺🇾",c:"Uruguay",p:"Forward",b:1998,cl:["Independiente","Manchester United","Villarreal","Atletico Madrid","Inter Milan","Internacional","Cerezo Osaka"],q:"Diego Forlan best goals"},
+{s:"⚽",n:"Carlos Valderrama",f:"🇨🇴",c:"Colombia",p:"Midfielder",b:1985,cl:["Deportivo Cali","Montpellier","Tampa Bay Mutiny","Miami Fusion","Colorado Rapids"],q:"Carlos Valderrama best assists"},
+{s:"⚽",n:"Faustino Asprilla",f:"🇨🇴",c:"Colombia",p:"Forward",b:1989,cl:["Nacional","Parma","Newcastle United","Parma"],q:"Faustino Asprilla best goals"},
+{s:"⚽",n:"Juan Roman Riquelme",f:"🇦🇷",c:"Argentina",p:"Midfielder",b:1996,cl:["Boca Juniors","Barcelona","Villarreal","Boca Juniors"],q:"Juan Roman Riquelme best skills"},
+{s:"⚽",n:"Hernan Crespo",f:"🇦🇷",c:"Argentina",p:"Forward",b:1993,cl:["River Plate","Parma","Lazio","Inter Milan","Chelsea","AC Milan","Genoa","Parma"],q:"Hernan Crespo best goals"},
+{s:"⚽",n:"Javier Zanetti",f:"🇦🇷",c:"Argentina",p:"Defender",b:1992,cl:["Banfield","Inter Milan"],q:"Javier Zanetti best plays"},
+{s:"⚽",n:"Juan Sebastian Veron",f:"🇦🇷",c:"Argentina",p:"Midfielder",b:1993,cl:["Estudiantes","Sampdoria","Parma","Lazio","Manchester United","Chelsea","Inter Milan","Estudiantes"],q:"Juan Sebastian Veron best passes"},
+{s:"⚽",n:"Romario",f:"🇧🇷",c:"Brazil",p:"Forward",b:1985,cl:["Vasco da Gama","PSV Eindhoven","Barcelona","Flamengo","Valencia","Vasco da Gama","Fluminense"],q:"Romario best goals"},
+{s:"⚽",n:"Cafu",f:"🇧🇷",c:"Brazil",p:"Defender",b:1989,cl:["Sao Paulo","Zaragoza","Palmeiras","Roma","AC Milan"],q:"Cafu best plays"},
+{s:"⚽",n:"Adriano",f:"🇧🇷",c:"Brazil",p:"Forward",b:2000,cl:["Flamengo","Inter Milan","Parma","Sao Paulo","Roma","Corinthians","Flamengo"],q:"Adriano best goals power"},
+{s:"⚽",n:"Robinho",f:"🇧🇷",c:"Brazil",p:"Forward",b:2002,cl:["Santos","Real Madrid","Manchester City","AC Milan","Santos"],q:"Robinho best skills goals"},
+{s:"⚽",n:"Marcelo",f:"🇧🇷",c:"Brazil",p:"Defender",b:2005,cl:["Fluminense","Real Madrid","Olympiacos","Fluminense"],q:"Marcelo best skills assists"},
+{s:"⚽",n:"Dani Alves",f:"🇧🇷",c:"Brazil",p:"Defender",b:2001,cl:["Bahia","Sevilla","Barcelona","Juventus","Paris Saint-Germain","Barcelona","Pumas"],q:"Dani Alves best plays"},
+{s:"⚽",n:"Thiago Silva",f:"🇧🇷",c:"Brazil",p:"Defender",b:2004,cl:["Fluminense","AC Milan","Paris Saint-Germain","Chelsea","Fluminense"],q:"Thiago Silva best defending"},
+{s:"⚽",n:"Philippe Coutinho",f:"🇧🇷",c:"Brazil",p:"Midfielder",b:2010,cl:["Vasco da Gama","Inter Milan","Espanyol","Liverpool","Barcelona","Bayern Munich","Aston Villa","Vasco da Gama"],q:"Philippe Coutinho best goals"},
+{s:"⚽",n:"Casemiro",f:"🇧🇷",c:"Brazil",p:"Midfielder",b:2010,cl:["Sao Paulo","Real Madrid","Manchester United"],q:"Casemiro best plays"},
+{s:"⚽",n:"Alisson",f:"🇧🇷",c:"Brazil",p:"Goalkeeper",b:2013,cl:["Internacional","Roma","Liverpool"],q:"Alisson best saves"},
+{s:"⚽",n:"Ederson",f:"🇧🇷",c:"Brazil",p:"Goalkeeper",b:2012,cl:["Rio Ave","Benfica","Manchester City","Fenerbahce"],q:"Ederson best saves passing"},
+{s:"⚽",n:"Roger Milla",f:"🇨🇲",c:"Cameroon",p:"Forward",b:1977,cl:["Valenciennes","Monaco","Bastia","Saint-Etienne","Montpellier"],q:"Roger Milla best goals 1990"},
+{s:"⚽",n:"Abedi Pele",f:"🇬🇭",c:"Ghana",p:"Midfielder",b:1983,cl:["Al Sadd","Lille","Marseille","Lyon","Torino","1860 Munich"],q:"Abedi Pele best skills goals"},
+{s:"⚽",n:"Tony Yeboah",f:"🇬🇭",c:"Ghana",p:"Forward",b:1988,cl:["Kumasi Cornerstones","Eintracht Frankfurt","Leeds United","Hamburg"],q:"Tony Yeboah best goals volleys"},
+{s:"⚽",n:"Sunday Oliseh",f:"🇳🇬",c:"Nigeria",p:"Midfielder",b:1993,cl:["Liege","Reggiana","Cologne","Ajax","Juventus","Borussia Dortmund"],q:"Sunday Oliseh best goals"},
+{s:"⚽",n:"Rashidi Yekini",f:"🇳🇬",c:"Nigeria",p:"Forward",b:1984,cl:["Africa Sports","Vitoria Setubal","Olympiacos","Sporting Gijon"],q:"Rashidi Yekini best goals 1994"},
+{s:"⚽",n:"John Obi Mikel",f:"🇳🇬",c:"Nigeria",p:"Midfielder",b:2005,cl:["Lyn","Chelsea","Tianjin TEDA","Middlesbrough","Trabzonspor","Stoke City"],q:"John Obi Mikel best plays Chelsea"},
+{s:"⚽",n:"Kolo Toure",f:"🇨🇮",c:"Ivory Coast",p:"Defender",b:2000,cl:["ASEC Mimosas","Arsenal","Manchester City","Liverpool","Celtic"],q:"Kolo Toure best defending"},
+{s:"⚽",n:"Emmanuel Adebayor",f:"🇹🇬",c:"Togo",p:"Forward",b:2001,cl:["Metz","Monaco","Arsenal","Manchester City","Real Madrid","Tottenham Hotspur","Crystal Palace","Istanbul Basaksehir"],q:"Emmanuel Adebayor best goals"},
+{s:"⚽",n:"El Hadji Diouf",f:"🇸🇳",c:"Senegal",p:"Forward",b:1998,cl:["Sochaux","Lens","Liverpool","Bolton Wanderers","Sunderland","Blackburn Rovers","Rangers","Leeds United"],q:"El Hadji Diouf best skills goals"},
+{s:"⚽",n:"Kalidou Koulibaly",f:"🇸🇳",c:"Senegal",p:"Defender",b:2012,cl:["Metz","Genk","Napoli","Chelsea","Al-Hilal"],q:"Kalidou Koulibaly best defending"},
+{s:"⚽",n:"Hidetoshi Nakata",f:"🇯🇵",c:"Japan",p:"Midfielder",b:1995,cl:["Bellmare Hiratsuka","Perugia","Roma","Parma","Bologna","Fiorentina","Bolton Wanderers"],q:"Hidetoshi Nakata best goals"},
+{s:"⚽",n:"Shinji Kagawa",f:"🇯🇵",c:"Japan",p:"Midfielder",b:2006,cl:["Cerezo Osaka","Borussia Dortmund","Manchester United","Besiktas","Real Zaragoza"],q:"Shinji Kagawa best goals"},
+{s:"⚽",n:"Park Ji-sung",f:"🇰🇷",c:"South Korea",p:"Midfielder",b:2000,cl:["Kyoto Purple Sanga","PSV Eindhoven","Manchester United","Queens Park Rangers"],q:"Park Ji-sung best goals"},
+{s:"⚽",n:"Tim Howard",f:"🇺🇸",c:"USA",p:"Goalkeeper",b:1998,cl:["MetroStars","Manchester United","Everton","Colorado Rapids"],q:"Tim Howard best saves"},
+{s:"⚽",n:"Landon Donovan",f:"🇺🇸",c:"USA",p:"Forward",b:2001,cl:["Bayer Leverkusen","San Jose Earthquakes","LA Galaxy","Leon"],q:"Landon Donovan best goals USA"},
+{s:"⚽",n:"Clint Dempsey",f:"🇺🇸",c:"USA",p:"Forward",b:2004,cl:["New England Revolution","Fulham","Tottenham Hotspur","Seattle Sounders"],q:"Clint Dempsey best goals"},
+{s:"⚽",n:"Christian Pulisic",f:"🇺🇸",c:"USA",p:"Forward",b:2016,cl:["Borussia Dortmund","Chelsea","AC Milan"],q:"Christian Pulisic best goals skills"},
+{s:"⚽",n:"Hugo Sanchez",f:"🇲🇽",c:"Mexico",p:"Forward",b:1976,cl:["Pumas","Atletico Madrid","Real Madrid","America","Rayo Vallecano"],q:"Hugo Sanchez best goals bicycle kick"},
+{s:"⚽",n:"Rafael Marquez",f:"🇲🇽",c:"Mexico",p:"Defender",b:1996,cl:["Atlas","Monaco","Barcelona","New York Red Bulls","Leon","Atlas"],q:"Rafael Marquez best plays"},
+{s:"⚽",n:"Javier Hernandez",f:"🇲🇽",c:"Mexico",p:"Forward",b:2006,cl:["Guadalajara","Manchester United","Bayer Leverkusen","West Ham United","Sevilla","LA Galaxy","Guadalajara"],q:"Chicharito best goals"},
+{s:"⚽",n:"Marta",f:"🇧🇷",c:"Brazil",p:"Forward",b:2002,cl:["Vasco da Gama","Umea IK","Los Angeles Sol","Santos","Tyreso","FC Rosengard","Orlando Pride"],q:"Marta best goals Brazil women"},
+{s:"⚽",n:"Abby Wambach",f:"🇺🇸",c:"USA",p:"Forward",b:2002,cl:["Washington Freedom","MagicJack","Western New York Flash"],q:"Abby Wambach best goals headers"},
+{s:"⚽",n:"Mia Hamm",f:"🇺🇸",c:"USA",p:"Forward",b:1994,cl:["Washington Freedom"],q:"Mia Hamm best goals USA women"},
+{s:"⚽",n:"Megan Rapinoe",f:"🇺🇸",c:"USA",p:"Forward",b:2009,cl:["Chicago Red Stars","Seattle Sounders Women","OL Reign"],q:"Megan Rapinoe best goals"},
+{s:"⚽",n:"Alex Morgan",f:"🇺🇸",c:"USA",p:"Forward",b:2010,cl:["Western New York Flash","Portland Thorns","Orlando Pride","San Diego Wave"],q:"Alex Morgan best goals"},
+{s:"⚽",n:"Sam Kerr",f:"🇦🇺",c:"Australia",p:"Forward",b:2012,cl:["Perth Glory","Sky Blue FC","Chicago Red Stars","Chelsea"],q:"Sam Kerr best goals"},
+{s:"⚽",n:"Ada Hegerberg",f:"🇳🇴",c:"Norway",p:"Forward",b:2011,cl:["Kolbotn","Stabaek","Turbine Potsdam","Lyon"],q:"Ada Hegerberg best goals"},
+{s:"⚽",n:"Aitana Bonmati",f:"🇪🇸",c:"Spain",p:"Midfielder",b:2016,cl:["Barcelona"],q:"Aitana Bonmati best goals skills"},
+/* ===== WAVE 2 — BASKETBALL: classics + more + WNBA ===== */
+{s:"🏀",n:"Julius Erving",f:"🇺🇸",c:"USA",p:"Forward",b:1971,cl:["Virginia Squires","New York Nets","Philadelphia 76ers"],q:"Julius Erving Dr J best dunks"},
+{s:"🏀",n:"Oscar Robertson",f:"🇺🇸",c:"USA",p:"Point Guard",b:1960,cl:["Cincinnati Royals","Milwaukee Bucks"],q:"Oscar Robertson highlights triple double"},
+{s:"🏀",n:"Jerry West",f:"🇺🇸",c:"USA",p:"Guard",b:1960,cl:["Los Angeles Lakers"],q:"Jerry West highlights logo"},
+{s:"🏀",n:"Moses Malone",f:"🇺🇸",c:"USA",p:"Center",b:1974,cl:["Utah Stars","Houston Rockets","Philadelphia 76ers","Washington Bullets","Atlanta Hawks","Milwaukee Bucks","San Antonio Spurs"],q:"Moses Malone best plays rebounds"},
+{s:"🏀",n:"George Gervin",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1972,cl:["Virginia Squires","San Antonio Spurs","Chicago Bulls"],q:"George Gervin Iceman finger roll"},
+{s:"🏀",n:"Dominique Wilkins",f:"🇺🇸",c:"USA",p:"Forward",b:1982,cl:["Atlanta Hawks","Los Angeles Clippers","Boston Celtics","San Antonio Spurs","Orlando Magic"],q:"Dominique Wilkins best dunks"},
+{s:"🏀",n:"Kevin McHale",f:"🇺🇸",c:"USA",p:"Forward",b:1980,cl:["Boston Celtics"],q:"Kevin McHale post moves highlights"},
+{s:"🏀",n:"Robert Parish",f:"🇺🇸",c:"USA",p:"Center",b:1976,cl:["Golden State Warriors","Boston Celtics","Charlotte Hornets","Chicago Bulls"],q:"Robert Parish highlights"},
+{s:"🏀",n:"James Worthy",f:"🇺🇸",c:"USA",p:"Forward",b:1982,cl:["Los Angeles Lakers"],q:"James Worthy best plays dunks"},
+{s:"🏀",n:"Pete Maravich",f:"🇺🇸",c:"USA",p:"Guard",b:1970,cl:["Atlanta Hawks","New Orleans Jazz","Utah Jazz","Boston Celtics"],q:"Pistol Pete Maravich best plays"},
+{s:"🏀",n:"Chris Webber",f:"🇺🇸",c:"USA",p:"Forward",b:1993,cl:["Golden State Warriors","Washington Bullets","Sacramento Kings","Philadelphia 76ers","Detroit Pistons"],q:"Chris Webber best plays"},
+{s:"🏀",n:"Grant Hill",f:"🇺🇸",c:"USA",p:"Forward",b:1994,cl:["Detroit Pistons","Orlando Magic","Phoenix Suns","Los Angeles Clippers"],q:"Grant Hill best plays dunks"},
+{s:"🏀",n:"Jason Kidd",f:"🇺🇸",c:"USA",p:"Point Guard",b:1994,cl:["Dallas Mavericks","Phoenix Suns","New Jersey Nets","Dallas Mavericks","New York Knicks"],q:"Jason Kidd best assists"},
+{s:"🏀",n:"Alonzo Mourning",f:"🇺🇸",c:"USA",p:"Center",b:1992,cl:["Charlotte Hornets","Miami Heat","New Jersey Nets","Miami Heat"],q:"Alonzo Mourning best blocks"},
+{s:"🏀",n:"Penny Hardaway",f:"🇺🇸",c:"USA",p:"Point Guard",b:1993,cl:["Orlando Magic","Phoenix Suns","New York Knicks","Miami Heat"],q:"Penny Hardaway best plays"},
+{s:"🏀",n:"Shawn Kemp",f:"🇺🇸",c:"USA",p:"Forward",b:1989,cl:["Seattle SuperSonics","Cleveland Cavaliers","Portland Trail Blazers","Orlando Magic"],q:"Shawn Kemp best dunks"},
+{s:"🏀",n:"Paul George",f:"🇺🇸",c:"USA",p:"Forward",b:2010,cl:["Indiana Pacers","Oklahoma City Thunder","Los Angeles Clippers","Philadelphia 76ers"],q:"Paul George best plays"},
+{s:"🏀",n:"Jimmy Butler",f:"🇺🇸",c:"USA",p:"Forward",b:2011,cl:["Chicago Bulls","Minnesota Timberwolves","Philadelphia 76ers","Miami Heat","Golden State Warriors"],q:"Jimmy Butler best plays"},
+{s:"🏀",n:"Klay Thompson",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:2011,cl:["Golden State Warriors","Dallas Mavericks"],q:"Klay Thompson best three pointers"},
+{s:"🏀",n:"Draymond Green",f:"🇺🇸",c:"USA",p:"Forward",b:2012,cl:["Golden State Warriors"],q:"Draymond Green best plays defense"},
+{s:"🏀",n:"Kyrie Irving",f:"🇺🇸",c:"USA",p:"Point Guard",b:2011,cl:["Cleveland Cavaliers","Boston Celtics","Brooklyn Nets","Dallas Mavericks"],q:"Kyrie Irving best handles crossovers"},
+{s:"🏀",n:"Diana Taurasi",f:"🇺🇸",c:"USA",p:"Guard",b:2004,cl:["Phoenix Mercury"],q:"Diana Taurasi best plays WNBA"},
+{s:"🏀",n:"Sue Bird",f:"🇺🇸",c:"USA",p:"Point Guard",b:2002,cl:["Seattle Storm"],q:"Sue Bird best assists WNBA"},
+{s:"🏀",n:"Lisa Leslie",f:"🇺🇸",c:"USA",p:"Center",b:1997,cl:["Los Angeles Sparks"],q:"Lisa Leslie best plays dunk WNBA"},
+{s:"🏀",n:"Maya Moore",f:"🇺🇸",c:"USA",p:"Forward",b:2011,cl:["Minnesota Lynx"],q:"Maya Moore best plays WNBA"},
+{s:"🏀",n:"Candace Parker",f:"🇺🇸",c:"USA",p:"Forward",b:2008,cl:["Los Angeles Sparks","Chicago Sky","Las Vegas Aces"],q:"Candace Parker best plays WNBA"},
+{s:"🏀",n:"A'ja Wilson",f:"🇺🇸",c:"USA",p:"Forward",b:2018,cl:["Las Vegas Aces"],q:"A'ja Wilson best plays WNBA"},
+{s:"🏀",n:"Breanna Stewart",f:"🇺🇸",c:"USA",p:"Forward",b:2016,cl:["Seattle Storm","New York Liberty"],q:"Breanna Stewart best plays WNBA"},
+{s:"🏀",n:"Caitlin Clark",f:"🇺🇸",c:"USA",p:"Guard",b:2024,cl:["Indiana Fever"],q:"Caitlin Clark best plays three pointers"}
+];
+
+const $=id=>document.getElementById(id);
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,'');
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const mem={};
+const store={get(k){try{const v=localStorage.getItem(k);return v===null?(k in mem?mem[k]:null):v}catch(e){return k in mem?mem[k]:null}},set(k,v){mem[k]=String(v);try{localStorage.setItem(k,v)}catch(e){}}};
+
+const EPOCH=Date.UTC(2026,6,1);
+const MAX=6;
+let sport="⚽", mode="daily", answer=null, clues=[], revealed=0, guesses=[], over=false, pNum=0;
+function pool(){return DATA.filter(p=>p.s===sport)}
+function setAccent(){
+  const r=document.documentElement.style;
+  if(sport==="⚽"){r.setProperty('--accent','var(--ftbl)');r.setProperty('--accent-d','var(--ftbl-d)')}
+  else{r.setProperty('--accent','var(--bball)');r.setProperty('--accent-d','var(--bball-d)')}
+}
+function dailyIdx(){
+  const days=Math.floor((Date.now()-EPOCH)/86400000);
+  pNum=days+1;
+  const salt=sport==="⚽"?7919:104729;
+  const rng=mulberry32(days*salt+42);
+  return Math.floor(rng()*pool().length);
+}
+function buildClues(p){
+  const l=[{k:sport==="🏀"?"Role":"Position",v:p.p},{k:(sport==="🏀"?"Team":"Club")+" 1",v:p.cl[0]}];
+  for(let i=1;i<p.cl.length;i++)l.push({k:(sport==="🏀"?"Team ":"Club ")+(i+1),v:p.cl[i]});
+  l.push({k:"Nation",v:p.f+" "+p.c});
+  l.push({k:"Era from",v:String(p.b)+"s"});
+  l.push({k:"Initial",v:'Name starts with "'+p.n[0]+'"'});
+  return l;
+}
+function updTries(){
+  const left=MAX-guesses.length;
+  $('triesLeft').textContent=over?(guesses.length&&guesses[guesses.length-1].ok?'Solved! 🎉':'Answer revealed'):(left+' guess'+(left===1?'':'es')+' left');
+}
+function start(endless){
+  setAccent();
+  mode=endless?"endless":"daily";
+  const P=pool();
+  answer=endless?P[Math.floor(Math.random()*P.length)]:P[dailyIdx()];
+  clues=buildClues(answer);revealed=2;guesses=[];over=false;
+  $('modeTag').textContent=endless?"🎲 ENDLESS":"DAILY";
+  $('pNo').textContent=endless?"∞":("#"+pNum);
+  $('streakTop').textContent=store.get('streak-'+sport)||'0';
+  if(mode==="daily"){
+    const done=store.get('done-'+sport+'-'+pNum);
+    if(done!==null){over=true;revealed=clues.length;
+      const tr=parseInt(store.get('tries-'+sport+'-'+pNum)||String(MAX),10);
+      guesses=Array.from({length:tr},(_,i)=>({name:'',ok:i===tr-1&&done==='1'}));
+      renderAll();showResult(done==='1',tr);return;
+    }
+  }
+  renderAll();
+}
+function renderAll(){
+  const c=$('clues');c.innerHTML='';
+  clues.forEach((cl,i)=>{
+    const d=document.createElement('div');
+    d.className='clue'+(i<revealed?'':' locked');
+    d.innerHTML='<div class="k">'+(i<revealed?cl.k:'Clue '+(i+1))+'</div><div class="v">'+(i<revealed?cl.v:'🔒 Guess to reveal')+'</div>';
+    c.appendChild(d);
+  });
+  const g=$('guessRows');g.innerHTML='';
+  guesses.forEach((gu,i)=>{
+    const d=document.createElement('div');d.className='grow '+(gu.ok?'right':'wrong');
+    d.innerHTML='<span><span class="num">'+(i+1)+'/'+MAX+'</span>'+(gu.name||'—')+'</span><span>'+(gu.ok?'✅':'❌')+'</span>';
+    g.appendChild(d);
+  });
+  updTries();
+}
+function makeGuess(name){
+  if(over)return;
+  const pl=pool().find(p=>norm(p.n)===norm(name));
+  if(!pl){flash();return}
+  if(guesses.some(g=>norm(g.name)===norm(pl.n)))return;
+  const ok=norm(pl.n)===norm(answer.n);
+  guesses.push({name:pl.n,ok});$('gi').value='';hideSug();
+  if(ok){finish(true)}
+  else{revealed=Math.min(revealed+1,clues.length);if(guesses.length>=MAX)finish(false)}
+  renderAll();
+}
+function finish(win){
+  over=true;revealed=clues.length;renderAll();
+  if(mode==="daily"){
+    store.set('done-'+sport+'-'+pNum,win?'1':'0');
+    store.set('tries-'+sport+'-'+pNum,String(guesses.length));
+    const played=(+(store.get('played-'+sport)||0))+1;
+    const wins=(+(store.get('wins-'+sport)||0))+(win?1:0);
+    let streak=+(store.get('streak-'+sport)||0);
+    const last=+(store.get('lastWin-'+sport)||-99);
+    streak=win?((last===pNum-1)?streak+1:1):0;
+    if(win)store.set('lastWin-'+sport,String(pNum));
+    const best=Math.max(streak,+(store.get('best-'+sport)||0));
+    store.set('played-'+sport,played);store.set('wins-'+sport,wins);
+    store.set('streak-'+sport,streak);store.set('best-'+sport,best);
+    $('streakTop').textContent=String(streak);
+  }
+  showResult(win,guesses.length);
+}
+function grid(win,tries){let s='';for(let i=0;i<tries;i++)s+=(i===tries-1&&win)?'🟩':'🟥';if(!win)for(let i=tries;i<MAX;i++)s+='⬛';return s}
+const SITE='https://legendsguess.com';
+function shareTxt(win,tries){const lbl=mode==="endless"?"(endless)":"#"+pNum;return 'Legends Guess '+sport+' '+lbl+' '+(win?tries+'/'+MAX:'X/'+MAX)+'\n'+grid(win,tries)+'\nBeat me: '+SITE}
+function ytS(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q)}
+function tkS(q){return 'https://www.tiktok.com/search?q='+encodeURIComponent(q)}
+function igS(q){return 'https://www.instagram.com/explore/search/keyword/?q='+encodeURIComponent(q)}
+function showResult(win,tries){
+  $('rEmoji').textContent=win?(tries<=2?'🏆':'🎉'):'😤';
+  $('rName').textContent=answer.n;
+  $('rSub').textContent=answer.f+' '+answer.c+' · '+answer.p+(win?' — solved in '+tries+'!':' — next time!');
+  $('rGrid').textContent=grid(win,tries);
+  $('watchName').textContent=answer.n.split(' ')[0];
+  $('watch').innerHTML=
+    '<a class="wbtn w-yt" target="_blank" rel="noopener" href="'+ytS(answer.q)+'">▶ YouTube</a>'+
+    '<a class="wbtn w-yt2" target="_blank" rel="noopener" href="'+ytS(answer.n+' highlights shorts')+'">▶ Shorts</a>'+
+    '<a class="wbtn w-tk" target="_blank" rel="noopener" href="'+tkS(answer.n+(sport==="🏀"?" basketball":" football")+" skills")+'">TikTok</a>'+
+    '<a class="wbtn w-ig" target="_blank" rel="noopener" href="'+igS(answer.n)+'">Instagram</a>';
+  openM('resultModal');
+}
+function flash(){const i=$('gi');i.style.borderColor='var(--red)';setTimeout(()=>i.style.borderColor='',400)}
+function hideSug(){$('sug').style.display='none'}
+let hl=-1,cur=[];
+$('gi').addEventListener('input',e=>{
+  const q=norm(e.target.value);hl=-1;
+  if(q.length<2){hideSug();return}
+  cur=pool().filter(p=>norm(p.n).includes(q)).slice(0,7);
+  const b=$('sug');b.innerHTML='';
+  if(!cur.length){hideSug();return}
+  cur.forEach(p=>{const d=document.createElement('div');d.textContent=p.f+' '+p.n;d.addEventListener('click',()=>{$('gi').value=p.n;hideSug();makeGuess(p.n)});b.appendChild(d)});
+  b.style.display='block';
+});
+$('gi').addEventListener('keydown',e=>{
+  const items=$('sug').querySelectorAll('div');
+  if(e.key==='ArrowDown'){e.preventDefault();hl=Math.min(hl+1,items.length-1)}
+  else if(e.key==='ArrowUp'){e.preventDefault();hl=Math.max(hl-1,0)}
+  else if(e.key==='Enter'){e.preventDefault();if(hl>=0&&cur[hl])makeGuess(cur[hl].n);else makeGuess($('gi').value);return}
+  else return;
+  items.forEach((it,i)=>it.classList.toggle('hl',i===hl));
+});
+document.addEventListener('click',e=>{if(!$('iwrap').contains(e.target))hideSug()});
+$('guessBtn').addEventListener('click',()=>makeGuess($('gi').value));
+$('revealBtn').addEventListener('click',()=>{if(!over)finish(false)});
+$('endlessBtn').addEventListener('click',()=>start(true));
+$('againBtn').addEventListener('click',()=>{closeM('resultModal');start(true)});
+function pickSport(s){sport=s;if(s==="⚽"){$('ftBtn').className='on ft';$('bbBtn').className=''}else{$('bbBtn').className='on bb';$('ftBtn').className=''}start(false)}
+$('ftBtn').addEventListener('click',()=>{if(sport!=="⚽")pickSport("⚽")});
+$('bbBtn').addEventListener('click',()=>{if(sport!=="🏀")pickSport("🏀")});
+$('startFt').addEventListener('click',()=>{closeM('welcome');pickSport("⚽")});
+$('startBb').addEventListener('click',()=>{closeM('welcome');pickSport("🏀")});
+function openM(id){$(id).classList.add('open')}function closeM(id){$(id).classList.remove('open')}
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeM(b.dataset.close)));
+document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m&&m.id!=='welcome')m.classList.remove('open')}));
+$('helpBtn').addEventListener('click',()=>openM('helpModal'));
+$('statsBtn').addEventListener('click',()=>{
+  $('stPlayed').textContent=store.get('played-'+sport)||'0';
+  $('stWins').textContent=store.get('wins-'+sport)||'0';
+  $('stStreak').textContent=store.get('streak-'+sport)||'0';
+  $('stBest').textContent=store.get('best-'+sport)||'0';
+  openM('statsModal');
+});
+function last(){const w=guesses.length&&guesses[guesses.length-1].ok;return{w,t:guesses.length}}
+$('shareWa').addEventListener('click',()=>{const r=last();window.open('https://wa.me/?text='+encodeURIComponent(shareTxt(r.w,r.t)),'_blank')});
+$('shareX').addEventListener('click',()=>{const r=last();window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTxt(r.w,r.t)),'_blank')});
+$('copyBtn').addEventListener('click',function(){const r=last(),t=shareTxt(r.w,r.t),b=this;function ok(){b.textContent='Copied ✅';setTimeout(()=>b.textContent='Copy',1400)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(fb)}else fb();function fb(){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){}document.body.removeChild(ta)}});
+start(false);
+if(store.get('seenWelcome')===null){openM('welcome');store.set('seenWelcome','1')}
+</script>
+</body>
+</html>
