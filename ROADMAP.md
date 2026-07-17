@@ -28,8 +28,11 @@ Legend: [x] done · [~] in progress · [ ] todo
 - [ ] Apply to AdSense (after domain live a few days) → paste publisher `<script>` into all pages → activate AD SPACE slots
 
 ## D. Traffic engine
-- [ ] Analytics (measure promos) — GA4 or Plausible snippet (placeholder wired, id later)
-- [ ] SEO: per-legend content / programmatic pages (later phase, big organic-traffic lever)
+- [ ] Analytics (measure promos) — GA4 or Plausible snippet (**PENDING owner pick** + id)
+- [x] SEO structured data — JSON-LD WebApplication + Organization + FAQPage on homepage
+- [x] SEO on-page — crawlable intro + FAQ block; keyword-rich copy
+- [x] SEO browse-all page — **legends.html** (auto-generated from DATA, every legend indexed, linked from home + footer + sitemap). Regenerate after roster changes: `node scratchpad/gen-legends.js index.html legends.html`.
+- [ ] (Optional deeper SEO) individual per-legend pages / programmatic pages
 
 ## E. Roster expansion — accuracy-first waves. TARGET: football → 1,000; basketball → 500 (then 1,000). Push both little by little.
 - [x] Wave 1+2: 218 (138 ⚽ / 80 🏀)
