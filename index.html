@@ -27,6 +27,17 @@
 <meta name="twitter:title" content="Legends Guess — Guess the Legend, Watch Them Play">
 <meta name="twitter:description" content="Daily football &amp; basketball legend puzzle + highlights. Free.">
 <meta name="twitter:image" content="https://legendsguess.com/og-image.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"Legends Guess","url":"https://legendsguess.com/","applicationCategory":"GameApplication","operatingSystem":"Any (web browser)","browserRequirements":"Requires JavaScript","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"description":"Free daily football (soccer) and basketball puzzle: guess the mystery legend from their career, then watch their highlights."},
+{"@type":"Organization","name":"Legends Guess","url":"https://legendsguess.com/","logo":"https://legendsguess.com/icon-512.png","email":"hello@legendsguess.com"},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What is Legends Guess?","acceptedAnswer":{"@type":"Answer","text":"Legends Guess is a free daily puzzle where you guess a mystery football (soccer) or basketball legend from clues about their career, then unlock their best highlights."}},
+{"@type":"Question","name":"Is Legends Guess free to play?","acceptedAnswer":{"@type":"Answer","text":"Yes. Legends Guess is completely free to play in any web browser on mobile or desktop, with a new daily puzzle for both football and basketball plus an endless practice mode."}},
+{"@type":"Question","name":"How do you play Legends Guess?","acceptedAnswer":{"@type":"Answer","text":"You get clues about a legend's clubs or teams, nation and era, plus a masked hint of their name. You have 6 guesses; each wrong guess reveals a new clue. Solve it and highlight buttons appear so you can watch them play."}},
+{"@type":"Question","name":"Where do the highlights come from?","acceptedAnswer":{"@type":"Answer","text":"Legends Guess hosts no video. Watch buttons open a live search on YouTube, TikTok or Instagram, so all views and credit stay with the original creators and rights holders."}}
+]}]}
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Sora:wght@400;500;600;700;800&display=swap');
 :root{
@@ -293,6 +304,16 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 @media(min-width:1280px){
   header .hin,main{max-width:1080px}
 }
+/* SEO content block */
+.seo{max-width:720px;margin:10px auto 0;padding:22px 18px 6px;color:var(--muted);font-size:.86rem;line-height:1.65;border-top:1px solid var(--line)}
+.seo h2{font-family:var(--disp);font-size:1.15rem;color:var(--text);margin-bottom:10px}
+.seo p{margin-bottom:10px}.seo b{color:#c7d3ef}
+.seo a{color:var(--accent);text-decoration:none}
+.seo .faq{margin:8px 0 12px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 15px}
+.seo .faq summary{cursor:pointer;font-weight:800;color:var(--text)}
+.seo .faq p{margin-top:9px}
+.seo-links{font-size:.82rem}
+@media(min-width:980px){.seo{max-width:1000px}}
 /* a11y focus */
 :focus-visible{outline:3px solid color-mix(in srgb,var(--gold) 75%,transparent);outline-offset:2px;border-radius:8px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -412,10 +433,24 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
   <div class="legal">We host no videos. Highlight buttons open the original creators on YouTube/TikTok/Instagram — they keep all views &amp; credit. Unofficial fan game, not affiliated with any league, club or player.</div>
 </div></div>
 
+<section class="seo">
+  <h2>Legends Guess — the daily football &amp; basketball legend puzzle</h2>
+  <p><b>Legends Guess</b> is a free daily guessing game for football (soccer) and basketball fans. Each day you get a new mystery <b>legend</b> to identify from clues about their career — the clubs or teams they played for, their nation and era, and a masked hint of their name. Solve the puzzle in six guesses and their best <b>highlights</b> unlock instantly. It plays in any browser on mobile and desktop, and you can install it as an app.</p>
+  <p>Test your knowledge across <b>hundreds of football and basketball legends</b> — from all-time greats to modern stars, spanning World Cups, the Champions League, the Premier League, LaLiga, Serie A, the NBA, EuroLeague and the women's game. Keep your daily streak, share your result, and play endless mode for unlimited rounds.</p>
+  <details class="faq">
+    <summary>Frequently asked questions</summary>
+    <p><b>Is Legends Guess free?</b> Yes — completely free, no account needed, new daily puzzles in both sports plus an endless mode.</p>
+    <p><b>How do I play?</b> Read the career clues, type a legend's name, and submit. Each wrong guess reveals a new clue; you get six tries. Solve it (or give up) and highlight buttons appear.</p>
+    <p><b>Where do the highlights come from?</b> We host no video. "Watch" buttons open a live search on YouTube, TikTok or Instagram, so all views and credit stay with the original creators.</p>
+    <p><b>Which legends are included?</b> Football and basketball greats across every era and continent — see the full <a href="legends.html">list of legends</a>.</p>
+  </details>
+  <p class="seo-links"><a href="legends.html">Browse all legends</a> · <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a></p>
+</section>
+
 <footer>
   <b>LegendsGuess</b> — free daily football &amp; basketball player puzzles + highlights.<br>
   Fan-made · We host no video · Rights belong to their owners.<br>
-  <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a>
+  <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="legends.html">All legends</a>
 </footer>
 
 <div id="fx" aria-hidden="true"></div>
@@ -1134,7 +1169,57 @@ const DATA=[
 {s:"🏀",n:"Courtney Vandersloot",f:"🇺🇸",c:"USA",p:"Point Guard",b:2011,cl:["Chicago Sky","New York Liberty"],q:"Courtney Vandersloot Sky assists highlights"},
 {s:"🏀",n:"Chelsea Gray",f:"🇺🇸",c:"USA",p:"Guard",b:2014,cl:["Connecticut Sun","Los Angeles Sparks","Las Vegas Aces"],q:"Chelsea Gray Aces playoff highlights"},
 {s:"🏀",n:"Yolanda Griffith",f:"🇺🇸",c:"USA",p:"Center",b:1999,cl:["Sacramento Monarchs","Seattle Storm","Indiana Fever"],q:"Yolanda Griffith Monarchs MVP highlights"},
-{s:"🏀",n:"DeWanna Bonner",f:"🇺🇸",c:"USA",p:"Forward",b:2009,cl:["Phoenix Mercury","Connecticut Sun","Indiana Fever"],q:"DeWanna Bonner Mercury scoring highlights"}
+{s:"🏀",n:"DeWanna Bonner",f:"🇺🇸",c:"USA",p:"Forward",b:2009,cl:["Phoenix Mercury","Connecticut Sun","Indiana Fever"],q:"DeWanna Bonner Mercury scoring highlights"},
+/* ===== WAVE 10 — BASKETBALL: NBA history + current + EuroLeague + WNBA ===== */
+{s:"🏀",n:"George Mikan",f:"🇺🇸",c:"USA",p:"Center",b:1946,cl:["Chicago American Gears","Minneapolis Lakers"],q:"George Mikan Lakers highlights"},
+{s:"🏀",n:"Bill Sharman",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1950,cl:["Washington Capitols","Boston Celtics"],q:"Bill Sharman Celtics highlights"},
+{s:"🏀",n:"Tom Heinsohn",f:"🇺🇸",c:"USA",p:"Forward",b:1956,cl:["Boston Celtics"],q:"Tom Heinsohn Celtics highlights"},
+{s:"🏀",n:"Chet Walker",f:"🇺🇸",c:"USA",p:"Forward",b:1962,cl:["Syracuse Nationals","Philadelphia 76ers","Chicago Bulls"],q:"Chet Walker highlights"},
+{s:"🏀",n:"Gail Goodrich",f:"🇺🇸",c:"USA",p:"Guard",b:1965,cl:["Los Angeles Lakers","Phoenix Suns","New Orleans Jazz"],q:"Gail Goodrich Lakers highlights"},
+{s:"🏀",n:"Connie Hawkins",f:"🇺🇸",c:"USA",p:"Forward",b:1967,cl:["Pittsburgh Pipers","Phoenix Suns","Los Angeles Lakers"],q:"Connie Hawkins highlights"},
+{s:"🏀",n:"Spencer Haywood",f:"🇺🇸",c:"USA",p:"Forward",b:1969,cl:["Denver Rockets","Seattle SuperSonics","New York Knicks","Los Angeles Lakers"],q:"Spencer Haywood highlights"},
+{s:"🏀",n:"Bob Dandridge",f:"🇺🇸",c:"USA",p:"Forward",b:1969,cl:["Milwaukee Bucks","Washington Bullets"],q:"Bob Dandridge highlights"},
+{s:"🏀",n:"Paul Westphal",f:"🇺🇸",c:"USA",p:"Guard",b:1972,cl:["Boston Celtics","Phoenix Suns","Seattle SuperSonics"],q:"Paul Westphal Suns highlights"},
+{s:"🏀",n:"World B. Free",f:"🇺🇸",c:"USA",p:"Guard",b:1975,cl:["Philadelphia 76ers","San Diego Clippers","Cleveland Cavaliers"],q:"World B. Free highlights"},
+{s:"🏀",n:"Marques Johnson",f:"🇺🇸",c:"USA",p:"Forward",b:1977,cl:["Milwaukee Bucks","Los Angeles Clippers"],q:"Marques Johnson Bucks highlights"},
+{s:"🏀",n:"Jack Sikma",f:"🇺🇸",c:"USA",p:"Center",b:1977,cl:["Seattle SuperSonics","Milwaukee Bucks"],q:"Jack Sikma highlights"},
+{s:"🏀",n:"Brad Daugherty",f:"🇺🇸",c:"USA",p:"Center",b:1986,cl:["Cleveland Cavaliers"],q:"Brad Daugherty Cavaliers highlights"},
+{s:"🏀",n:"Jeff Hornacek",f:"🇺🇸",c:"USA",p:"Guard",b:1986,cl:["Phoenix Suns","Philadelphia 76ers","Utah Jazz"],q:"Jeff Hornacek Jazz highlights"},
+{s:"🏀",n:"Mark Jackson",f:"🇺🇸",c:"USA",p:"Point Guard",b:1987,cl:["New York Knicks","Indiana Pacers"],q:"Mark Jackson Pacers highlights"},
+{s:"🏀",n:"Dan Majerle",f:"🇺🇸",c:"USA",p:"Guard",b:1988,cl:["Phoenix Suns","Cleveland Cavaliers","Miami Heat"],q:"Dan Majerle Suns highlights"},
+{s:"🏀",n:"Mookie Blaylock",f:"🇺🇸",c:"USA",p:"Point Guard",b:1989,cl:["New Jersey Nets","Atlanta Hawks","Golden State Warriors"],q:"Mookie Blaylock Hawks highlights"},
+{s:"🏀",n:"Christian Laettner",f:"🇺🇸",c:"USA",p:"Forward",b:1992,cl:["Minnesota Timberwolves","Atlanta Hawks","Detroit Pistons"],q:"Christian Laettner highlights"},
+{s:"🏀",n:"Nick Van Exel",f:"🇺🇸",c:"USA",p:"Point Guard",b:1993,cl:["Los Angeles Lakers","Denver Nuggets","Dallas Mavericks"],q:"Nick Van Exel highlights"},
+{s:"🏀",n:"Sam Cassell",f:"🇺🇸",c:"USA",p:"Point Guard",b:1993,cl:["Houston Rockets","Milwaukee Bucks","Minnesota Timberwolves","Los Angeles Clippers"],q:"Sam Cassell highlights"},
+{s:"🏀",n:"Jamal Mashburn",f:"🇺🇸",c:"USA",p:"Forward",b:1993,cl:["Dallas Mavericks","Miami Heat","Charlotte Hornets"],q:"Jamal Mashburn highlights"},
+{s:"🏀",n:"Glenn Robinson",f:"🇺🇸",c:"USA",p:"Forward",b:1994,cl:["Milwaukee Bucks","Atlanta Hawks","San Antonio Spurs"],q:"Glenn Robinson Big Dog highlights"},
+{s:"🏀",n:"Antonio McDyess",f:"🇺🇸",c:"USA",p:"Forward",b:1995,cl:["Denver Nuggets","New York Knicks","Detroit Pistons","San Antonio Spurs"],q:"Antonio McDyess highlights"},
+{s:"🏀",n:"Michael Redd",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:2000,cl:["Milwaukee Bucks","Phoenix Suns"],q:"Michael Redd Bucks highlights"},
+{s:"🏀",n:"Tyson Chandler",f:"🇺🇸",c:"USA",p:"Center",b:2001,cl:["Chicago Bulls","Dallas Mavericks","New York Knicks"],q:"Tyson Chandler highlights"},
+{s:"🏀",n:"Brandon Roy",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:2006,cl:["Portland Trail Blazers"],q:"Brandon Roy Blazers highlights"},
+{s:"🏀",n:"Joakim Noah",f:"🇺🇸",c:"USA",p:"Center",b:2007,cl:["Chicago Bulls","New York Knicks"],q:"Joakim Noah Bulls highlights"},
+{s:"🏀",n:"Julius Randle",f:"🇺🇸",c:"USA",p:"Forward",b:2014,cl:["Los Angeles Lakers","New York Knicks","Minnesota Timberwolves"],q:"Julius Randle highlights"},
+{s:"🏀",n:"Brandon Ingram",f:"🇺🇸",c:"USA",p:"Forward",b:2016,cl:["Los Angeles Lakers","New Orleans Pelicans","Toronto Raptors"],q:"Brandon Ingram highlights"},
+{s:"🏀",n:"Mikal Bridges",f:"🇺🇸",c:"USA",p:"Forward",b:2018,cl:["Phoenix Suns","Brooklyn Nets","New York Knicks"],q:"Mikal Bridges highlights"},
+{s:"🏀",n:"Scottie Barnes",f:"🇺🇸",c:"USA",p:"Forward",b:2021,cl:["Toronto Raptors"],q:"Scottie Barnes Raptors highlights"},
+{s:"🏀",n:"Evan Mobley",f:"🇺🇸",c:"USA",p:"Forward",b:2021,cl:["Cleveland Cavaliers"],q:"Evan Mobley highlights"},
+{s:"🏀",n:"Cade Cunningham",f:"🇺🇸",c:"USA",p:"Point Guard",b:2021,cl:["Detroit Pistons"],q:"Cade Cunningham highlights"},
+{s:"🏀",n:"Chet Holmgren",f:"🇺🇸",c:"USA",p:"Center",b:2023,cl:["Oklahoma City Thunder"],q:"Chet Holmgren Thunder highlights"},
+{s:"🏀",n:"Oscar Schmidt",f:"🇧🇷",c:"Brazil",p:"Forward",b:1974,cl:["Palmeiras","Juvecaserta","Pavia"],q:"Oscar Schmidt Brazil highlights"},
+{s:"🏀",n:"Dino Radja",f:"🇭🇷",c:"Croatia",p:"Center",b:1985,cl:["Jugoplastika Split","Virtus Roma","Boston Celtics"],q:"Dino Radja highlights"},
+{s:"🏀",n:"Dejan Bodiroga",f:"🇷🇸",c:"Serbia",p:"Forward",b:1992,cl:["Partizan","Real Madrid","Panathinaikos","Barcelona"],q:"Dejan Bodiroga EuroLeague highlights"},
+{s:"🏀",n:"Theodoros Papaloukas",f:"🇬🇷",c:"Greece",p:"Point Guard",b:1995,cl:["Olympiacos","CSKA Moscow"],q:"Theodoros Papaloukas highlights"},
+{s:"🏀",n:"Sarunas Jasikevicius",f:"🇱🇹",c:"Lithuania",p:"Guard",b:1998,cl:["Maccabi Tel Aviv","Indiana Pacers","Panathinaikos"],q:"Sarunas Jasikevicius highlights"},
+{s:"🏀",n:"Luis Scola",f:"🇦🇷",c:"Argentina",p:"Forward",b:1998,cl:["Tau Ceramica","Houston Rockets","Indiana Pacers"],q:"Luis Scola highlights"},
+{s:"🏀",n:"Vassilis Spanoulis",f:"🇬🇷",c:"Greece",p:"Guard",b:2001,cl:["Panathinaikos","Houston Rockets","Olympiacos"],q:"Vassilis Spanoulis highlights"},
+{s:"🏀",n:"Rudy Fernandez",f:"🇪🇸",c:"Spain",p:"Guard",b:2001,cl:["Joventut Badalona","Portland Trail Blazers","Real Madrid"],q:"Rudy Fernandez highlights"},
+{s:"🏀",n:"Milos Teodosic",f:"🇷🇸",c:"Serbia",p:"Point Guard",b:2005,cl:["Olympiacos","CSKA Moscow","Los Angeles Clippers"],q:"Milos Teodosic highlights"},
+{s:"🏀",n:"Marco Belinelli",f:"🇮🇹",c:"Italy",p:"Guard",b:2007,cl:["Golden State Warriors","San Antonio Spurs","Virtus Bologna"],q:"Marco Belinelli highlights"},
+{s:"🏀",n:"Chamique Holdsclaw",f:"🇺🇸",c:"USA",p:"Forward",b:1999,cl:["Washington Mystics","Los Angeles Sparks","Atlanta Dream"],q:"Chamique Holdsclaw WNBA highlights"},
+{s:"🏀",n:"Katie Smith",f:"🇺🇸",c:"USA",p:"Guard",b:1999,cl:["Minnesota Lynx","Detroit Shock","Seattle Storm"],q:"Katie Smith WNBA highlights"},
+{s:"🏀",n:"Skylar Diggins",f:"🇺🇸",c:"USA",p:"Point Guard",b:2013,cl:["Tulsa Shock","Dallas Wings","Phoenix Mercury","Seattle Storm"],q:"Skylar Diggins WNBA highlights"},
+{s:"🏀",n:"Jewell Loyd",f:"🇺🇸",c:"USA",p:"Guard",b:2015,cl:["Seattle Storm","Las Vegas Aces"],q:"Jewell Loyd WNBA highlights"},
+{s:"🏀",n:"Arike Ogunbowale",f:"🇺🇸",c:"USA",p:"Guard",b:2019,cl:["Dallas Wings"],q:"Arike Ogunbowale WNBA highlights"}
 ];
 
 const $=id=>document.getElementById(id);
