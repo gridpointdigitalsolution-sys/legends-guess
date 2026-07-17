@@ -18,7 +18,7 @@
 - [x] UI/UX world-class pass — Bricolage/Sora fonts, gradient-mesh bg + grain, staggered motion, confetti, streak flame, shareable result image, sound+haptics, a11y focus. Verified via jsdom smoke test (0 errors) + live.
 - [x] PWA — manifest, service worker, generated icons (192/512/maskable/apple-touch), favicon.svg, install button.
 - [x] Compliance files — robots.txt, sitemap.xml, ads.txt, 404.html, cookie-consent banner. OG social card (1200×630).
-- [x] Roster waves 4 + 5 → 420 legends (246 ⚽ / 174 🏀).
+- [x] Roster waves 4 + 5 → 480 legends (246 ⚽ / 174 🏀).
 - See **ROADMAP.md** for the full checklist + what remains.
 
 ## NEXT (in order)
