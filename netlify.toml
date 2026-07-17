@@ -1,0 +1,4 @@
+# Netlify: serve Legends Guess (flagship) as the site root
+[build]
+  publish = "07-legends-guess"
+  command = ""

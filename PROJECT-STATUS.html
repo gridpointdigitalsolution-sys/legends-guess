@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Football Apps — Project Command Center</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+:root{
+  --bg:#0a0f1e;--bg2:#0e1630;--card:#141f3a;--card2:#1b2a4d;
+  --green:#22c55e;--amber:#fbbf24;--slate:#64748b;--blue:#3b82f6;
+  --text:#e8eefc;--muted:#8ea0c4;--line:#22335c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:linear-gradient(180deg,#0a0f1e,#0c1428);color:var(--text);line-height:1.5}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px 60px}
+.hero{text-align:center;padding:20px 0 10px}
+.hero .ball{font-size:2.6rem}
+.hero h1{font-size:1.55rem;font-weight:900;letter-spacing:-.02em;margin:6px 0 4px}
+.hero p{color:var(--muted);font-size:.9rem}
+.updated{display:inline-block;margin-top:8px;font-size:.72rem;color:var(--slate);background:var(--card);padding:4px 12px;border-radius:999px}
+/* progress bar */
+.overall{background:var(--card);border-radius:16px;padding:18px;margin:18px 0}
+.overall .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.overall .top b{font-size:1.4rem;font-weight:900;color:var(--green)}
+.overall .top span{font-size:.8rem;color:var(--muted)}
+.bar{height:12px;background:#0a1striped;background:#0b1párr;background:#0b142c;border-radius:999px;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--green),#4ade80);border-radius:999px}
+/* section headers */
+h2{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;color:var(--muted);margin:26px 0 12px;font-weight:800}
+/* status pills */
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:.66rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;padding:3px 9px;border-radius:999px}
+.p-done{background:rgba(34,197,94,.16);color:var(--green)}
+.p-now{background:rgba(251,191,36,.16);color:var(--amber)}
+.p-next{background:rgba(59,130,246,.16);color:var(--blue)}
+.p-later{background:rgba(100,116,139,.2);color:#94a7c9}
+/* cards */
+.card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:12px;border:1px solid var(--line)}
+.card.hl{border-color:var(--green)}
+.card .head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px}
+.card .head h3{font-size:1.02rem;font-weight:800}
+.card .num{font-size:.72rem;color:var(--slate);font-weight:700}
+.card p{font-size:.86rem;color:var(--muted);margin-bottom:6px}
+.card .meta{font-size:.76rem;color:var(--slate);margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 14px}
+.card .meta b{color:var(--text);font-weight:700}
+/* checklist */
+ul{list-style:none;margin:8px 0 0}
+li{font-size:.86rem;padding:5px 0 5px 26px;position:relative;color:var(--text)}
+li::before{position:absolute;left:0;top:4px;font-size:.9rem}
+li.d{color:var(--muted)}li.d::before{content:"✅"}
+li.w::before{content:"🔨"}
+li.t::before{content:"⬜"}
+li.t{color:var(--muted)}
+/* next steps box */
+.next{background:linear-gradient(135deg,#132244,#0f1c3a);border:1px solid var(--blue);border-radius:16px;padding:18px;margin-top:8px}
+.next h3{font-size:1rem;font-weight:800;margin-bottom:10px;color:var(--blue)}
+.next ol{margin-left:20px}
+.next li{padding:6px 0 6px 4px;color:var(--text)}
+.next li::before{content:""}
+.decide{background:rgba(251,191,36,.1);border:1px solid var(--amber);border-radius:14px;padding:16px;margin-top:14px}
+.decide h3{color:var(--amber);font-size:.95rem;font-weight:800;margin-bottom:6px}
+.decide p{font-size:.86rem;color:var(--text)}
+.money{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.money .m{flex:1;min-width:130px;background:var(--card);border-radius:12px;padding:12px;text-align:center;border:1px solid var(--line)}
+.money .m .n{font-size:1.15rem;font-weight:900;color:var(--green)}
+.money .m .l{font-size:.68rem;color:var(--muted);margin-top:2px}
+footer{text-align:center;color:var(--slate);font-size:.74rem;margin-top:30px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div class="ball">⚽</div>
+    <h1>Football Apps — Command Center</h1>
+    <p>Everything we're building, in one place</p>
+    <div class="updated">Last updated: 17 July 2026</div>
+  </div>
+
+  <div class="overall">
+    <div class="top"><b>Phase 1 live</b><span>1 of 5 apps built · research complete</span></div>
+    <div class="bar"><i style="width:24%"></i></div>
+  </div>
+
+  <!-- ============ DONE ============ -->
+  <h2>✅ What we've done</h2>
+
+  <div class="card">
+    <div class="head"><h3>Deep market research</h3><span class="pill p-done">Done</span></div>
+    <p>Scanned the global football-app market (July 2026): monetization data, competitor revenue, low-competition gaps. Delivered as a fully-sourced report.</p>
+    <div class="meta"><span>📄 <b>RESEARCH-REPORT.md</b></span><span>5 verified ideas</span></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><h3>Admin folder + briefs</h3><span class="pill p-done">Done</span></div>
+    <p>Created the <b>football-apps</b> workspace with a folder and README brief for each of the 5 apps.</p>
+    <div class="meta"><span>📁 5 app folders</span><span>+ research report</span></div>
+  </div>
+
+  <div class="card hl">
+    <div class="head"><h3>App #1 — Footy Guess (BUILT)</h3><span class="pill p-done">Done</span></div>
+    <p>Daily "guess the footballer from his career" puzzle. Fully playable, self-contained web app. Cost to build: <b>$0</b>. Cost to run: <b>$0</b>.</p>
+    <ul>
+      <li class="d">130+ legends database (career paths, nations, positions)</li>
+      <li class="d">Daily deterministic puzzle + streak tracking</li>
+      <li class="d">WhatsApp / X share buttons (viral loop)</li>
+      <li class="d">Practice mode, stats, ad slots ready</li>
+    </ul>
+    <div class="meta"><span>📄 <b>01-daily-football-game/index.html</b></span></div>
+  </div>
+
+  <!-- ============ NOW ============ -->
+  <h2>🔨 What's next to do (immediate)</h2>
+
+  <div class="card">
+    <div class="head"><h3>Publish App #1 &amp; start promoting</h3><span class="pill p-now">Do now</span></div>
+    <p>Get Footy Guess live on a free host and start driving traffic. This is the first step to any money.</p>
+    <ul>
+      <li class="t">Put the file on Netlify / Vercel / GitHub Pages (free)</li>
+      <li class="t">Replace the SITE_URL placeholder with the live link</li>
+      <li class="t">Share daily result grids in football WhatsApp/X/TikTok groups</li>
+      <li class="t">Add Google AdSense once traffic builds (slots already in code)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="head"><h3>Add the Legends Clip Vault</h3><span class="pill p-now">Your new idea</span></div>
+    <p>Embed YouTube/TikTok clips of legends (legal via official embeds) and wire them into Footy Guess — "finish the puzzle, then watch him play." Doubles page views at zero cost, zero legal risk.</p>
+    <ul>
+      <li class="t">Build clip vault page (embeds only — never re-upload)</li>
+      <li class="t">Focus on legends: evergreen, low competition, SEO gold</li>
+      <li class="t">Link puzzle answer → that player's clips</li>
+    </ul>
+  </div>
+
+  <!-- ============ NEXT ============ -->
+  <h2>🔷 The other 4 apps (in build order)</h2>
+
+  <div class="card">
+    <div class="head"><h3>App #2 — Prediction Game</h3><span class="num">Superbru model</span></div>
+    <p>Free pick'em game for ignored leagues (AFCON, NPFL, MLS). Money from sponsors + betting affiliate + ads.</p>
+    <div class="meta"><span class="pill p-next">Build 2nd</span><span>~3–6 wks</span><span>needs data API ($19–39/mo)</span></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><h3>App #3 — Fantasy AI Tools</h3><span class="num">MLS-first</span></div>
+    <p>Paid AI assistant on top of free fantasy games. Hard paywall $5–10/mo to Tier-1 (US/EU) payers.</p>
+    <div class="meta"><span class="pill p-next">Build 3rd</span><span>~1–2 mo</span><span>subscription revenue</span></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><h3>App #4 — Grassroots AI Highlights</h3><span class="num">"Veo without the camera"</span></div>
+    <p>Phone films the match → AI highlights + player clips + stats. $20–40/mo per team. Highest value, biggest build.</p>
+    <div class="meta"><span class="pill p-later">Bigger build</span><span>3–6 mo</span><span>video AI pipeline</span></div>
+  </div>
+
+  <div class="card">
+    <div class="head"><h3>App #5 — Verified Player CV + Scouting</h3><span class="num">Africa-first</span></div>
+    <p>Anti-scam verified football CVs + vetted scouts. Solves a real trafficking problem. Network-effect moat.</p>
+    <div class="meta"><span class="pill p-later">Needs partners</span><span>1–2 mo build</span><span>academy partnerships</span></div>
+  </div>
+
+  <!-- ============ MONEY ============ -->
+  <h2>💰 How the money comes in</h2>
+  <div class="money">
+    <div class="m"><div class="n">Ads</div><div class="l">Apps 1 &amp; 2 — traffic based</div></div>
+    <div class="m"><div class="n">Affiliate</div><div class="l">App 2 — $50–500 per referral</div></div>
+    <div class="m"><div class="n">Subs</div><div class="l">Apps 3,4,5 — recurring</div></div>
+  </div>
+
+  <!-- ============ NEXT STEPS ============ -->
+  <h2>🎯 What I recommend we do next</h2>
+  <div class="next">
+    <h3>The smart sequence</h3>
+    <ol>
+      <li><b>Publish Footy Guess</b> — get it live this week, start the traffic engine.</li>
+      <li><b>Build the Legends Clip Vault</b> — bolt it onto App #1 for double the page views.</li>
+      <li><b>Build App #2 (Prediction Game)</b> — fast, cheap, adds affiliate income.</li>
+      <li><b>Then App #3 (Fantasy AI)</b> — first real subscription revenue.</li>
+      <li><b>Apps #4 &amp; #5</b> — the big-value companies, once cash is flowing.</li>
+    </ol>
+  </div>
+
+  <div class="decide">
+    <h3>⏳ One decision from you</h3>
+    <p>Say the word and I'll build the <b>Legends Clip Vault</b> next and wire it into Footy Guess — or if you'd rather, I jump straight to <b>App #2 (Prediction Game)</b>. Which one first?</p>
+  </div>
+
+  <footer>
+    Football Apps portfolio · GridpointDigitalSolution<br>
+    Built with Claude · This is a working command center — I update it as we go.
+  </footer>
+
+</div>
+</body>
+</html>

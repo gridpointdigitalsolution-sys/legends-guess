@@ -1,0 +1,28 @@
+# 🧠 MEMORY — context for continuing in Claude Code CLI
+
+## Project identity
+- Name: **Legends Guess** (portfolio brand for football + basketball fan apps).
+- Domain: **legendsguess.com** (Hostinger). Backups considered: guessthelegend.com, playlegendsguess.com.
+- Owner email on domain: cbnotion02@gmail.com. Account: GridpointDigitalSolution@gmail.com.
+
+## Product decisions
+- Flagship = Legends Guess (guess-the-legend + integrated highlights).
+- Two sports in one app: ⚽ Football and 🏀 Basketball (toggle).
+- Monetization = Google AdSense first (free to users). Later: affiliate/sponsors on other apps.
+- Clips via LIVE SEARCH links only — no hosting, no hardcoded IDs. Legal + unbreakable.
+- Grow roster in accurate waves (wrong career = broken puzzle). Currently 218 legends.
+
+## Data model (07-legends-guess DATA array)
+{s:"⚽"|"🏀", n:name, f:flag, c:country, p:position, b:eraStartYear, cl:[clubs earliest→latest], q:"clip search query"}
+
+## Roster status
+- Football: 138 · Basketball: 80 · TOTAL: 218.
+- Target: 500+/sport → 1,000+/sport, plus extra puzzle formats (guess-by-trophies, guess-the-moment).
+- Coverage so far: modern stars, 90s/2000s classics, strong African set, some Asian/Latam, women's football (Marta, Rapinoe, Morgan, Sam Kerr, Bonmati…), NBA classics + WNBA (Taurasi, A'ja Wilson, Caitlin Clark…).
+
+## Tech
+- Single-file HTML apps. No backend, no build. Deploy = drop the file / point host at folder.
+- localStorage for stats (graceful fallback).
+
+## Style
+- Dark UI. Football accent = green (#22c55e). Basketball accent = orange (#f97316). Inter font.

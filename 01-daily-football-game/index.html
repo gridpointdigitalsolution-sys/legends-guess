@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Footy Guess — The Daily Football Player Puzzle</title>
+<meta name="description" content="Footy Guess: guess the mystery footballer from their career path. A new puzzle every day. Play free, keep your streak, challenge your friends.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+:root{
+  --bg:#0b1220; --bg-alt:#111a2e; --card:#16213b; --card-2:#1c2a4a;
+  --pitch:#22c55e; --pitch-dark:#16a34a; --gold:#fbbf24;
+  --text:#e8eefc; --muted:#8ea0c4; --danger:#ef4444;
+  --radius:14px; --shadow:0 8px 30px rgba(0,0,0,.35);
+  --font:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:linear-gradient(180deg,#0b1220 0%,#0e1730 100%);color:var(--text);font-family:var(--font);min-height:100vh}
+button{font-family:var(--font);cursor:pointer;border:none}
+input{font-family:var(--font)}
+/* Header */
+header{position:sticky;top:0;z-index:50;background:rgba(11,18,32,.92);backdrop-filter:blur(8px);border-bottom:1px solid #1e2c4f}
+.header-inner{max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+.logo{font-weight:800;font-size:1.25rem;letter-spacing:-.02em}
+.logo span{color:var(--pitch)}
+.header-btns{display:flex;gap:8px}
+.icon-btn{background:var(--card);color:var(--text);width:38px;height:38px;border-radius:10px;font-size:1.05rem;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.icon-btn:hover{background:var(--card-2)}
+/* Layout */
+main{max-width:560px;margin:0 auto;padding:16px 16px 60px}
+.ad-slot{background:var(--bg-alt);border:1px dashed #2a3b63;border-radius:10px;color:#3d5384;font-size:.72rem;text-align:center;padding:10px;margin:14px 0;letter-spacing:.05em}
+/* AD SLOT: replace .ad-slot divs with your AdSense / ad network tags when monetizing */
+.top-strip{display:flex;justify-content:space-between;align-items:center;margin:6px 0 12px;font-size:.85rem;color:var(--muted)}
+.top-strip b{color:var(--gold)}
+.mode-tag{background:var(--card);padding:4px 10px;border-radius:999px;font-size:.75rem;font-weight:600;color:var(--pitch)}
+/* Clue cards */
+#clues{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.clue{background:var(--card);border-radius:var(--radius);padding:12px 14px;display:flex;align-items:center;gap:12px;border-left:4px solid var(--pitch);animation:pop .25s ease}
+.clue.locked{border-left-color:#2a3b63;color:#4a5f8f;filter:none}
+.clue .k{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);min-width:86px}
+.clue .v{font-weight:700;font-size:.98rem}
+.clue.locked .v{color:#3d5384}
+@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:scale(1);opacity:1}}
+/* Guesses */
+#guessRows{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.guess-row{background:var(--bg-alt);border-radius:10px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:.92rem;border:1px solid #1e2c4f}
+.guess-row.wrong{border-color:#57324a;color:#f3a0b8}
+.guess-row.right{border-color:var(--pitch);color:var(--pitch)}
+.guess-row .num{color:var(--muted);font-size:.75rem;margin-right:10px}
+/* Input */
+.input-wrap{position:relative;margin-bottom:10px}
+#guessInput{width:100%;padding:14px 16px;border-radius:12px;border:2px solid #2a3b63;background:var(--card);color:var(--text);font-size:1rem;font-weight:600;outline:none;transition:border .15s}
+#guessInput:focus{border-color:var(--pitch)}
+#suggestions{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--card-2);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);z-index:40;max-height:220px;overflow-y:auto;display:none}
+#suggestions div{padding:11px 16px;font-weight:600;font-size:.92rem;border-bottom:1px solid #223258}
+#suggestions div:hover,#suggestions div.hl{background:var(--pitch-dark);color:#fff}
+.btn{width:100%;padding:14px;border-radius:12px;font-weight:800;font-size:1rem;letter-spacing:.02em;transition:transform .1s,background .15s}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--pitch);color:#06210f}
+.btn-primary:hover{background:var(--pitch-dark);color:#eafff2}
+.btn-gold{background:var(--gold);color:#3b2a03}
+.btn-ghost{background:var(--card);color:var(--text)}
+.btn-row{display:flex;gap:8px;margin-top:8px}
+.btn-row .btn{flex:1}
+/* Modals */
+.modal-bg{position:fixed;inset:0;background:rgba(4,8,18,.75);display:none;align-items:flex-end;justify-content:center;z-index:100}
+.modal-bg.open{display:flex}
+.modal{background:var(--bg-alt);border-radius:20px 20px 0 0;padding:24px 20px 30px;max-width:560px;width:100%;max-height:86vh;overflow-y:auto;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.modal h2{font-size:1.3rem;margin-bottom:12px}
+.modal p{color:var(--muted);font-size:.92rem;line-height:1.55;margin-bottom:10px}
+.modal .close{float:right;background:var(--card);color:var(--text);width:34px;height:34px;border-radius:9px}
+.result-emoji{font-size:2.6rem;text-align:center;margin:6px 0}
+.result-name{text-align:center;font-size:1.35rem;font-weight:800;color:var(--pitch);margin-bottom:4px}
+.result-sub{text-align:center;color:var(--muted);font-size:.88rem;margin-bottom:14px}
+.share-grid{text-align:center;font-size:1.4rem;letter-spacing:2px;margin:10px 0 16px}
+.stats{display:flex;gap:8px;margin:14px 0}
+.stat{flex:1;background:var(--card);border-radius:12px;padding:12px;text-align:center}
+.stat .n{font-size:1.4rem;font-weight:800;color:var(--gold)}
+.stat .l{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+footer{text-align:center;color:#3d5384;font-size:.75rem;padding:20px;line-height:1.6}
+footer a{color:#5a76ad;text-decoration:none}
+.hidden{display:none!important}
+@media(min-width:600px){.modal-bg{align-items:center}.modal{border-radius:20px}}
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="header-inner">
+    <div class="logo">⚽ Footy<span>Guess</span></div>
+    <div class="header-btns">
+      <button class="icon-btn" id="statsBtn" title="Your stats">📊</button>
+      <button class="icon-btn" id="helpBtn" title="How to play">❓</button>
+    </div>
+  </div>
+</header>
+
+<main id="game">
+  <div class="ad-slot">AD SPACE — 320×50 banner (activate when monetizing)</div>
+
+  <div class="top-strip">
+    <div>Puzzle <b id="puzzleNo">#—</b></div>
+    <div class="mode-tag" id="modeTag">DAILY</div>
+    <div>Streak 🔥 <b id="streakTop">0</b></div>
+  </div>
+
+  <section id="clues" aria-label="Clues"></section>
+
+  <section id="guessRows" aria-label="Your guesses"></section>
+
+  <div class="input-wrap" id="inputWrap">
+    <input id="guessInput" type="text" autocomplete="off" placeholder="Type a player's name…" aria-label="Guess the player">
+    <div id="suggestions"></div>
+  </div>
+  <button class="btn btn-primary" id="guessBtn">GUESS</button>
+  <div class="btn-row">
+    <button class="btn btn-ghost" id="giveUpBtn">Reveal Answer</button>
+    <button class="btn btn-ghost" id="practiceBtn">🎲 Practice Mode</button>
+  </div>
+
+  <div class="ad-slot">AD SPACE — in-content rectangle (activate when monetizing)</div>
+</main>
+
+<!-- How to play modal -->
+<div class="modal-bg" id="helpModal">
+  <div class="modal">
+    <button class="close" data-close="helpModal">✕</button>
+    <h2>How to play ⚽</h2>
+    <p>A mystery footballer is hidden behind their <b style="color:var(--pitch)">career path</b>. You get <b>6 guesses</b>.</p>
+    <p>You start with the player's position and first club. Every wrong guess unlocks the next clue — more clubs, then nationality, birth year, and finally the first letter of their name.</p>
+    <p>Guess in fewer tries for a better score, keep your daily 🔥 streak alive, and share your result grid with friends.</p>
+    <p>One new puzzle every day at midnight (your local time). Use 🎲 Practice Mode for unlimited games.</p>
+  </div>
+</div>
+
+<!-- Stats modal -->
+<div class="modal-bg" id="statsModal">
+  <div class="modal">
+    <button class="close" data-close="statsModal">✕</button>
+    <h2>Your stats 📊</h2>
+    <div class="stats">
+      <div class="stat"><div class="n" id="stPlayed">0</div><div class="l">Played</div></div>
+      <div class="stat"><div class="n" id="stWins">0</div><div class="l">Wins</div></div>
+      <div class="stat"><div class="n" id="stStreak">0</div><div class="l">Streak</div></div>
+      <div class="stat"><div class="n" id="stBest">0</div><div class="l">Best</div></div>
+    </div>
+    <p style="font-size:.78rem">Stats are saved on this device when your browser allows it.</p>
+  </div>
+</div>
+
+<!-- Result modal -->
+<div class="modal-bg" id="resultModal">
+  <div class="modal">
+    <button class="close" data-close="resultModal">✕</button>
+    <div class="result-emoji" id="resEmoji">🏆</div>
+    <div class="result-name" id="resName">—</div>
+    <div class="result-sub" id="resSub">—</div>
+    <div class="share-grid" id="resGrid">—</div>
+    <button class="btn btn-primary" id="shareWa">Share on WhatsApp 💬</button>
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="shareX">Share on X</button>
+      <button class="btn btn-ghost" id="copyBtn">Copy result</button>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-gold" id="againBtn">🎲 Play practice game</button>
+    </div>
+    <div class="ad-slot" style="margin-top:16px">AD SPACE — result screen (highest-value slot)</div>
+  </div>
+</div>
+
+<footer>
+  FootyGuess — a new football puzzle every day.<br>
+  Unofficial fan game. Not affiliated with any league or club.<br>
+  <a href="#" id="aboutLink">About</a> · <a href="#" id="privacyLink">Privacy</a>
+</footer>
+
+<script>
+'use strict';
+/* ============ PLAYER DATABASE ============ */
+/* n=name, c=country, f=flag, p=position, b=birth year, cl=career clubs (earliest → latest) */
+const PLAYERS=[
+{n:"Lionel Messi",c:"Argentina",f:"🇦🇷",p:"Forward",b:1987,cl:["Barcelona","Paris Saint-Germain","Inter Miami"]},
+{n:"Cristiano Ronaldo",c:"Portugal",f:"🇵🇹",p:"Forward",b:1985,cl:["Sporting CP","Manchester United","Real Madrid","Juventus","Manchester United","Al-Nassr"]},
+{n:"Neymar",c:"Brazil",f:"🇧🇷",p:"Forward",b:1992,cl:["Santos","Barcelona","Paris Saint-Germain","Al-Hilal","Santos"]},
+{n:"Kylian Mbappe",c:"France",f:"🇫🇷",p:"Forward",b:1998,cl:["Monaco","Paris Saint-Germain","Real Madrid"]},
+{n:"Erling Haaland",c:"Norway",f:"🇳🇴",p:"Forward",b:2000,cl:["Molde","RB Salzburg","Borussia Dortmund","Manchester City"]},
+{n:"Kevin De Bruyne",c:"Belgium",f:"🇧🇪",p:"Midfielder",b:1991,cl:["Genk","Chelsea","Wolfsburg","Manchester City","Napoli"]},
+{n:"Mohamed Salah",c:"Egypt",f:"🇪🇬",p:"Forward",b:1992,cl:["El Mokawloon","Basel","Chelsea","Roma","Liverpool"]},
+{n:"Sadio Mane",c:"Senegal",f:"🇸🇳",p:"Forward",b:1992,cl:["Metz","RB Salzburg","Southampton","Liverpool","Bayern Munich","Al-Nassr"]},
+{n:"Virgil van Dijk",c:"Netherlands",f:"🇳🇱",p:"Defender",b:1991,cl:["Groningen","Celtic","Southampton","Liverpool"]},
+{n:"Luka Modric",c:"Croatia",f:"🇭🇷",p:"Midfielder",b:1985,cl:["Dinamo Zagreb","Tottenham Hotspur","Real Madrid","AC Milan"]},
+{n:"Sergio Ramos",c:"Spain",f:"🇪🇸",p:"Defender",b:1986,cl:["Sevilla","Real Madrid","Paris Saint-Germain","Sevilla","Monterrey"]},
+{n:"Zlatan Ibrahimovic",c:"Sweden",f:"🇸🇪",p:"Forward",b:1981,cl:["Malmo","Ajax","Juventus","Inter Milan","Barcelona","AC Milan","Paris Saint-Germain","Manchester United","LA Galaxy","AC Milan"]},
+{n:"Andres Iniesta",c:"Spain",f:"🇪🇸",p:"Midfielder",b:1984,cl:["Barcelona","Vissel Kobe","Emirates Club"]},
+{n:"Xavi",c:"Spain",f:"🇪🇸",p:"Midfielder",b:1980,cl:["Barcelona","Al Sadd"]},
+{n:"Ronaldinho",c:"Brazil",f:"🇧🇷",p:"Forward",b:1980,cl:["Gremio","Paris Saint-Germain","Barcelona","AC Milan","Flamengo","Atletico Mineiro"]},
+{n:"Thierry Henry",c:"France",f:"🇫🇷",p:"Forward",b:1977,cl:["Monaco","Juventus","Arsenal","Barcelona","New York Red Bulls"]},
+{n:"David Beckham",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Midfielder",b:1975,cl:["Manchester United","Real Madrid","LA Galaxy","AC Milan","Paris Saint-Germain"]},
+{n:"Wayne Rooney",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Forward",b:1985,cl:["Everton","Manchester United","Everton","DC United","Derby County"]},
+{n:"Steven Gerrard",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Midfielder",b:1980,cl:["Liverpool","LA Galaxy"]},
+{n:"Frank Lampard",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Midfielder",b:1978,cl:["West Ham United","Chelsea","Manchester City","New York City FC"]},
+{n:"Didier Drogba",c:"Ivory Coast",f:"🇨🇮",p:"Forward",b:1978,cl:["Guingamp","Marseille","Chelsea","Galatasaray","Chelsea","Montreal Impact"]},
+{n:"Samuel Eto'o",c:"Cameroon",f:"🇨🇲",p:"Forward",b:1981,cl:["Real Madrid","Mallorca","Barcelona","Inter Milan","Anzhi","Chelsea","Everton"]},
+{n:"Yaya Toure",c:"Ivory Coast",f:"🇨🇮",p:"Midfielder",b:1983,cl:["ASEC Mimosas","Beveren","Olympiacos","Monaco","Barcelona","Manchester City"]},
+{n:"Jay-Jay Okocha",c:"Nigeria",f:"🇳🇬",p:"Midfielder",b:1973,cl:["Enugu Rangers","Eintracht Frankfurt","Fenerbahce","Paris Saint-Germain","Bolton Wanderers","Hull City"]},
+{n:"Victor Osimhen",c:"Nigeria",f:"🇳🇬",p:"Forward",b:1998,cl:["Wolfsburg","Charleroi","Lille","Napoli","Galatasaray"]},
+{n:"Riyad Mahrez",c:"Algeria",f:"🇩🇿",p:"Forward",b:1991,cl:["Le Havre","Leicester City","Manchester City","Al-Ahli"]},
+{n:"Pierre-Emerick Aubameyang",c:"Gabon",f:"🇬🇦",p:"Forward",b:1989,cl:["Saint-Etienne","Borussia Dortmund","Arsenal","Barcelona","Chelsea","Marseille"]},
+{n:"George Weah",c:"Liberia",f:"🇱🇷",p:"Forward",b:1966,cl:["Monaco","Paris Saint-Germain","AC Milan","Chelsea","Manchester City","Marseille"]},
+{n:"Karim Benzema",c:"France",f:"🇫🇷",p:"Forward",b:1987,cl:["Lyon","Real Madrid","Al-Ittihad"]},
+{n:"Antoine Griezmann",c:"France",f:"🇫🇷",p:"Forward",b:1991,cl:["Real Sociedad","Atletico Madrid","Barcelona","Atletico Madrid"]},
+{n:"Paul Pogba",c:"France",f:"🇫🇷",p:"Midfielder",b:1993,cl:["Manchester United","Juventus","Manchester United","Juventus","Monaco"]},
+{n:"N'Golo Kante",c:"France",f:"🇫🇷",p:"Midfielder",b:1991,cl:["Caen","Leicester City","Chelsea","Al-Ittihad"]},
+{n:"Eden Hazard",c:"Belgium",f:"🇧🇪",p:"Forward",b:1991,cl:["Lille","Chelsea","Real Madrid"]},
+{n:"Romelu Lukaku",c:"Belgium",f:"🇧🇪",p:"Forward",b:1993,cl:["Anderlecht","Chelsea","Everton","Manchester United","Inter Milan","Roma","Napoli"]},
+{n:"Robert Lewandowski",c:"Poland",f:"🇵🇱",p:"Forward",b:1988,cl:["Lech Poznan","Borussia Dortmund","Bayern Munich","Barcelona"]},
+{n:"Manuel Neuer",c:"Germany",f:"🇩🇪",p:"Goalkeeper",b:1986,cl:["Schalke 04","Bayern Munich"]},
+{n:"Toni Kroos",c:"Germany",f:"🇩🇪",p:"Midfielder",b:1990,cl:["Bayern Munich","Bayer Leverkusen","Bayern Munich","Real Madrid"]},
+{n:"Thomas Muller",c:"Germany",f:"🇩🇪",p:"Forward",b:1989,cl:["Bayern Munich","Vancouver Whitecaps"]},
+{n:"Marco Reus",c:"Germany",f:"🇩🇪",p:"Midfielder",b:1989,cl:["Borussia Monchengladbach","Borussia Dortmund","LA Galaxy"]},
+{n:"Mesut Ozil",c:"Germany",f:"🇩🇪",p:"Midfielder",b:1988,cl:["Schalke 04","Werder Bremen","Real Madrid","Arsenal","Fenerbahce"]},
+{n:"Gareth Bale",c:"Wales",f:"🏴󠁧󠁢󠁷󠁬󠁳󠁿",p:"Forward",b:1989,cl:["Southampton","Tottenham Hotspur","Real Madrid","Tottenham Hotspur","Los Angeles FC"]},
+{n:"Luis Suarez",c:"Uruguay",f:"🇺🇾",p:"Forward",b:1987,cl:["Nacional","Groningen","Ajax","Liverpool","Barcelona","Atletico Madrid","Gremio","Inter Miami"]},
+{n:"Edinson Cavani",c:"Uruguay",f:"🇺🇾",p:"Forward",b:1987,cl:["Danubio","Palermo","Napoli","Paris Saint-Germain","Manchester United","Valencia","Boca Juniors"]},
+{n:"Alexis Sanchez",c:"Chile",f:"🇨🇱",p:"Forward",b:1988,cl:["Cobreloa","Colo-Colo","Udinese","Barcelona","Arsenal","Manchester United","Inter Milan","Marseille"]},
+{n:"Arturo Vidal",c:"Chile",f:"🇨🇱",p:"Midfielder",b:1987,cl:["Colo-Colo","Bayer Leverkusen","Juventus","Bayern Munich","Barcelona","Inter Milan","Flamengo","Colo-Colo"]},
+{n:"James Rodriguez",c:"Colombia",f:"🇨🇴",p:"Midfielder",b:1991,cl:["Envigado","Banfield","Porto","Monaco","Real Madrid","Bayern Munich","Everton","Sao Paulo","Leon"]},
+{n:"Radamel Falcao",c:"Colombia",f:"🇨🇴",p:"Forward",b:1986,cl:["River Plate","Porto","Atletico Madrid","Monaco","Galatasaray","Rayo Vallecano","Millonarios"]},
+{n:"Luis Diaz",c:"Colombia",f:"🇨🇴",p:"Forward",b:1997,cl:["Junior","Porto","Liverpool","Bayern Munich"]},
+{n:"Vinicius Junior",c:"Brazil",f:"🇧🇷",p:"Forward",b:2000,cl:["Flamengo","Real Madrid"]},
+{n:"Casemiro",c:"Brazil",f:"🇧🇷",p:"Midfielder",b:1992,cl:["Sao Paulo","Real Madrid","Manchester United"]},
+{n:"Thiago Silva",c:"Brazil",f:"🇧🇷",p:"Defender",b:1984,cl:["Fluminense","AC Milan","Paris Saint-Germain","Chelsea","Fluminense"]},
+{n:"Dani Alves",c:"Brazil",f:"🇧🇷",p:"Defender",b:1983,cl:["Bahia","Sevilla","Barcelona","Juventus","Paris Saint-Germain","Sao Paulo","Barcelona","Pumas"]},
+{n:"Kaka",c:"Brazil",f:"🇧🇷",p:"Midfielder",b:1982,cl:["Sao Paulo","AC Milan","Real Madrid","AC Milan","Orlando City"]},
+{n:"Roberto Carlos",c:"Brazil",f:"🇧🇷",p:"Defender",b:1973,cl:["Palmeiras","Inter Milan","Real Madrid","Fenerbahce","Corinthians"]},
+{n:"Ronaldo Nazario",c:"Brazil",f:"🇧🇷",p:"Forward",b:1976,cl:["Cruzeiro","PSV Eindhoven","Barcelona","Inter Milan","Real Madrid","AC Milan","Corinthians"]},
+{n:"Rivaldo",c:"Brazil",f:"🇧🇷",p:"Forward",b:1972,cl:["Palmeiras","Deportivo La Coruna","Barcelona","AC Milan","Olympiacos"]},
+{n:"Harry Kane",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Forward",b:1993,cl:["Tottenham Hotspur","Bayern Munich"]},
+{n:"Raheem Sterling",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Forward",b:1994,cl:["Queens Park Rangers","Liverpool","Manchester City","Chelsea","Arsenal"]},
+{n:"Jude Bellingham",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Midfielder",b:2003,cl:["Birmingham City","Borussia Dortmund","Real Madrid"]},
+{n:"Bukayo Saka",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Forward",b:2001,cl:["Arsenal"]},
+{n:"Phil Foden",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Midfielder",b:2000,cl:["Manchester City"]},
+{n:"Declan Rice",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Midfielder",b:1999,cl:["West Ham United","Arsenal"]},
+{n:"Trent Alexander-Arnold",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Defender",b:1998,cl:["Liverpool","Real Madrid"]},
+{n:"Marcus Rashford",c:"England",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",p:"Forward",b:1997,cl:["Manchester United","Aston Villa","Barcelona"]},
+{n:"Son Heung-min",c:"South Korea",f:"🇰🇷",p:"Forward",b:1992,cl:["Hamburg","Bayer Leverkusen","Tottenham Hotspur","Los Angeles FC"]},
+{n:"Shinji Kagawa",c:"Japan",f:"🇯🇵",p:"Midfielder",b:1989,cl:["Cerezo Osaka","Borussia Dortmund","Manchester United","Borussia Dortmund","Real Zaragoza"]},
+{n:"Alphonso Davies",c:"Canada",f:"🇨🇦",p:"Defender",b:2000,cl:["Vancouver Whitecaps","Bayern Munich"]},
+{n:"Christian Pulisic",c:"United States",f:"🇺🇸",p:"Forward",b:1998,cl:["Borussia Dortmund","Chelsea","AC Milan"]},
+{n:"Landon Donovan",c:"United States",f:"🇺🇸",p:"Forward",b:1982,cl:["Bayer Leverkusen","San Jose Earthquakes","LA Galaxy","Leon"]},
+{n:"Clint Dempsey",c:"United States",f:"🇺🇸",p:"Forward",b:1983,cl:["New England Revolution","Fulham","Tottenham Hotspur","Seattle Sounders"]},
+{n:"Hirving Lozano",c:"Mexico",f:"🇲🇽",p:"Forward",b:1995,cl:["Pachuca","PSV Eindhoven","Napoli","PSV Eindhoven","San Diego FC"]},
+{n:"Javier Hernandez",c:"Mexico",f:"🇲🇽",p:"Forward",b:1988,cl:["Guadalajara","Manchester United","Bayer Leverkusen","West Ham United","Sevilla","LA Galaxy","Guadalajara"]},
+{n:"Rafael Marquez",c:"Mexico",f:"🇲🇽",p:"Defender",b:1979,cl:["Atlas","Monaco","Barcelona","New York Red Bulls","Leon","Atlas"]},
+{n:"Keylor Navas",c:"Costa Rica",f:"🇨🇷",p:"Goalkeeper",b:1986,cl:["Saprissa","Levante","Real Madrid","Paris Saint-Germain","Newell's Old Boys","Pumas"]},
+{n:"Gianluigi Buffon",c:"Italy",f:"🇮🇹",p:"Goalkeeper",b:1978,cl:["Parma","Juventus","Paris Saint-Germain","Juventus","Parma"]},
+{n:"Andrea Pirlo",c:"Italy",f:"🇮🇹",p:"Midfielder",b:1979,cl:["Brescia","Inter Milan","AC Milan","Juventus","New York City FC"]},
+{n:"Francesco Totti",c:"Italy",f:"🇮🇹",p:"Forward",b:1976,cl:["Roma"]},
+{n:"Paolo Maldini",c:"Italy",f:"🇮🇹",p:"Defender",b:1968,cl:["AC Milan"]},
+{n:"Alessandro Del Piero",c:"Italy",f:"🇮🇹",p:"Forward",b:1974,cl:["Juventus","Sydney FC","Delhi Dynamos"]},
+{n:"Iker Casillas",c:"Spain",f:"🇪🇸",p:"Goalkeeper",b:1981,cl:["Real Madrid","Porto"]},
+{n:"David de Gea",c:"Spain",f:"🇪🇸",p:"Goalkeeper",b:1990,cl:["Atletico Madrid","Manchester United","Fiorentina"]},
+{n:"David Villa",c:"Spain",f:"🇪🇸",p:"Forward",b:1981,cl:["Sporting Gijon","Real Zaragoza","Valencia","Barcelona","Atletico Madrid","New York City FC","Vissel Kobe"]},
+{n:"Fernando Torres",c:"Spain",f:"🇪🇸",p:"Forward",b:1984,cl:["Atletico Madrid","Liverpool","Chelsea","AC Milan","Atletico Madrid","Sagan Tosu"]},
+{n:"Cesc Fabregas",c:"Spain",f:"🇪🇸",p:"Midfielder",b:1987,cl:["Arsenal","Barcelona","Chelsea","Monaco","Como"]},
+{n:"Rodri",c:"Spain",f:"🇪🇸",p:"Midfielder",b:1996,cl:["Villarreal","Atletico Madrid","Manchester City"]},
+{n:"Lamine Yamal",c:"Spain",f:"🇪🇸",p:"Forward",b:2007,cl:["Barcelona"]},
+{n:"Pedri",c:"Spain",f:"🇪🇸",p:"Midfielder",b:2002,cl:["Las Palmas","Barcelona"]},
+{n:"Arjen Robben",c:"Netherlands",f:"🇳🇱",p:"Forward",b:1984,cl:["Groningen","PSV Eindhoven","Chelsea","Real Madrid","Bayern Munich","Groningen"]},
+{n:"Robin van Persie",c:"Netherlands",f:"🇳🇱",p:"Forward",b:1983,cl:["Feyenoord","Arsenal","Manchester United","Fenerbahce","Feyenoord"]},
+{n:"Wesley Sneijder",c:"Netherlands",f:"🇳🇱",p:"Midfielder",b:1984,cl:["Ajax","Real Madrid","Inter Milan","Galatasaray","Nice"]},
+{n:"Memphis Depay",c:"Netherlands",f:"🇳🇱",p:"Forward",b:1994,cl:["PSV Eindhoven","Manchester United","Lyon","Barcelona","Atletico Madrid","Corinthians"]},
+{n:"Frenkie de Jong",c:"Netherlands",f:"🇳🇱",p:"Midfielder",b:1997,cl:["Willem II","Ajax","Barcelona"]},
+{n:"Angel Di Maria",c:"Argentina",f:"🇦🇷",p:"Forward",b:1988,cl:["Rosario Central","Benfica","Real Madrid","Manchester United","Paris Saint-Germain","Juventus","Benfica","Rosario Central"]},
+{n:"Sergio Aguero",c:"Argentina",f:"🇦🇷",p:"Forward",b:1988,cl:["Independiente","Atletico Madrid","Manchester City","Barcelona"]},
+{n:"Gonzalo Higuain",c:"Argentina",f:"🇦🇷",p:"Forward",b:1987,cl:["River Plate","Real Madrid","Napoli","Juventus","AC Milan","Chelsea","Inter Miami"]},
+{n:"Paulo Dybala",c:"Argentina",f:"🇦🇷",p:"Forward",b:1993,cl:["Instituto","Palermo","Juventus","Roma"]},
+{n:"Emiliano Martinez",c:"Argentina",f:"🇦🇷",p:"Goalkeeper",b:1992,cl:["Arsenal","Aston Villa"]},
+{n:"Julian Alvarez",c:"Argentina",f:"🇦🇷",p:"Forward",b:2000,cl:["River Plate","Manchester City","Atletico Madrid"]},
+{n:"Lautaro Martinez",c:"Argentina",f:"🇦🇷",p:"Forward",b:1997,cl:["Racing Club","Inter Milan"]},
+{n:"Enzo Fernandez",c:"Argentina",f:"🇦🇷",p:"Midfielder",b:2001,cl:["River Plate","Benfica","Chelsea"]},
+{n:"Diego Maradona",c:"Argentina",f:"🇦🇷",p:"Forward",b:1960,cl:["Argentinos Juniors","Boca Juniors","Barcelona","Napoli","Sevilla","Newell's Old Boys","Boca Juniors"]},
+{n:"Gabriel Batistuta",c:"Argentina",f:"🇦🇷",p:"Forward",b:1969,cl:["Newell's Old Boys","River Plate","Boca Juniors","Fiorentina","Roma","Inter Milan"]},
+{n:"Carlos Tevez",c:"Argentina",f:"🇦🇷",p:"Forward",b:1984,cl:["Boca Juniors","Corinthians","West Ham United","Manchester United","Manchester City","Juventus","Boca Juniors"]},
+{n:"Bruno Fernandes",c:"Portugal",f:"🇵🇹",p:"Midfielder",b:1994,cl:["Novara","Udinese","Sampdoria","Sporting CP","Manchester United"]},
+{n:"Bernardo Silva",c:"Portugal",f:"🇵🇹",p:"Midfielder",b:1994,cl:["Benfica","Monaco","Manchester City"]},
+{n:"Ruben Dias",c:"Portugal",f:"🇵🇹",p:"Defender",b:1997,cl:["Benfica","Manchester City"]},
+{n:"Luis Figo",c:"Portugal",f:"🇵🇹",p:"Midfielder",b:1972,cl:["Sporting CP","Barcelona","Real Madrid","Inter Milan"]},
+{n:"Pepe",c:"Portugal",f:"🇵🇹",p:"Defender",b:1983,cl:["Maritimo","Porto","Real Madrid","Besiktas","Porto"]},
+{n:"Joao Felix",c:"Portugal",f:"🇵🇹",p:"Forward",b:1999,cl:["Benfica","Atletico Madrid","Chelsea","Barcelona","AC Milan","Al-Nassr"]},
+{n:"Achraf Hakimi",c:"Morocco",f:"🇲🇦",p:"Defender",b:1998,cl:["Real Madrid","Borussia Dortmund","Inter Milan","Paris Saint-Germain"]},
+{n:"Hakim Ziyech",c:"Morocco",f:"🇲🇦",p:"Midfielder",b:1993,cl:["Heerenveen","Twente","Ajax","Chelsea","Galatasaray"]},
+{n:"Yassine Bounou",c:"Morocco",f:"🇲🇦",p:"Goalkeeper",b:1991,cl:["Girona","Sevilla","Al-Hilal"]},
+{n:"Mohammed Kudus",c:"Ghana",f:"🇬🇭",p:"Midfielder",b:2000,cl:["Nordsjaelland","Ajax","West Ham United","Tottenham Hotspur"]},
+{n:"Thomas Partey",c:"Ghana",f:"🇬🇭",p:"Midfielder",b:1993,cl:["Atletico Madrid","Arsenal","Villarreal"]},
+{n:"Michael Essien",c:"Ghana",f:"🇬🇭",p:"Midfielder",b:1982,cl:["Bastia","Lyon","Chelsea","Real Madrid","AC Milan","Panathinaikos"]},
+{n:"Asamoah Gyan",c:"Ghana",f:"🇬🇭",p:"Forward",b:1985,cl:["Liberty Professionals","Udinese","Rennes","Sunderland","Al-Ain","Shanghai SIPG","Kayserispor"]},
+{n:"Wilfred Ndidi",c:"Nigeria",f:"🇳🇬",p:"Midfielder",b:1996,cl:["Genk","Leicester City","Besiktas"]},
+{n:"Alex Iwobi",c:"Nigeria",f:"🇳🇬",p:"Midfielder",b:1996,cl:["Arsenal","Everton","Fulham"]},
+{n:"Ademola Lookman",c:"Nigeria",f:"🇳🇬",p:"Forward",b:1997,cl:["Charlton Athletic","Everton","RB Leipzig","Atalanta"]},
+{n:"Kelechi Iheanacho",c:"Nigeria",f:"🇳🇬",p:"Forward",b:1996,cl:["Manchester City","Leicester City","Sevilla"]},
+{n:"John Obi Mikel",c:"Nigeria",f:"🇳🇬",p:"Midfielder",b:1987,cl:["Lyn","Chelsea","Tianjin TEDA","Middlesbrough","Trabzonspor","Stoke City"]},
+{n:"Nwankwo Kanu",c:"Nigeria",f:"🇳🇬",p:"Forward",b:1976,cl:["Iwuanyanwu Nationale","Ajax","Inter Milan","Arsenal","West Bromwich Albion","Portsmouth"]},
+{n:"Vincent Kompany",c:"Belgium",f:"🇧🇪",p:"Defender",b:1986,cl:["Anderlecht","Hamburg","Manchester City","Anderlecht"]},
+{n:"Thibaut Courtois",c:"Belgium",f:"🇧🇪",p:"Goalkeeper",b:1992,cl:["Genk","Chelsea","Real Madrid"]},
+{n:"Petr Cech",c:"Czech Republic",f:"🇨🇿",p:"Goalkeeper",b:1982,cl:["Sparta Prague","Rennes","Chelsea","Arsenal"]},
+{n:"Ryan Giggs",c:"Wales",f:"🏴󠁧󠁢󠁷󠁬󠁳󠁿",p:"Midfielder",b:1973,cl:["Manchester United"]},
+{n:"Zinedine Zidane",c:"France",f:"🇫🇷",p:"Midfielder",b:1972,cl:["Cannes","Bordeaux","Juventus","Real Madrid"]},
+{n:"Oliver Kahn",c:"Germany",f:"🇩🇪",p:"Goalkeeper",b:1969,cl:["Karlsruher SC","Bayern Munich"]},
+{n:"Miroslav Klose",c:"Germany",f:"🇩🇪",p:"Forward",b:1978,cl:["Kaiserslautern","Werder Bremen","Bayern Munich","Lazio"]},
+{n:"Bastian Schweinsteiger",c:"Germany",f:"🇩🇪",p:"Midfielder",b:1984,cl:["Bayern Munich","Manchester United","Chicago Fire"]},
+{n:"Philipp Lahm",c:"Germany",f:"🇩🇪",p:"Defender",b:1983,cl:["Bayern Munich"]},
+{n:"Ederson",c:"Brazil",f:"🇧🇷",p:"Goalkeeper",b:1993,cl:["Rio Ave","Benfica","Manchester City","Fenerbahce"]},
+{n:"Alisson",c:"Brazil",f:"🇧🇷",p:"Goalkeeper",b:1992,cl:["Internacional","Roma","Liverpool"]}
+];
+
+/* ============ HELPERS ============ */
+const $=id=>document.getElementById(id);
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,'');
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+/* safe storage: works when hosted; falls back to memory in restricted previews */
+const mem={};
+const store={
+  get(k){try{const v=localStorage.getItem(k);return v===null?(k in mem?mem[k]:null):v}catch(e){return k in mem?mem[k]:null}},
+  set(k,v){mem[k]=String(v);try{localStorage.setItem(k,v)}catch(e){}}
+};
+
+/* ============ GAME STATE ============ */
+const EPOCH=Date.UTC(2026,6,1); // Jul 1 2026 = puzzle #1 baseline
+const MAX_GUESSES=6;
+let mode='daily';           // 'daily' | 'practice'
+let answer=null, clues=[], revealed=0, guesses=[], over=false, puzzleNum=0;
+
+function dailyIndex(){
+  const days=Math.floor((Date.now()-EPOCH)/86400000);
+  puzzleNum=days+1;
+  const rng=mulberry32(days*7919+42);
+  return Math.floor(rng()*PLAYERS.length);
+}
+function buildClues(p){
+  const list=[{k:'Position',v:p.p},{k:'Club 1',v:p.cl[0]}];
+  for(let i=1;i<p.cl.length;i++)list.push({k:'Club '+(i+1),v:p.cl[i]});
+  list.push({k:'Nation',v:p.f+' '+p.c});
+  list.push({k:'Born',v:String(p.b)});
+  list.push({k:'Initial',v:'Name starts with "'+p.n[0]+'"'});
+  return list;
+}
+function startGame(practice){
+  mode=practice?'practice':'daily';
+  if(practice){
+    const i=Math.floor(Math.random()*PLAYERS.length);
+    answer=PLAYERS[i];
+  }else{
+    answer=PLAYERS[dailyIndex()];
+  }
+  clues=buildClues(answer);
+  revealed=2; guesses=[]; over=false;
+  if(mode==='daily'){
+    const done=store.get('done-'+puzzleNum);
+    if(done!==null){ // already played today: show final state
+      over=true; revealed=clues.length;
+      showResult(done==='1',parseInt(store.get('tries-'+puzzleNum)||String(MAX_GUESSES),10),true);
+    }
+  }
+  $('modeTag').textContent=mode==='practice'?'🎲 PRACTICE':'DAILY';
+  $('puzzleNo').textContent=mode==='practice'?'∞':('#'+puzzleNum);
+  $('streakTop').textContent=store.get('streak')||'0';
+  renderAll();
+}
+function renderAll(){
+  const c=$('clues');c.innerHTML='';
+  clues.forEach((cl,i)=>{
+    const d=document.createElement('div');
+    d.className='clue'+(i<revealed?'':' locked');
+    d.innerHTML='<div class="k">'+(i<revealed?cl.k:'Clue '+(i+1))+'</div><div class="v">'+(i<revealed?cl.v:'🔒 Locked — guess to reveal')+'</div>';
+    c.appendChild(d);
+  });
+  const g=$('guessRows');g.innerHTML='';
+  guesses.forEach((gu,i)=>{
+    const d=document.createElement('div');
+    d.className='guess-row '+(gu.ok?'right':'wrong');
+    d.innerHTML='<span><span class="num">'+(i+1)+'/'+MAX_GUESSES+'</span>'+gu.name+'</span><span>'+(gu.ok?'✅':'❌')+'</span>';
+    g.appendChild(d);
+  });
+}
+function makeGuess(name){
+  if(over)return;
+  const pl=PLAYERS.find(p=>norm(p.n)===norm(name));
+  if(!pl){flashInput();return}
+  if(guesses.some(g=>norm(g.name)===norm(pl.n)))return;
+  const ok=norm(pl.n)===norm(answer.n);
+  guesses.push({name:pl.n,ok});
+  $('guessInput').value='';hideSug();
+  if(ok){finish(true)}
+  else{
+    revealed=Math.min(revealed+1,clues.length);
+    if(guesses.length>=MAX_GUESSES)finish(false);
+  }
+  renderAll();
+}
+function finish(win){
+  over=true;revealed=clues.length;renderAll();
+  if(mode==='daily'){
+    store.set('done-'+puzzleNum,win?'1':'0');
+    store.set('tries-'+puzzleNum,String(guesses.length));
+    const played=(parseInt(store.get('played')||'0',10))+1;
+    const wins=(parseInt(store.get('wins')||'0',10))+(win?1:0);
+    let streak=parseInt(store.get('streak')||'0',10);
+    const last=parseInt(store.get('lastWin')||'-99',10);
+    streak=win?((last===puzzleNum-1)?streak+1:1):0;
+    if(win)store.set('lastWin',String(puzzleNum));
+    const best=Math.max(streak,parseInt(store.get('best')||'0',10));
+    store.set('played',String(played));store.set('wins',String(wins));
+    store.set('streak',String(streak));store.set('best',String(best));
+    $('streakTop').textContent=String(streak);
+  }
+  showResult(win,guesses.length,false);
+}
+function gridFor(win,tries){
+  let s='';
+  for(let i=0;i<tries;i++)s+=(i===tries-1&&win)?'🟩':'🟥';
+  if(!win)for(let i=tries;i<MAX_GUESSES;i++)s+='⬛';
+  return s;
+}
+function shareText(win,tries){
+  const label=mode==='practice'?'(practice)':'#'+puzzleNum;
+  return 'Footy Guess '+label+' ⚽ '+(win?tries+'/'+MAX_GUESSES:'X/'+MAX_GUESSES)+'\n'+gridFor(win,tries)+'\nCan you beat me? '+SITE_URL;
+}
+const SITE_URL='https://footyguess.app'; // TODO: replace with your live URL after publishing
+function showResult(win,tries,resumed){
+  $('resEmoji').textContent=win?(tries<=2?'🏆':'🎉'):'😤';
+  $('resName').textContent=answer.n;
+  $('resSub').textContent=answer.f+' '+answer.c+' · '+answer.p+' · b. '+answer.b+(win?' — got it in '+tries+'!':' — better luck tomorrow!');
+  $('resGrid').textContent=gridFor(win,tries);
+  openModal('resultModal');
+}
+/* ============ INPUT / AUTOCOMPLETE ============ */
+function flashInput(){const i=$('guessInput');i.style.borderColor='var(--danger)';setTimeout(()=>i.style.borderColor='',400)}
+function hideSug(){$('suggestions').style.display='none'}
+let hlIdx=-1,curSug=[];
+$('guessInput').addEventListener('input',e=>{
+  const q=norm(e.target.value);hlIdx=-1;
+  if(q.length<2){hideSug();return}
+  curSug=PLAYERS.filter(p=>norm(p.n).includes(q)).slice(0,7);
+  const box=$('suggestions');box.innerHTML='';
+  if(!curSug.length){hideSug();return}
+  curSug.forEach(p=>{
+    const d=document.createElement('div');d.textContent=p.f+' '+p.n;
+    d.addEventListener('click',()=>{$('guessInput').value=p.n;hideSug();makeGuess(p.n)});
+    box.appendChild(d);
+  });
+  box.style.display='block';
+});
+$('guessInput').addEventListener('keydown',e=>{
+  const box=$('suggestions'),items=box.querySelectorAll('div');
+  if(e.key==='ArrowDown'){e.preventDefault();hlIdx=Math.min(hlIdx+1,items.length-1)}
+  else if(e.key==='ArrowUp'){e.preventDefault();hlIdx=Math.max(hlIdx-1,0)}
+  else if(e.key==='Enter'){
+    e.preventDefault();
+    if(hlIdx>=0&&curSug[hlIdx]){makeGuess(curSug[hlIdx].n)}
+    else makeGuess($('guessInput').value);
+    return;
+  }else return;
+  items.forEach((it,i)=>it.classList.toggle('hl',i===hlIdx));
+});
+document.addEventListener('click',e=>{if(!$('inputWrap').contains(e.target))hideSug()});
+$('guessBtn').addEventListener('click',()=>makeGuess($('guessInput').value));
+$('giveUpBtn').addEventListener('click',()=>{if(!over)finish(false)});
+$('practiceBtn').addEventListener('click',()=>startGame(true));
+$('againBtn').addEventListener('click',()=>{closeModal('resultModal');startGame(true)});
+/* ============ MODALS / SHARE / STATS ============ */
+function openModal(id){$(id).classList.add('open')}
+function closeModal(id){$(id).classList.remove('open')}
+document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));
+$('helpBtn').addEventListener('click',()=>openModal('helpModal'));
+$('statsBtn').addEventListener('click',()=>{
+  $('stPlayed').textContent=store.get('played')||'0';
+  $('stWins').textContent=store.get('wins')||'0';
+  $('stStreak').textContent=store.get('streak')||'0';
+  $('stBest').textContent=store.get('best')||'0';
+  openModal('statsModal');
+});
+function lastResult(){const w=guesses.length&&guesses[guesses.length-1].ok;return{w,t:guesses.length}}
+$('shareWa').addEventListener('click',()=>{const r=lastResult();window.open('https://wa.me/?text='+encodeURIComponent(shareText(r.w,r.t)),'_blank')});
+$('shareX').addEventListener('click',()=>{const r=lastResult();window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText(r.w,r.t)),'_blank')});
+$('copyBtn').addEventListener('click',function(){
+  const r=lastResult(),t=shareText(r.w,r.t),btn=this;
+  function done(){btn.textContent='Copied! ✅';setTimeout(()=>btn.textContent='Copy result',1500)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done).catch(()=>fallback())}else fallback();
+  function fallback(){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done()}catch(e){}document.body.removeChild(ta)}
+});
+$('aboutLink').addEventListener('click',e=>{e.preventDefault();openModal('helpModal')});
+$('privacyLink').addEventListener('click',e=>{e.preventDefault();alert('FootyGuess stores game stats on your device only. No personal data is collected.')});
+/* ============ BOOT ============ */
+startGame(false);
+if(store.get('seenHelp')===null){openModal('helpModal');store.set('seenHelp','1')}
+</script>
+</body>
+</html>
