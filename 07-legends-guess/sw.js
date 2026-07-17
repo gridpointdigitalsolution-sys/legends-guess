@@ -1,8 +1,9 @@
 /* Legends Guess service worker — offline-first for the shell */
-const CACHE = 'legends-guess-v1';
+const CACHE = 'legends-guess-v2';
 const ASSETS = [
   './',
   './index.html',
+  './legends.html',
   './about.html',
   './privacy.html',
   './contact.html',
