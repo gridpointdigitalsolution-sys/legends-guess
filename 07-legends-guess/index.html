@@ -406,6 +406,21 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 .clue.fresh .ci{background:linear-gradient(140deg,color-mix(in srgb,var(--gold) 40%,var(--card)),var(--card));border-color:color-mix(in srgb,var(--gold) 55%,transparent)}
 @keyframes freshGlow{0%,100%{box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 35%,transparent),0 8px 22px -12px color-mix(in srgb,var(--gold) 40%,transparent)}
   50%{box-shadow:0 0 0 1px color-mix(in srgb,var(--gold) 70%,transparent),0 12px 36px -8px color-mix(in srgb,var(--gold) 75%,transparent)}}
+/* bolder hero */
+.hero-tag{font-size:1.62rem}
+@media(min-width:980px){.hero-tag{font-size:2.15rem}}
+/* help button nudge for first-time visitors (replaces blocking popup) */
+.ico.nudge{animation:iconNudge 1s ease-in-out infinite;box-shadow:0 0 0 0 color-mix(in srgb,var(--gold) 60%,transparent)}
+@keyframes iconNudge{0%,100%{transform:translateY(0);box-shadow:0 0 0 0 color-mix(in srgb,var(--gold) 55%,transparent)}
+  50%{transform:translateY(-2px);box-shadow:0 0 0 7px color-mix(in srgb,var(--gold) 0%,transparent)}}
+/* drifting balls behind hero (mobile-visible motion, no mouse) */
+.balls{position:absolute;inset:-8px 0 auto;height:120px;overflow:hidden;pointer-events:none;z-index:-1}
+.balls span{position:absolute;top:-30px;font-size:1.5rem;opacity:.22;filter:drop-shadow(0 3px 6px rgba(0,0,0,.4));animation:ballDrift linear infinite}
+.balls span:nth-child(1){left:8%;animation-duration:13s;animation-delay:0s}
+.balls span:nth-child(2){left:44%;animation-duration:17s;animation-delay:-5s;font-size:1.9rem}
+.balls span:nth-child(3){left:74%;animation-duration:11s;animation-delay:-8s}
+.balls span:nth-child(4){left:90%;animation-duration:15s;animation-delay:-2s;font-size:1.2rem}
+@keyframes ballDrift{0%{transform:translateY(0) rotate(0)}100%{transform:translateY(150px) rotate(340deg)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -424,6 +439,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 
 <main>
   <section class="hero" aria-label="Featured legends">
+    <div class="balls" aria-hidden="true"><span>⚽</span><span>🏀</span><span>⚽</span><span>🏀</span></div>
     <div class="hero-tag">Guess the legend. <span>Watch them play.</span></div>
     <div class="hero-sub" id="heroSub">Loading the hall of legends…</div>
     <div class="marquee" id="marquee">
@@ -1751,7 +1767,7 @@ function winFlash(){const wf=$('winFlash');if(!wf)return;wf.classList.remove('go
 buildMarquee();
 start(false);
 updateFlame();
-if(store.get('seenWelcome')===null){openM('welcome');store.set('seenWelcome','1')}
+if(store.get('seenWelcome')===null){store.set('seenWelcome','1');const hb=$('helpBtn');if(hb){hb.classList.add('nudge');setTimeout(()=>hb&&hb.classList.remove('nudge'),5200)}}
 </script>
 
 <!-- Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID from analytics.google.com. Loads only if set + cookies not declined. -->
