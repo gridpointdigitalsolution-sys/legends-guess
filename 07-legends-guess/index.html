@@ -356,6 +356,34 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 /* countdown */
 .nextp{display:none;text-align:center;color:var(--muted);font-size:.86rem;margin:4px 0 12px}
 .nextp b{color:var(--gold);font-family:var(--disp);letter-spacing:.02em}
+/* ===== WOW LAYER ===== */
+/* cursor glow (desktop only) */
+#cursorGlow{position:fixed;width:340px;height:340px;border-radius:50%;pointer-events:none;z-index:0;left:-999px;top:-999px;
+  background:radial-gradient(circle,color-mix(in srgb,var(--accent) 26%,transparent),transparent 62%);
+  transform:translate(-50%,-50%);opacity:0;transition:opacity .35s;mix-blend-mode:screen;will-change:left,top}
+@media(hover:none),(pointer:coarse){#cursorGlow{display:none}}
+/* 3D tilt */
+.tilt{transition:transform .14s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+/* animated hero */
+.hero{position:relative}
+.hero::before{content:"";position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:min(90%,460px);height:180px;
+  background:radial-gradient(ellipse,color-mix(in srgb,var(--accent) 20%,transparent),transparent 70%);filter:blur(14px);z-index:-1;pointer-events:none;animation:heroPulse 4.5s ease-in-out infinite}
+@keyframes heroPulse{0%,100%{opacity:.45}50%{opacity:.9}}
+.hero-tag span{background:linear-gradient(90deg,var(--ftbl),var(--gold),var(--bball),var(--ftbl));background-size:300% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:heroSweep 7s linear infinite}
+@keyframes heroSweep{to{background-position:300% 0}}
+/* win flash */
+#winFlash{position:fixed;inset:0;pointer-events:none;z-index:190;opacity:0;
+  background:radial-gradient(circle at 50% 42%,color-mix(in srgb,var(--accent) 28%,transparent),transparent 58%)}
+#winFlash.go{animation:winFlash .7s ease-out}
+@keyframes winFlash{0%{opacity:.85}100%{opacity:0}}
+/* result screen wow */
+.remoji{font-size:3.3rem;position:relative;display:inline-block;left:50%;transform:translateX(-50%)}
+.remoji::after{content:"";position:absolute;inset:-14px;border-radius:50%;z-index:-1;
+  background:radial-gradient(circle,color-mix(in srgb,var(--gold) 42%,transparent),transparent 68%);animation:heroPulse 2.4s ease-in-out infinite}
+.rgrid{animation:gridPop .5s cubic-bezier(.2,1.5,.4,1) both;animation-delay:.15s}
+@keyframes gridPop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+/* button ripple sheen already exists; add press glow */
+.btn-p:active,.btn-gold:active{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 30%,transparent)}
 /* a11y focus */
 :focus-visible{outline:3px solid color-mix(in srgb,var(--gold) 75%,transparent);outline-offset:2px;border-radius:8px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -516,6 +544,8 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
   <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="legends.html">All legends</a>
 </footer>
 
+<div id="cursorGlow" aria-hidden="true"></div>
+<div id="winFlash" aria-hidden="true"></div>
 <div id="fx" aria-hidden="true"></div>
 <canvas id="confetti"></canvas>
 
@@ -1428,7 +1458,7 @@ function renderAll(){
   const c=$('clues');c.innerHTML='';
   clues.forEach((cl,i)=>{
     const d=document.createElement('div');
-    d.className='clue'+(i<revealed?'':' locked');
+    d.className='clue tilt'+(i<revealed?'':' locked');
     d.innerHTML='<div class="k">'+(i<revealed?cl.k:'Clue '+(i+1))+'</div><div class="v">'+(i<revealed?cl.v:'🔒 Guess to reveal')+'</div>';
     c.appendChild(d);
   });
@@ -1650,7 +1680,7 @@ markDiff();
 const _finish=finish;
 finish=function(win){_finish(win);
   if(win&&mode==='daily'){const K=SK(),n=guesses.length;store.set('dist-'+K+'-'+n,(+(store.get('dist-'+K+'-'+n)||0))+1)}
-  if(win){confetti();sfxWin();haptic([30,40,70])}else{sfxLose();haptic(120)}updateFlame()};
+  if(win){winFlash();confetti();sfxWin();haptic([30,40,70])}else{sfxLose();haptic(120)}updateFlame()};
 const _makeGuess=makeGuess;
 makeGuess=function(name){const b=guesses.length;_makeGuess(name);
   if(guesses.length>b&&!over){const l=guesses[guesses.length-1];l.ok?sfxRight():sfxWrong();haptic(l.ok?40:18)}};
@@ -1675,13 +1705,27 @@ function buildMarquee(){
   const feat=['Lionel Messi','Cristiano Ronaldo','Pele','Diego Maradona','Ronaldinho','Zinedine Zidane','Michael Jordan','LeBron James','Kobe Bryant','Kylian Mbappe','Marta','Stephen Curry','Ronaldo Nazario','Johan Cruyff','Giannis Antetokounmpo','Thierry Henry','Magic Johnson','George Weah','Mia Hamm','Neymar','Kareem Abdul-Jabbar',"Samuel Eto'o",'Luka Doncic','Megan Rapinoe','Zlatan Ibrahimovic','Larry Bird','Sadio Mane',"A'ja Wilson",'Andrea Pirlo','Hakeem Olajuwon','Roberto Carlos','Tim Duncan','Didier Drogba','Kevin Durant','Ferenc Puskas','Wilt Chamberlain'];
   const by={};DATA.forEach(p=>by[p.n]=p);
   const list=feat.map(n=>by[n]).filter(Boolean);
-  const card=p=>'<div class="mcard"><span class="mfl">'+p.f+'</span><div><div class="mn">'+p.n+'</div><div class="ms">'+p.s+' '+p.c+' · '+p.b+'s</div></div></div>';
+  const card=p=>'<div class="mcard tilt"><span class="mfl">'+p.f+'</span><div><div class="mn">'+p.n+'</div><div class="ms">'+p.s+' '+p.c+' · '+p.b+'s</div></div></div>';
   const half=Math.ceil(list.length/2);
   const a=list.slice(0,half).map(card).join(''),b=list.slice(half).map(card).join('');
   if($('mrow1'))$('mrow1').innerHTML=a+a;if($('mrow2'))$('mrow2').innerHTML=b+b;
   if($('heroSub'))$('heroSub').innerHTML='<b>'+DATA.length+'</b> legends · ⚽ football + 🏀 basketball · new puzzle every day';
   if($('marquee'))$('marquee').addEventListener('click',()=>{location.href='legends.html'});
 }
+/* --- WOW: cursor glow + 3D tilt --- */
+(function(){
+  if(!(window.matchMedia&&window.matchMedia('(pointer:fine)').matches))return;
+  const cg=$('cursorGlow');
+  window.addEventListener('pointermove',e=>{
+    if(cg){cg.style.left=e.clientX+'px';cg.style.top=e.clientY+'px';cg.style.opacity='.55'}
+    const t=e.target&&e.target.closest?e.target.closest('.tilt'):null;
+    document.querySelectorAll('.tilt._t').forEach(el=>{if(el!==t){el.style.transform='';el.classList.remove('_t')}});
+    if(t){const r=t.getBoundingClientRect();const px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;
+      t.style.transform='perspective(720px) rotateX('+(-py*8).toFixed(2)+'deg) rotateY('+(px*10).toFixed(2)+'deg) translateY(-2px)';t.classList.add('_t')}
+  },{passive:true});
+  document.addEventListener('mouseleave',()=>{if(cg)cg.style.opacity='0'});
+})();
+function winFlash(){const wf=$('winFlash');if(!wf)return;wf.classList.remove('go');void wf.offsetWidth;wf.classList.add('go')}
 buildMarquee();
 start(false);
 updateFlame();
