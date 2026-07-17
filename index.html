@@ -314,6 +314,25 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 .seo .faq p{margin-top:9px}
 .seo-links{font-size:.82rem}
 @media(min-width:980px){.seo{max-width:1000px}}
+/* ===== HERO + legends carousel ===== */
+.hero{margin:2px 0 16px}
+.hero-tag{font-family:var(--disp);font-weight:800;font-size:1.3rem;text-align:center;margin:2px 0 4px;letter-spacing:-.02em;line-height:1.15}
+.hero-tag span{background:linear-gradient(90deg,var(--ftbl),var(--bball));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{text-align:center;color:var(--muted);font-size:.78rem;margin:0 0 12px;letter-spacing:.01em}
+.hero-sub b{color:var(--gold)}
+.marquee{position:relative;display:flex;flex-direction:column;gap:8px;overflow:hidden;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent)}
+.mrow{display:flex;gap:8px;width:max-content;animation:mscroll 46s linear infinite;will-change:transform}
+.mrow.rev{animation-direction:reverse;animation-duration:60s}
+.marquee:hover .mrow{animation-play-state:paused}
+@keyframes mscroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.mcard{flex:0 0 auto;display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,rgba(26,41,76,.72),rgba(19,32,60,.78));
+  border:1px solid var(--line);border-radius:13px;padding:9px 14px;backdrop-filter:blur(6px);cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s}
+.mcard:hover{transform:translateY(-3px) scale(1.02);border-color:var(--accent);box-shadow:0 12px 26px -12px rgba(0,0,0,.7)}
+.mcard .mfl{font-size:1.5rem;line-height:1;filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.mcard .mn{font-weight:800;font-size:.9rem;white-space:nowrap;letter-spacing:-.01em}
+.mcard .ms{font-size:.68rem;color:var(--muted);white-space:nowrap;margin-top:1px}
+@media(min-width:980px){.hero-tag{font-size:1.7rem}.mcard .mn{font-size:.95rem}}
 /* difficulty selector */
 .diff{display:flex;align-items:center;gap:6px;margin:-2px 0 12px;font-size:.8rem;flex-wrap:wrap}
 .diff .dl{color:var(--muted);font-weight:700;margin-right:2px}
@@ -356,6 +375,15 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 </header>
 
 <main>
+  <section class="hero" aria-label="Featured legends">
+    <div class="hero-tag">Guess the legend. <span>Watch them play.</span></div>
+    <div class="hero-sub" id="heroSub">Loading the hall of legends…</div>
+    <div class="marquee" id="marquee">
+      <div class="mrow" id="mrow1"></div>
+      <div class="mrow rev" id="mrow2"></div>
+    </div>
+  </section>
+
   <div class="ad-slot">AD SPACE — top banner (activate after AdSense approval)</div>
 
   <div class="sport">
@@ -1643,6 +1671,18 @@ if(store.get('cookieChoice')===null){setTimeout(()=>$('cookie').classList.add('s
 $('ckYes').addEventListener('click',()=>{store.set('cookieChoice','accept');$('cookie').classList.remove('show')});
 $('ckNo').addEventListener('click',()=>{store.set('cookieChoice','decline');$('cookie').classList.remove('show')});
 
+function buildMarquee(){
+  const feat=['Lionel Messi','Cristiano Ronaldo','Pele','Diego Maradona','Ronaldinho','Zinedine Zidane','Michael Jordan','LeBron James','Kobe Bryant','Kylian Mbappe','Marta','Stephen Curry','Ronaldo Nazario','Johan Cruyff','Giannis Antetokounmpo','Thierry Henry','Magic Johnson','George Weah','Mia Hamm','Neymar','Kareem Abdul-Jabbar',"Samuel Eto'o",'Luka Doncic','Megan Rapinoe','Zlatan Ibrahimovic','Larry Bird','Sadio Mane',"A'ja Wilson",'Andrea Pirlo','Hakeem Olajuwon','Roberto Carlos','Tim Duncan','Didier Drogba','Kevin Durant','Ferenc Puskas','Wilt Chamberlain'];
+  const by={};DATA.forEach(p=>by[p.n]=p);
+  const list=feat.map(n=>by[n]).filter(Boolean);
+  const card=p=>'<div class="mcard"><span class="mfl">'+p.f+'</span><div><div class="mn">'+p.n+'</div><div class="ms">'+p.s+' '+p.c+' · '+p.b+'s</div></div></div>';
+  const half=Math.ceil(list.length/2);
+  const a=list.slice(0,half).map(card).join(''),b=list.slice(half).map(card).join('');
+  if($('mrow1'))$('mrow1').innerHTML=a+a;if($('mrow2'))$('mrow2').innerHTML=b+b;
+  if($('heroSub'))$('heroSub').innerHTML='<b>'+DATA.length+'</b> legends · ⚽ football + 🏀 basketball · new puzzle every day';
+  if($('marquee'))$('marquee').addEventListener('click',()=>{location.href='legends.html'});
+}
+buildMarquee();
 start(false);
 updateFlame();
 if(store.get('seenWelcome')===null){openM('welcome');store.set('seenWelcome','1')}
