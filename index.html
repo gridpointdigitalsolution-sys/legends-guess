@@ -230,6 +230,44 @@ header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14)
 /* install pill */
 #installBtn{display:none}
 
+/* ===== LIFE: living background, particles, section motion ===== */
+body::before{transform:scale(1.18);animation:aurora 28s ease-in-out infinite;will-change:transform}
+@keyframes aurora{
+  0%{transform:scale(1.18) translate(-2%,-1%)}
+  50%{transform:scale(1.28) translate(2%,2%)}
+  100%{transform:scale(1.18) translate(-1%,1%)}}
+/* floating sport particles behind content */
+#fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+main{position:relative;z-index:1}
+.fxp{position:absolute;bottom:-48px;opacity:.08;animation:floatUp linear infinite;will-change:transform,opacity}
+@keyframes floatUp{
+  0%{transform:translateY(0) translateX(0) rotate(0);opacity:0}
+  12%{opacity:.10}88%{opacity:.10}
+  100%{transform:translateY(-112vh) translateX(var(--drift,0)) rotate(230deg);opacity:0}}
+/* header + section entrances on load */
+header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
+.sport{animation:enterUp .55s .05s both}
+.howstrip{animation:enterUp .55s .13s both}
+.stage{animation:enterUp .55s .22s both}
+@keyframes enterUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes enterDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
+/* logo life */
+.logo{transition:transform .2s}
+.logo:hover{transform:scale(1.04)}
+.logo b{animation:glow 3.4s ease-in-out infinite}
+@keyframes glow{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 15px color-mix(in srgb,var(--accent) 60%,transparent)}}
+/* sport toggle pop on switch */
+.sport button.on{animation:tpop .32s cubic-bezier(.2,1.4,.4,1)}
+@keyframes tpop{0%{transform:scale(.9)}60%{transform:scale(1.07) translateY(-1px)}100%{transform:scale(1) translateY(-1px)}}
+/* clue hover + wrong-guess shake */
+.clue{transition:transform .18s,border-left-width .18s,box-shadow .18s}
+.clue:hover{transform:translateX(4px);border-left-width:5px;box-shadow:0 10px 26px -12px rgba(0,0,0,.8)}
+#gi.shake{animation:shake .42s}
+@keyframes shake{0%,100%{transform:translateX(0)}18%{transform:translateX(-8px)}36%{transform:translateX(7px)}54%{transform:translateX(-5px)}72%{transform:translateX(3px)}}
+/* tiles: gentle idle breathing on hidden ones */
+#nameTiles .tile:not(.shown){animation:tbreath 3.6s ease-in-out infinite}
+@keyframes tbreath{0%,100%{border-color:var(--line)}50%{border-color:#33456e}}
+
 /* ===== desktop / wide-screen layout ===== */
 .stage{display:block}
 .panel{display:flex;flex-direction:column}
@@ -380,6 +418,7 @@ header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14)
   <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a>
 </footer>
 
+<div id="fx" aria-hidden="true"></div>
 <canvas id="confetti"></canvas>
 
 <div id="cookie" role="dialog" aria-label="Cookie notice">
@@ -1086,7 +1125,21 @@ function showResult(win,tries){
     '<a class="wbtn w-ig" target="_blank" rel="noopener" href="'+igS(answer.n)+'">Instagram</a>';
   openM('resultModal');
 }
-function flash(){const i=$('gi');i.style.borderColor='var(--red)';setTimeout(()=>i.style.borderColor='',400)}
+function flash(){const i=$('gi');i.style.borderColor='var(--red)';i.classList.remove('shake');void i.offsetWidth;i.classList.add('shake');setTimeout(()=>{i.style.borderColor='';i.classList.remove('shake')},420)}
+function buildFX(){
+  const fx=$('fx');if(!fx)return;fx.innerHTML='';
+  const emo=sport==='🏀'?'🏀':'⚽';
+  const N=(window.matchMedia&&window.matchMedia('(min-width:700px)').matches)?12:7;
+  for(let i=0;i<N;i++){
+    const s=document.createElement('span');s.className='fxp';s.textContent=emo;
+    s.style.left=(Math.random()*100)+'%';
+    s.style.fontSize=(14+Math.random()*26)+'px';
+    s.style.animationDuration=(15+Math.random()*16)+'s';
+    s.style.animationDelay=(-Math.random()*22)+'s';
+    s.style.setProperty('--drift',((Math.random()*44)-22)+'px');
+    fx.appendChild(s);
+  }
+}
 function hideSug(){$('sug').style.display='none'}
 let hl=-1,cur=[];
 $('gi').addEventListener('input',e=>{
@@ -1193,7 +1246,7 @@ finish=function(win){_finish(win);if(win){confetti();sfxWin();haptic([30,40,70])
 const _makeGuess=makeGuess;
 makeGuess=function(name){const b=guesses.length;_makeGuess(name);
   if(guesses.length>b&&!over){const l=guesses[guesses.length-1];l.ok?sfxRight():sfxWrong();haptic(l.ok?40:18)}};
-const _start=start;start=function(e){_start(e);updateFlame()};
+const _start=start;start=function(e){_start(e);updateFlame();buildFX()};
 $('saveImgBtn').addEventListener('click',()=>{if(!shareURL)return;const a=document.createElement('a');a.href=shareURL;
   a.download='legends-guess-'+(isFsafe())+'-'+(mode==='endless'?'endless':pNum)+'.png';document.body.appendChild(a);a.click();a.remove()});
 function isFsafe(){return sport==='⚽'?'football':'basketball'}
