@@ -314,6 +314,28 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 .seo .faq p{margin-top:9px}
 .seo-links{font-size:.82rem}
 @media(min-width:980px){.seo{max-width:1000px}}
+/* difficulty selector */
+.diff{display:flex;align-items:center;gap:6px;margin:-2px 0 12px;font-size:.8rem;flex-wrap:wrap}
+.diff .dl{color:var(--muted);font-weight:700;margin-right:2px}
+.diff button{padding:7px 15px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:.8rem;transition:all .15s}
+.diff button.on{background:var(--accent);color:#06210f;border-color:transparent;box-shadow:0 4px 14px -6px color-mix(in srgb,var(--accent) 70%,transparent)}
+.diff button:hover{color:var(--text);transform:translateY(-1px)}.diff button.on:hover{color:#06210f}
+/* warmer hint chips */
+.growtop{display:flex;justify-content:space-between;align-items:center}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.chip{font-size:.66rem;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.02em}
+.chip.y{background:rgba(34,197,94,.18);color:#7ee2a3;border:1px solid rgba(34,197,94,.35)}
+.chip.n{background:rgba(239,68,68,.10);color:#f0a8bc;border:1px solid rgba(239,68,68,.26)}
+/* guess distribution */
+.disth{font-family:var(--disp);font-size:.98rem;margin:16px 0 9px;color:var(--text)}
+.dist{display:flex;flex-direction:column;gap:5px}
+.drow{display:flex;align-items:center;gap:9px}
+.drow .dn{width:14px;color:var(--muted);font-weight:800;font-size:.82rem}
+.dbar{background:#2a3b5f;color:#eef3ff;font-weight:800;font-size:.78rem;padding:3px 9px;border-radius:5px;text-align:right;min-width:26px;transition:width .5s ease}
+.dbar.hl{background:linear-gradient(90deg,var(--accent-d),var(--accent))}
+/* countdown */
+.nextp{display:none;text-align:center;color:var(--muted);font-size:.86rem;margin:4px 0 12px}
+.nextp b{color:var(--gold);font-family:var(--disp);letter-spacing:.02em}
 /* a11y focus */
 :focus-visible{outline:3px solid color-mix(in srgb,var(--gold) 75%,transparent);outline-offset:2px;border-radius:8px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -338,6 +360,13 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
   <div class="sport">
     <button id="ftBtn" class="on ft" data-s="⚽">⚽ Football</button>
     <button id="bbBtn" data-s="🏀">🏀 Basketball</button>
+  </div>
+
+  <div class="diff" id="diffSel">
+    <span class="dl">Difficulty</span>
+    <button data-d="easy">Easy</button>
+    <button data-d="normal">Normal</button>
+    <button data-d="hard">Hard</button>
   </div>
 
   <div class="howstrip">
@@ -404,11 +433,13 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
   <h2>Your stats 📊</h2>
   <div class="stats">
     <div class="stat"><div class="n" id="stPlayed">0</div><div class="l">Played</div></div>
-    <div class="stat"><div class="n" id="stWins">0</div><div class="l">Wins</div></div>
+    <div class="stat"><div class="n" id="stWinPct">0%</div><div class="l">Win %</div></div>
     <div class="stat"><div class="n" id="stStreak">0</div><div class="l">Streak</div></div>
     <div class="stat"><div class="n" id="stBest">0</div><div class="l">Best</div></div>
   </div>
-  <p style="font-size:.78rem">Stats save on this device when your browser allows it.</p>
+  <h3 class="disth">Guess distribution</h3>
+  <div id="guessDist" class="dist"></div>
+  <p style="font-size:.78rem;margin-top:10px">Stats save on this device (per sport) when your browser allows it.</p>
 </div></div>
 
 <!-- result + watch -->
@@ -418,6 +449,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
   <div class="rname" id="rName">—</div>
   <div class="rsub" id="rSub">—</div>
   <div class="rgrid" id="rGrid">—</div>
+  <div id="nextPuzzle" class="nextp"></div>
   <div id="shareImgWrap"><img id="shareImg" alt="Your Legends Guess result card"></div>
   <div class="watch-h">🎬 Watch <span id="watchName">them</span> play</div>
   <div class="watch-sub">Tap to see their best highlights (opens the original creators)</div>
@@ -1219,7 +1251,63 @@ const DATA=[
 {s:"🏀",n:"Katie Smith",f:"🇺🇸",c:"USA",p:"Guard",b:1999,cl:["Minnesota Lynx","Detroit Shock","Seattle Storm"],q:"Katie Smith WNBA highlights"},
 {s:"🏀",n:"Skylar Diggins",f:"🇺🇸",c:"USA",p:"Point Guard",b:2013,cl:["Tulsa Shock","Dallas Wings","Phoenix Mercury","Seattle Storm"],q:"Skylar Diggins WNBA highlights"},
 {s:"🏀",n:"Jewell Loyd",f:"🇺🇸",c:"USA",p:"Guard",b:2015,cl:["Seattle Storm","Las Vegas Aces"],q:"Jewell Loyd WNBA highlights"},
-{s:"🏀",n:"Arike Ogunbowale",f:"🇺🇸",c:"USA",p:"Guard",b:2019,cl:["Dallas Wings"],q:"Arike Ogunbowale WNBA highlights"}
+{s:"🏀",n:"Arike Ogunbowale",f:"🇺🇸",c:"USA",p:"Guard",b:2019,cl:["Dallas Wings"],q:"Arike Ogunbowale WNBA highlights"},
+/* ===== WAVE 11 — FOOTBALL: Paraguay/Bolivia/Peru/Honduras, Africa, Asia/UAE/Thailand, E.Europe, women, historic ===== */
+{s:"⚽",n:"Roque Santa Cruz",f:"🇵🇾",c:"Paraguay",p:"Forward",b:1997,cl:["Olimpia","Bayern Munich","Blackburn Rovers","Manchester City","Real Betis","Malaga"],q:"Roque Santa Cruz best goals skills"},
+{s:"⚽",n:"Obafemi Martins",f:"🇳🇬",c:"Nigeria",p:"Forward",b:2002,cl:["Inter Milan","Newcastle United","VfL Wolfsburg","Rubin Kazan","Seattle Sounders"],q:"Obafemi Martins goals pace skills"},
+{s:"⚽",n:"Salif Keita",f:"🇲🇱",c:"Mali",p:"Forward",b:1967,cl:["Saint-Etienne","Marseille","Valencia","Sporting CP"],q:"Salif Keita Mali Black Panther goals"},
+{s:"⚽",n:"Marek Hamsik",f:"🇸🇰",c:"Slovakia",p:"Midfielder",b:2004,cl:["Slovan Bratislava","Brescia","Napoli","Dalian Professional","Trabzonspor"],q:"Marek Hamsik Napoli goals skills"},
+{s:"⚽",n:"Juan Cuadrado",f:"🇨🇴",c:"Colombia",p:"Midfielder",b:2008,cl:["Independiente Medellin","Udinese","Fiorentina","Chelsea","Juventus","Inter Milan"],q:"Juan Cuadrado dribbling assists skills"},
+{s:"⚽",n:"David Suazo",f:"🇭🇳",c:"Honduras",p:"Forward",b:1997,cl:["Olimpia","Cagliari","Inter Milan","Genoa"],q:"David Suazo Cagliari goals pace"},
+{s:"⚽",n:"Emil Kostadinov",f:"🇧🇬",c:"Bulgaria",p:"Forward",b:1985,cl:["CSKA Sofia","Porto","Deportivo La Coruna","Bayern Munich","Fenerbahce"],q:"Emil Kostadinov goals Bulgaria 1994"},
+{s:"⚽",n:"Alen Boksic",f:"🇭🇷",c:"Croatia",p:"Forward",b:1987,cl:["Hajduk Split","Cannes","Marseille","Lazio","Juventus","Middlesbrough"],q:"Alen Boksic Lazio goals skills"},
+{s:"⚽",n:"Yacine Brahimi",f:"🇩🇿",c:"Algeria",p:"Midfielder",b:2009,cl:["Rennes","Granada","Porto","Al-Rayyan"],q:"Yacine Brahimi Porto dribbling skills goals"},
+{s:"⚽",n:"Medhi Benatia",f:"🇲🇦",c:"Morocco",p:"Defender",b:2006,cl:["Marseille","Udinese","Roma","Bayern Munich","Juventus"],q:"Medhi Benatia defending tackles Morocco"},
+{s:"⚽",n:"Naby Keita",f:"🇬🇳",c:"Guinea",p:"Midfielder",b:2013,cl:["Istres","RB Salzburg","RB Leipzig","Liverpool","Werder Bremen"],q:"Naby Keita RB Leipzig goals skills"},
+{s:"⚽",n:"Bertrand Traore",f:"🇧🇫",c:"Burkina Faso",p:"Forward",b:2013,cl:["Chelsea","Ajax","Lyon","Aston Villa","Villarreal"],q:"Bertrand Traore Lyon goals skills"},
+{s:"⚽",n:"Andres Guardado",f:"🇲🇽",c:"Mexico",p:"Midfielder",b:2005,cl:["Atlas","Deportivo La Coruna","Valencia","PSV Eindhoven","Real Betis"],q:"Andres Guardado Mexico assists skills"},
+{s:"⚽",n:"Bryan Ruiz",f:"🇨🇷",c:"Costa Rica",p:"Forward",b:2003,cl:["Alajuelense","Gent","FC Twente","Fulham","Sporting CP"],q:"Bryan Ruiz Twente goals skills"},
+{s:"⚽",n:"Saki Kumagai",f:"🇯🇵",c:"Japan",p:"Defender",b:2009,cl:["Urawa Reds","FFC Frankfurt","Lyon","Bayern Munich","Roma"],q:"Saki Kumagai Japan defending highlights"},
+{s:"⚽",n:"Dzsenifer Marozsan",f:"🇩🇪",c:"Germany",p:"Midfielder",b:2007,cl:["FC Saarbrucken","FFC Frankfurt","Lyon"],q:"Dzsenifer Marozsan Lyon goals skills"},
+{s:"⚽",n:"Lotta Schelin",f:"🇸🇪",c:"Sweden",p:"Forward",b:2001,cl:["Goteborg FC","Lyon","Rosengard"],q:"Lotta Schelin Sweden goals highlights"},
+{s:"⚽",n:"Paolo Guerrero",f:"🇵🇪",c:"Peru",p:"Forward",b:2004,cl:["Bayern Munich","Hamburger SV","Corinthians","Flamengo"],q:"Paolo Guerrero Peru goals skills"},
+{s:"⚽",n:"Younis Mahmoud",f:"🇮🇶",c:"Iraq",p:"Forward",b:2001,cl:["Al-Talaba","Al-Khor","Al-Gharafa","Al-Wakrah"],q:"Younis Mahmoud Iraq 2007 goals"},
+{s:"⚽",n:"Marco Etcheverry",f:"🇧🇴",c:"Bolivia",p:"Midfielder",b:1988,cl:["Bolivar","Albacete","Colo-Colo","DC United"],q:"Marco Etcheverry El Diablo DC United skills"},
+{s:"⚽",n:"Javier Saviola",f:"🇦🇷",c:"Argentina",p:"Forward",b:1998,cl:["River Plate","Barcelona","Monaco","Sevilla","Real Madrid","Benfica"],q:"Javier Saviola Barcelona goals skills"},
+{s:"⚽",n:"Omar Abdulrahman",f:"🇦🇪",c:"UAE",p:"Midfielder",b:2008,cl:["Al-Ain","Al-Hilal","Al-Jazira"],q:"Omar Abdulrahman Amoory skills assists"},
+{s:"⚽",n:"Yasser Al-Qahtani",f:"🇸🇦",c:"Saudi Arabia",p:"Forward",b:2002,cl:["Al-Qadsiah","Al-Hilal"],q:"Yasser Al-Qahtani Al-Hilal goals"},
+{s:"⚽",n:"Park Chu-young",f:"🇰🇷",c:"South Korea",p:"Forward",b:2005,cl:["FC Seoul","Monaco","Arsenal","Al-Shabab"],q:"Park Chu-young Monaco goals free kicks"},
+{s:"⚽",n:"Sami Al-Jaber",f:"🇸🇦",c:"Saudi Arabia",p:"Forward",b:1989,cl:["Al-Hilal","Wolverhampton Wanderers"],q:"Sami Al-Jaber Al-Hilal goals Saudi"},
+{s:"⚽",n:"Chanathip Songkrasin",f:"🇹🇭",c:"Thailand",p:"Midfielder",b:2012,cl:["BEC Tero Sasana","Muangthong United","Consadole Sapporo","Kawasaki Frontale","BG Pathum United"],q:"Chanathip Songkrasin Thailand skills goals"},
+{s:"⚽",n:"Fan Zhiyi",f:"🇨🇳",c:"China",p:"Defender",b:1994,cl:["Shanghai Shenhua","Crystal Palace","Dundee"],q:"Fan Zhiyi China Crystal Palace highlights"},
+{s:"⚽",n:"Just Fontaine",f:"🇫🇷",c:"France",p:"Forward",b:1950,cl:["USM Casablanca","Nice","Stade de Reims"],q:"Just Fontaine 1958 World Cup 13 goals"},
+{s:"⚽",n:"Sandor Kocsis",f:"🇭🇺",c:"Hungary",p:"Forward",b:1946,cl:["Ferencvaros","Honved","Young Fellows Zurich","Barcelona"],q:"Sandor Kocsis Hungary golden team goals"},
+{s:"⚽",n:"Kazimierz Deyna",f:"🇵🇱",c:"Poland",p:"Midfielder",b:1966,cl:["Legia Warsaw","Manchester City","San Diego Sockers"],q:"Kazimierz Deyna Poland 1974 goals skills"},
+{s:"⚽",n:"Dragan Dzajic",f:"🇷🇸",c:"Serbia",p:"Forward",b:1963,cl:["Red Star Belgrade","Bastia"],q:"Dragan Dzajic Red Star winger goals"},
+{s:"⚽",n:"Gunnar Nordahl",f:"🇸🇪",c:"Sweden",p:"Forward",b:1940,cl:["Degerfors","IFK Norrkoping","AC Milan","Roma"],q:"Gunnar Nordahl AC Milan goals"},
+{s:"⚽",n:"Thomas N'Kono",f:"🇨🇲",c:"Cameroon",p:"Goalkeeper",b:1973,cl:["Canon Yaounde","Espanyol","Sabadell"],q:"Thomas N'Kono Cameroon goalkeeper saves 1990"},
+{s:"⚽",n:"Wlodzimierz Lubanski",f:"🇵🇱",c:"Poland",p:"Forward",b:1963,cl:["Gornik Zabrze","Lokeren","Valenciennes"],q:"Wlodzimierz Lubanski Poland goals"},
+{s:"⚽",n:"Nils Liedholm",f:"🇸🇪",c:"Sweden",p:"Midfielder",b:1946,cl:["IFK Norrkoping","AC Milan"],q:"Nils Liedholm AC Milan Gre-No-Li skills"},
+{s:"⚽",n:"Milan Baros",f:"🇨🇿",c:"Czech Republic",p:"Forward",b:1999,cl:["Banik Ostrava","Liverpool","Aston Villa","Lyon","Galatasaray"],q:"Milan Baros Liverpool Euro 2004 goals"},
+{s:"⚽",n:"Karel Poborsky",f:"🇨🇿",c:"Czech Republic",p:"Midfielder",b:1991,cl:["Ceske Budejovice","Slavia Prague","Manchester United","Benfica","Lazio"],q:"Karel Poborsky Euro 96 chip goal skills"},
+{s:"⚽",n:"Dan Petrescu",f:"🇷🇴",c:"Romania",p:"Defender",b:1986,cl:["Steaua Bucharest","Foggia","Genoa","Sheffield Wednesday","Chelsea"],q:"Dan Petrescu Chelsea goals assists"},
+{s:"⚽",n:"Marius Lacatus",f:"🇷🇴",c:"Romania",p:"Forward",b:1981,cl:["Brasov","Steaua Bucharest","Fiorentina","Real Oviedo"],q:"Marius Lacatus Steaua goals Romania"},
+{s:"⚽",n:"Serhiy Rebrov",f:"🇺🇦",c:"Ukraine",p:"Forward",b:1992,cl:["Dynamo Kyiv","Tottenham Hotspur","Fenerbahce","West Ham United"],q:"Serhiy Rebrov Dynamo Kyiv goals skills"},
+{s:"⚽",n:"Anatoliy Tymoshchuk",f:"🇺🇦",c:"Ukraine",p:"Midfielder",b:1997,cl:["Shakhtar Donetsk","Zenit Saint Petersburg","Bayern Munich"],q:"Anatoliy Tymoshchuk Ukraine midfield highlights"},
+{s:"⚽",n:"Alexander Mostovoi",f:"🇷🇺",c:"Russia",p:"Midfielder",b:1989,cl:["Spartak Moscow","Benfica","Caen","Strasbourg","Celta Vigo"],q:"Alexander Mostovoi Celta Vigo goals skills"},
+{s:"⚽",n:"Nihat Kahveci",f:"🇹🇷",c:"Turkey",p:"Forward",b:1997,cl:["Besiktas","Real Sociedad","Villarreal"],q:"Nihat Kahveci Real Sociedad goals skills"},
+{s:"⚽",n:"Preben Elkjaer",f:"🇩🇰",c:"Denmark",p:"Forward",b:1976,cl:["Cologne","Lokeren","Hellas Verona"],q:"Preben Elkjaer Verona 1985 goals"},
+{s:"⚽",n:"Allan Simonsen",f:"🇩🇰",c:"Denmark",p:"Forward",b:1971,cl:["Vejle BK","Borussia Monchengladbach","Barcelona","Charlton Athletic"],q:"Allan Simonsen Ballon d'Or 1977 goals"},
+{s:"⚽",n:"Gylfi Sigurdsson",f:"🇮🇸",c:"Iceland",p:"Midfielder",b:2008,cl:["Reading","Hoffenheim","Swansea City","Tottenham Hotspur","Everton"],q:"Gylfi Sigurdsson free kicks goals skills"},
+{s:"⚽",n:"Henning Berg",f:"🇳🇴",c:"Norway",p:"Defender",b:1990,cl:["Lillestrom","Blackburn Rovers","Manchester United","Rangers"],q:"Henning Berg Blackburn Manchester United defending"},
+{s:"⚽",n:"Tugay Kerimoglu",f:"🇹🇷",c:"Turkey",p:"Midfielder",b:1987,cl:["Galatasaray","Rangers","Blackburn Rovers"],q:"Tugay Kerimoglu Blackburn passing skills"},
+{s:"⚽",n:"Karim Bagheri",f:"🇮🇷",c:"Iran",p:"Midfielder",b:1996,cl:["Persepolis","Arminia Bielefeld","Charlton Athletic","Al-Sadd"],q:"Karim Bagheri Iran goals free kicks"},
+{s:"⚽",n:"Gaetano Scirea",f:"🇮🇹",c:"Italy",p:"Defender",b:1972,cl:["Atalanta","Juventus"],q:"Gaetano Scirea Juventus sweeper defending"},
+{s:"⚽",n:"Luigi Riva",f:"🇮🇹",c:"Italy",p:"Forward",b:1962,cl:["Legnano","Cagliari"],q:"Gigi Riva Cagliari Italy goals"},
+{s:"⚽",n:"Giacinto Facchetti",f:"🇮🇹",c:"Italy",p:"Defender",b:1960,cl:["Inter Milan"],q:"Giacinto Facchetti Inter attacking fullback"},
+{s:"⚽",n:"Sandro Mazzola",f:"🇮🇹",c:"Italy",p:"Forward",b:1960,cl:["Inter Milan"],q:"Sandro Mazzola Grande Inter goals skills"},
+{s:"⚽",n:"Florian Albert",f:"🇭🇺",c:"Hungary",p:"Forward",b:1958,cl:["Ferencvaros"],q:"Florian Albert Ballon d'Or 1967 goals"},
+{s:"⚽",n:"Jill Scott",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Midfielder",b:2004,cl:["Sunderland","Everton","Manchester City","Aston Villa"],q:"Jill Scott England midfield goals highlights"}
 ];
 
 const $=id=>document.getElementById(id);
@@ -1248,8 +1336,9 @@ const REGION={
 "Argentina":"South America","Brazil":"South America","Chile":"South America","Colombia":"South America","Ecuador":"South America","Paraguay":"South America","Peru":"South America","Uruguay":"South America",
 "USA":"North America","Canada":"North America","Mexico":"North America","Costa Rica":"North America","Bahamas":"North America","Trinidad and Tobago":"North America",
 "Algeria":"Africa","Cameroon":"Africa","DR Congo":"Africa","Republic of the Congo":"Africa","Egypt":"Africa","Gabon":"Africa","Ghana":"Africa","Ivory Coast":"Africa","Liberia":"Africa","Mali":"Africa","Morocco":"Africa","Nigeria":"Africa","Nigeria/USA":"Africa","Senegal":"Africa","South Africa":"Africa","South Sudan":"Africa","Sudan":"Africa","Togo":"Africa","Zambia":"Africa",
-"China":"Asia","India":"Asia","Iran":"Asia","Japan":"Asia","Saudi Arabia":"Asia","South Korea":"Asia",
+"China":"Asia","India":"Asia","Iran":"Asia","Iraq":"Asia","Japan":"Asia","Saudi Arabia":"Asia","South Korea":"Asia",
 "Australia":"Oceania",
+"Slovakia":"Europe","Honduras":"North America","Guinea":"Africa","Burkina Faso":"Africa","UAE":"Asia","Thailand":"Asia","Bolivia":"South America",
 "Belgium":"Europe","Bulgaria":"Europe","Croatia":"Europe","Czech Republic":"Europe","Czechia":"Europe","Denmark":"Europe","England":"Europe","Finland":"Europe","France":"Europe","Georgia":"Europe","Germany":"Europe","Greece":"Europe","Hungary":"Europe","Iceland":"Europe","Ireland":"Europe","Italy":"Europe","Latvia":"Europe","Lithuania":"Europe","Montenegro":"Europe","Netherlands":"Europe","Northern Ireland":"Europe","Norway":"Europe","Poland":"Europe","Portugal":"Europe","Romania":"Europe","Russia":"Europe","Scotland":"Europe","Serbia":"Europe","Slovenia":"Europe","Soviet Union":"Europe","Spain":"Europe","Sweden":"Europe","Turkey":"Europe","Ukraine":"Europe","Wales":"Europe"
 };
 function buildClues(p){
@@ -1264,12 +1353,14 @@ function updTries(){
   const left=MAX-guesses.length;
   $('triesLeft').textContent=over?(guesses.length&&guesses[guesses.length-1].ok?'Solved! 🎉':'Answer revealed'):(left+' guess'+(left===1?'':'es')+' left');
 }
+let DIFF=store.get('diff')||'normal';
+function startRevealed(){return DIFF==='easy'?3:(DIFF==='hard'?1:2)}
 function start(endless){
   setAccent();
   mode=endless?"endless":"daily";
   const P=pool();
   answer=endless?P[Math.floor(Math.random()*P.length)]:P[dailyIdx()];
-  clues=buildClues(answer);revealed=2;guesses=[];over=false;
+  clues=buildClues(answer);revealed=startRevealed();guesses=[];over=false;
   $('modeTag').textContent=endless?"🎲 ENDLESS":"DAILY";
   $('pNo').textContent=endless?"∞":("#"+pNum);
   $('streakTop').textContent=store.get('streak-'+sport)||'0';
@@ -1308,7 +1399,10 @@ function renderAll(){
   const g=$('guessRows');g.innerHTML='';
   guesses.forEach((gu,i)=>{
     const d=document.createElement('div');d.className='grow '+(gu.ok?'right':'wrong');
-    d.innerHTML='<span><span class="num">'+(i+1)+'/'+MAX+'</span>'+(gu.name||'—')+'</span><span>'+(gu.ok?'✅':'❌')+'</span>';
+    let chips='';
+    if(gu.hint){const H=gu.hint;const c=(v,l)=>'<span class="chip '+(v?'y':'n')+'">'+(v?'✓':'✗')+' '+l+'</span>';
+      chips='<div class="chips">'+c(H.pos,'Position')+c(H.region,'Region')+c(H.nation,'Nation')+c(H.era,'Era')+'</div>';}
+    d.innerHTML='<div class="growtop"><span><span class="num">'+(i+1)+'/'+MAX+'</span>'+(gu.name||'—')+'</span><span>'+(gu.ok?'✅':'❌')+'</span></div>'+chips;
     g.appendChild(d);
   });
   renderTiles();
@@ -1320,7 +1414,8 @@ function makeGuess(name){
   if(!pl){flash();return}
   if(guesses.some(g=>norm(g.name)===norm(pl.n)))return;
   const ok=norm(pl.n)===norm(answer.n);
-  guesses.push({name:pl.n,ok});$('gi').value='';hideSug();
+  const hint=ok?null:{pos:pl.p===answer.p,region:REGION[pl.c]===REGION[answer.c],nation:pl.c===answer.c,era:Math.floor(pl.b/10)===Math.floor(answer.b/10)};
+  guesses.push({name:pl.n,ok,hint});$('gi').value='';hideSug();
   if(ok){finish(true)}
   else{revealed=Math.min(revealed+1,clues.length);if(guesses.length>=MAX)finish(false)}
   renderAll();
@@ -1410,13 +1505,21 @@ function openM(id){$(id).classList.add('open')}function closeM(id){$(id).classLi
 document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeM(b.dataset.close)));
 document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m&&m.id!=='welcome')m.classList.remove('open')}));
 $('helpBtn').addEventListener('click',()=>openM('helpModal'));
-$('statsBtn').addEventListener('click',()=>{
-  $('stPlayed').textContent=store.get('played-'+sport)||'0';
-  $('stWins').textContent=store.get('wins-'+sport)||'0';
+function renderStats(){
+  const played=+(store.get('played-'+sport)||0),wins=+(store.get('wins-'+sport)||0);
+  $('stPlayed').textContent=played;
+  $('stWinPct').textContent=played?Math.round(wins/played*100)+'%':'0%';
   $('stStreak').textContent=store.get('streak-'+sport)||'0';
   $('stBest').textContent=store.get('best-'+sport)||'0';
-  openM('statsModal');
-});
+  const dist=[1,2,3,4,5,6].map(n=>+(store.get('dist-'+sport+'-'+n)||0));
+  const mx=Math.max(1,...dist);
+  const lastT=(over&&guesses.length&&guesses[guesses.length-1].ok)?guesses.length:0;
+  $('guessDist').innerHTML=dist.map((v,i)=>{
+    const pct=Math.round(v/mx*100);const hl=(i+1===lastT);
+    return '<div class="drow"><span class="dn">'+(i+1)+'</span><span class="dbar'+(hl?' hl':'')+'" style="width:'+Math.max(8,pct)+'%">'+v+'</span></div>';
+  }).join('');
+}
+$('statsBtn').addEventListener('click',()=>{renderStats();openM('statsModal')});
 function last(){const w=guesses.length&&guesses[guesses.length-1].ok;return{w,t:guesses.length}}
 $('shareWa').addEventListener('click',()=>{const r=last();window.open('https://wa.me/?text='+encodeURIComponent(shareTxt(r.w,r.t)),'_blank')});
 $('shareX').addEventListener('click',()=>{const r=last();window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTxt(r.w,r.t)),'_blank')});
@@ -1477,9 +1580,36 @@ function buildShareImage(win,tries){
 /* --- wrap game hooks (logic untouched) --- */
 const _showResult=showResult;
 showResult=function(win,tries){_showResult(win,tries);
-  try{shareURL=buildShareImage(win,tries);$('shareImg').src=shareURL;$('shareImgWrap').style.display='block'}catch(e){$('shareImgWrap').style.display='none'}};
+  try{shareURL=buildShareImage(win,tries);$('shareImg').src=shareURL;$('shareImgWrap').style.display='block'}catch(e){$('shareImgWrap').style.display='none'}
+  startCountdown()};
+
+/* --- next-puzzle countdown --- */
+let cdTimer=null;
+function startCountdown(){
+  const el=$('nextPuzzle');if(!el)return;
+  if(mode==='endless'){el.style.display='none';return}
+  el.style.display='block';
+  clearInterval(cdTimer);
+  function tick(){
+    const now=new Date();
+    const next=Date.UTC(now.getUTCFullYear(),now.getUTCMonth(),now.getUTCDate()+1,0,0,0);
+    let s=Math.max(0,Math.floor((next-now.getTime())/1000));
+    const h=String(Math.floor(s/3600)).padStart(2,'0');s%=3600;
+    const m=String(Math.floor(s/60)).padStart(2,'0');const ss=String(s%60).padStart(2,'0');
+    el.innerHTML='⏳ Next legend in <b>'+h+':'+m+':'+ss+'</b>';
+  }
+  tick();cdTimer=setInterval(tick,1000);
+}
+
+/* --- difficulty selector --- */
+function markDiff(){document.querySelectorAll('#diffSel button').forEach(b=>b.classList.toggle('on',b.dataset.d===DIFF))}
+document.querySelectorAll('#diffSel button').forEach(b=>b.addEventListener('click',()=>{
+  if(DIFF===b.dataset.d)return;DIFF=b.dataset.d;store.set('diff',DIFF);markDiff();start(mode==='endless')}));
+markDiff();
 const _finish=finish;
-finish=function(win){_finish(win);if(win){confetti();sfxWin();haptic([30,40,70])}else{sfxLose();haptic(120)}updateFlame()};
+finish=function(win){_finish(win);
+  if(win&&mode==='daily'){const n=guesses.length;store.set('dist-'+sport+'-'+n,(+(store.get('dist-'+sport+'-'+n)||0))+1)}
+  if(win){confetti();sfxWin();haptic([30,40,70])}else{sfxLose();haptic(120)}updateFlame()};
 const _makeGuess=makeGuess;
 makeGuess=function(name){const b=guesses.length;_makeGuess(name);
   if(guesses.length>b&&!over){const l=guesses[guesses.length-1];l.ok?sfxRight():sfxWrong();haptic(l.ok?40:18)}};
