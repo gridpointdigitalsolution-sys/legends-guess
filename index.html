@@ -230,6 +230,31 @@ header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14)
 /* install pill */
 #installBtn{display:none}
 
+/* ===== desktop / wide-screen layout ===== */
+.stage{display:block}
+.panel{display:flex;flex-direction:column}
+@media(min-width:980px){
+  header .hin{max-width:1000px}
+  main{max-width:1000px;padding:20px 22px 70px}
+  .sport{max-width:560px;margin-left:auto;margin-right:auto}
+  .howstrip{text-align:center;font-size:.9rem;padding:13px 18px}
+  .stage{display:grid;grid-template-columns:1.45fr 1fr;gap:28px;align-items:start;margin-top:4px}
+  .panel-right{position:sticky;top:82px}
+  .top-strip{font-size:.92rem;margin-bottom:14px}
+  .qhead{text-align:left;font-size:1.5rem;margin-bottom:6px}
+  #nameTiles{justify-content:flex-start;margin-bottom:18px}
+  #nameTiles .tile{width:31px;height:41px;font-size:1.2rem}
+  #nameTiles .tpunc{height:41px}
+  .clue{padding:13px 16px}
+  .clue .k{min-width:96px}
+  .clue .v{font-size:1.06rem}
+  #gi{padding:16px 18px;font-size:1.05rem}
+  .btn{padding:16px}
+  .panel-right .ad-slot{margin-top:auto}
+}
+@media(min-width:1280px){
+  header .hin,main{max-width:1080px}
+}
 /* a11y focus */
 :focus-visible{outline:3px solid color-mix(in srgb,var(--gold) 75%,transparent);outline-offset:2px;border-radius:8px}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -260,29 +285,34 @@ header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14)
     <span class="step">How to play:</span> Guess the mystery legend from the clues below. <b>Each wrong guess reveals a new clue</b> (you get 6 tries). Solve it and their <b>🎬 highlights unlock</b> — watch them play instantly.
   </div>
 
-  <div class="top-strip">
-    <div>Puzzle <b id="pNo">#—</b></div>
-    <div class="mode-tag" id="modeTag">DAILY</div>
-    <div class="flame" id="flameWrap">Streak <span class="fi">🔥</span> <b id="streakTop">0</b></div>
+  <div class="stage">
+    <div class="panel panel-left">
+      <div class="top-strip">
+        <div>Puzzle <b id="pNo">#—</b></div>
+        <div class="mode-tag" id="modeTag">DAILY</div>
+        <div class="flame" id="flameWrap">Streak <span class="fi">🔥</span> <b id="streakTop">0</b></div>
+      </div>
+
+      <div class="qhead">Who is this legend? <span class="tries" id="triesLeft">6 guesses left</span></div>
+      <div id="nameTiles" aria-label="Name hint — first letter and length"></div>
+
+      <section id="clues"></section>
+      <section id="guessRows"></section>
+    </div>
+
+    <div class="panel panel-right">
+      <div class="iwrap" id="iwrap">
+        <input id="gi" type="text" autocomplete="off" placeholder="Type a legend's name…">
+        <div id="sug"></div>
+      </div>
+      <button class="btn btn-p" id="guessBtn">SUBMIT GUESS</button>
+      <div class="brow">
+        <button class="btn btn-g" id="revealBtn">Give up → see answer + 🎬</button>
+        <button class="btn btn-g" id="endlessBtn">🎲 Endless</button>
+      </div>
+      <div class="ad-slot">AD SPACE — in-content (activate after AdSense approval)</div>
+    </div>
   </div>
-
-  <div class="qhead">Who is this legend? <span class="tries" id="triesLeft">6 guesses left</span></div>
-  <div id="nameTiles" aria-label="Name hint — first letter and length"></div>
-
-  <section id="clues"></section>
-  <section id="guessRows"></section>
-
-  <div class="iwrap" id="iwrap">
-    <input id="gi" type="text" autocomplete="off" placeholder="Type a legend's name…">
-    <div id="sug"></div>
-  </div>
-  <button class="btn btn-p" id="guessBtn">SUBMIT GUESS</button>
-  <div class="brow">
-    <button class="btn btn-g" id="revealBtn">Give up → see answer + 🎬</button>
-    <button class="btn btn-g" id="endlessBtn">🎲 Endless</button>
-  </div>
-
-  <div class="ad-slot">AD SPACE — in-content (activate after AdSense approval)</div>
 </main>
 
 <!-- WELCOME -->
