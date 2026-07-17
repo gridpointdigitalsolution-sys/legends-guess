@@ -37,11 +37,12 @@ Legend: [x] done · [~] in progress · [ ] todo
 - [x] Wave 5: 480 (306 ⚽ / 174 🏀) — 90s/00s greats, Japan/Iran/India/Mexico, more WNBA
 - [ ] Continue waves → 500 → 1,000 per sport (verify every club order + era before shipping)
 
-## F. Deploy — VPS + Cloudflare  (PENDING user VPS settings)
+## F. Deploy — Contabo VPS + Cloudflare Tunnel  (server DONE; 1 DNS record pending)
 - [x] GitHub repo + live proof (GitHub Pages)
-- [ ] VPS: nginx server-block, deploy files, SSL (certbot/Cloudflare)
-- [ ] **Cloudflare in front** (free plan) — CDN cache + DDoS shield so promo traffic hits cache not origin. NON-NEGOTIABLE.
-- [ ] Point legendsguess.com → Cloudflare → VPS origin
+- [x] Isolated home on shared Contabo VPS (109.199.105.176): user `legendsguess` (uid 1002, no sudo/docker), /opt/legendsguess, systemd --user service, Node static server bound 127.0.0.1:3011 only. Deployed from gh-pages (git pull to update).
+- [x] Cloudflare Tunnel ingress: added `legendsguess.com` + `www` → localhost:3011 in /root/.cloudflared/config.yml (above 404, VCC rules untouched, backup at config.yml.bak.legendsguess). cloudflared restarted, active. VCC health verified still ok.
+- [ ] **PENDING (user, Cloudflare dashboard):** DNS for legendsguess.com must be **CNAME @ → 5acf974a-0b0e-48b1-8e0d-7428982d7d5e.cfargotunnel.com, Proxied (orange)**. Current record 530s = not routing to tunnel. Server can't set it (no cert.pem/API token on box). Once set, site is instantly live over HTTPS.
+- Update live site after roster/code changes: push gh-pages, then on VPS `runuser -u legendsguess -- bash -lc 'cd /opt/legendsguess/site && git pull'`.
 
 ## Decisions locked
 - VPS is the home (owner running paid ads, global spiky traffic). Cloudflare MUST sit in front.
