@@ -320,6 +320,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 .diff button{padding:7px 15px;border-radius:10px;background:var(--card);border:1px solid var(--line);color:var(--muted);font-weight:800;font-size:.8rem;transition:all .15s}
 .diff button.on{background:var(--accent);color:#06210f;border-color:transparent;box-shadow:0 4px 14px -6px color-mix(in srgb,var(--accent) 70%,transparent)}
 .diff button:hover{color:var(--text);transform:translateY(-1px)}.diff button.on:hover{color:#06210f}
+.diffnote{font-size:.72rem;color:var(--muted);margin:-4px 0 12px;line-height:1.45}
 /* warmer hint chips */
 .growtop{display:flex;justify-content:space-between;align-items:center}
 .chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
@@ -368,6 +369,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
     <button data-d="normal">Normal</button>
     <button data-d="hard">Hard</button>
   </div>
+  <div class="diffnote" id="diffNote"></div>
 
   <div class="howstrip">
     <span class="step">How to play:</span> Guess the mystery legend from the clues below. <b>Each wrong guess reveals a new clue</b> (you get 6 tries). Solve it and their <b>🎬 highlights unlock</b> — watch them play instantly.
@@ -431,6 +433,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 <div class="mbg" id="statsModal"><div class="modal">
   <button class="close" data-close="statsModal">✕</button>
   <h2>Your stats 📊</h2>
+  <p class="statsscope" id="statsScope" style="color:var(--accent);font-weight:800;font-size:.82rem;margin:-4px 0 10px"></p>
   <div class="stats">
     <div class="stat"><div class="n" id="stPlayed">0</div><div class="l">Played</div></div>
     <div class="stat"><div class="n" id="stWinPct">0%</div><div class="l">Win %</div></div>
@@ -1329,7 +1332,8 @@ function dailyIdx(){
   const days=Math.floor((Date.now()-EPOCH)/86400000);
   pNum=days+1;
   const salt=sport==="⚽"?7919:104729;
-  const rng=mulberry32(days*salt+42);
+  const dsalt=DIFF==='easy'?1013:(DIFF==='hard'?60013:30011);
+  const rng=mulberry32(days*salt+42+dsalt);
   return Math.floor(rng()*pool().length);
 }
 const REGION={
@@ -1342,19 +1346,23 @@ const REGION={
 "Belgium":"Europe","Bulgaria":"Europe","Croatia":"Europe","Czech Republic":"Europe","Czechia":"Europe","Denmark":"Europe","England":"Europe","Finland":"Europe","France":"Europe","Georgia":"Europe","Germany":"Europe","Greece":"Europe","Hungary":"Europe","Iceland":"Europe","Ireland":"Europe","Italy":"Europe","Latvia":"Europe","Lithuania":"Europe","Montenegro":"Europe","Netherlands":"Europe","Northern Ireland":"Europe","Norway":"Europe","Poland":"Europe","Portugal":"Europe","Romania":"Europe","Russia":"Europe","Scotland":"Europe","Serbia":"Europe","Slovenia":"Europe","Soviet Union":"Europe","Spain":"Europe","Sweden":"Europe","Turkey":"Europe","Ukraine":"Europe","Wales":"Europe"
 };
 function buildClues(p){
-  const l=[{k:sport==="🏀"?"Role":"Position",v:p.p},{k:(sport==="🏀"?"Team":"Club")+" 1",v:p.cl[0]}];
-  for(let i=1;i<p.cl.length;i++)l.push({k:(sport==="🏀"?"Team ":"Club ")+(i+1),v:p.cl[i]});
-  l.push({k:"Region",v:REGION[p.c]||"—"});
-  l.push({k:"Nation",v:p.f+" "+p.c});
-  l.push({k:"Era from",v:String(p.b)+"s"});
-  return l;
+  const pos={k:sport==="🏀"?"Role":"Position",v:p.p};
+  const clubs=p.cl.map((c,i)=>({k:(sport==="🏀"?"Team ":"Club ")+(i+1),v:c}));
+  const region={k:"Region",v:REGION[p.c]||"—"};
+  const nation={k:"Nation",v:p.f+" "+p.c};
+  const era={k:"Era from",v:String(p.b)+"s"};
+  // Hard: broad clues first, specific clubs LAST (much tougher, still fair).
+  // Easy/Normal: clubs early (more identifying) — Easy just starts with more revealed.
+  if(DIFF==='hard') return [pos,region,era,nation,...clubs];
+  return [pos,...clubs,region,nation,era];
 }
 function updTries(){
   const left=MAX-guesses.length;
   $('triesLeft').textContent=over?(guesses.length&&guesses[guesses.length-1].ok?'Solved! 🎉':'Answer revealed'):(left+' guess'+(left===1?'':'es')+' left');
 }
 let DIFF=store.get('diff')||'normal';
-function startRevealed(){return DIFF==='easy'?3:(DIFF==='hard'?1:2)}
+function SK(){return sport+'-'+DIFF}
+function startRevealed(){return DIFF==='easy'?3:2}
 function start(endless){
   setAccent();
   mode=endless?"endless":"daily";
@@ -1363,11 +1371,11 @@ function start(endless){
   clues=buildClues(answer);revealed=startRevealed();guesses=[];over=false;
   $('modeTag').textContent=endless?"🎲 ENDLESS":"DAILY";
   $('pNo').textContent=endless?"∞":("#"+pNum);
-  $('streakTop').textContent=store.get('streak-'+sport)||'0';
+  $('streakTop').textContent=store.get('streak-'+SK())||'0';
   if(mode==="daily"){
-    const done=store.get('done-'+sport+'-'+pNum);
+    const done=store.get('done-'+SK()+'-'+pNum);
     if(done!==null){over=true;revealed=clues.length;
-      const tr=parseInt(store.get('tries-'+sport+'-'+pNum)||String(MAX),10);
+      const tr=parseInt(store.get('tries-'+SK()+'-'+pNum)||String(MAX),10);
       guesses=Array.from({length:tr},(_,i)=>({name:'',ok:i===tr-1&&done==='1'}));
       renderAll();showResult(done==='1',tr);return;
     }
@@ -1423,17 +1431,18 @@ function makeGuess(name){
 function finish(win){
   over=true;revealed=clues.length;renderAll();
   if(mode==="daily"){
-    store.set('done-'+sport+'-'+pNum,win?'1':'0');
-    store.set('tries-'+sport+'-'+pNum,String(guesses.length));
-    const played=(+(store.get('played-'+sport)||0))+1;
-    const wins=(+(store.get('wins-'+sport)||0))+(win?1:0);
-    let streak=+(store.get('streak-'+sport)||0);
-    const last=+(store.get('lastWin-'+sport)||-99);
-    streak=win?((last===pNum-1)?streak+1:1):0;
-    if(win)store.set('lastWin-'+sport,String(pNum));
-    const best=Math.max(streak,+(store.get('best-'+sport)||0));
-    store.set('played-'+sport,played);store.set('wins-'+sport,wins);
-    store.set('streak-'+sport,streak);store.set('best-'+sport,best);
+    const K=SK();
+    store.set('done-'+K+'-'+pNum,win?'1':'0');
+    store.set('tries-'+K+'-'+pNum,String(guesses.length));
+    const played=(+(store.get('played-'+K)||0))+1;
+    const wins=(+(store.get('wins-'+K)||0))+(win?1:0);
+    let streak=+(store.get('streak-'+K)||0);
+    const last=+(store.get('lastWin-'+K)||-99);
+    streak=win?((last===pNum-1)?streak+1:(last===pNum?streak:1)):0;
+    if(win)store.set('lastWin-'+K,String(pNum));
+    const best=Math.max(streak,+(store.get('best-'+K)||0));
+    store.set('played-'+K,played);store.set('wins-'+K,wins);
+    store.set('streak-'+K,streak);store.set('best-'+K,best);
     $('streakTop').textContent=String(streak);
   }
   showResult(win,guesses.length);
@@ -1506,12 +1515,14 @@ document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',
 document.querySelectorAll('.mbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m&&m.id!=='welcome')m.classList.remove('open')}));
 $('helpBtn').addEventListener('click',()=>openM('helpModal'));
 function renderStats(){
-  const played=+(store.get('played-'+sport)||0),wins=+(store.get('wins-'+sport)||0);
+  const K=SK();
+  const played=+(store.get('played-'+K)||0),wins=+(store.get('wins-'+K)||0);
   $('stPlayed').textContent=played;
   $('stWinPct').textContent=played?Math.round(wins/played*100)+'%':'0%';
-  $('stStreak').textContent=store.get('streak-'+sport)||'0';
-  $('stBest').textContent=store.get('best-'+sport)||'0';
-  const dist=[1,2,3,4,5,6].map(n=>+(store.get('dist-'+sport+'-'+n)||0));
+  $('stStreak').textContent=store.get('streak-'+K)||'0';
+  $('stBest').textContent=store.get('best-'+K)||'0';
+  if($('statsScope'))$('statsScope').textContent=(sport==='⚽'?'Football':'Basketball')+' · '+DIFF.charAt(0).toUpperCase()+DIFF.slice(1);
+  const dist=[1,2,3,4,5,6].map(n=>+(store.get('dist-'+K+'-'+n)||0));
   const mx=Math.max(1,...dist);
   const lastT=(over&&guesses.length&&guesses[guesses.length-1].ok)?guesses.length:0;
   $('guessDist').innerHTML=dist.map((v,i)=>{
@@ -1540,7 +1551,7 @@ $('soundBtn').addEventListener('click',()=>{SND=!SND;store.set('sound',SND?'1':'
 setSoundIcon();
 
 /* --- streak flame --- */
-function updateFlame(){const s=+(store.get('streak-'+sport)||0);$('flameWrap').classList.toggle('hot',s>=2)}
+function updateFlame(){const s=+(store.get('streak-'+SK())||0);$('flameWrap').classList.toggle('hot',s>=2)}
 
 /* --- confetti --- */
 const cc=$('confetti'),ctxc=cc.getContext('2d');let raf=0;
@@ -1602,13 +1613,15 @@ function startCountdown(){
 }
 
 /* --- difficulty selector --- */
-function markDiff(){document.querySelectorAll('#diffSel button').forEach(b=>b.classList.toggle('on',b.dataset.d===DIFF))}
+function markDiff(){document.querySelectorAll('#diffSel button').forEach(b=>b.classList.toggle('on',b.dataset.d===DIFF));
+  const notes={easy:'Easy — its own daily legend, 3 clues shown to start (clubs included).',normal:'Normal — its own daily legend; starts with position + first club.',hard:'Hard — its own tougher daily legend; starts with position + region only, exact clubs come last.'};
+  if($('diffNote'))$('diffNote').textContent=notes[DIFF]||'';}
 document.querySelectorAll('#diffSel button').forEach(b=>b.addEventListener('click',()=>{
   if(DIFF===b.dataset.d)return;DIFF=b.dataset.d;store.set('diff',DIFF);markDiff();start(mode==='endless')}));
 markDiff();
 const _finish=finish;
 finish=function(win){_finish(win);
-  if(win&&mode==='daily'){const n=guesses.length;store.set('dist-'+sport+'-'+n,(+(store.get('dist-'+sport+'-'+n)||0))+1)}
+  if(win&&mode==='daily'){const K=SK(),n=guesses.length;store.set('dist-'+K+'-'+n,(+(store.get('dist-'+K+'-'+n)||0))+1)}
   if(win){confetti();sfxWin();haptic([30,40,70])}else{sfxLose();haptic(120)}updateFlame()};
 const _makeGuess=makeGuess;
 makeGuess=function(name){const b=guesses.length;_makeGuess(name);
