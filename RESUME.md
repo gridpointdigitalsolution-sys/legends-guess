@@ -8,14 +8,20 @@
 - [x] Launch + AdSense guide written (LAUNCH-GUIDE.md)
 - [x] Handover docs (this file, HANDOVER.md, MEMORY.md), git scaffolding (README, .gitignore, netlify.toml)
 
+## DONE (2026-07-17 CLI session)
+- [x] **Git repo pushed** → https://github.com/gridpointdigitalsolution-sys/legends-guess (branch `main`).
+- [x] **Live now** via GitHub Pages → https://gridpointdigitalsolution-sys.github.io/legends-guess/ (served from `gh-pages` branch, flagship at root). Proof-of-life while domain DNS is pointed.
+- [x] **Legal pages built + wired** — 07-legends-guess/{privacy,about,contact}.html (real content, dark theme). Footer links now point to real pages (removed the old alert() popups).
+- [x] **Live URL set** — `const SITE='https://legendsguess.com'` in the flagship.
+
 ## NEXT (in order)
-1. **Init + push git repo** (commands below), connect Hostinger/Netlify via GitConnect.
-2. **Point legendsguess.com at the deploy**, serve 07-legends-guess/index.html as root.
-3. **Set live URL:** in 07-legends-guess/index.html change `const SITE='https://legendsguess.app'` → your real URL.
-4. **Create legal pages:** privacy.html, about.html, contact.html (needed for AdSense). Ask Claude to generate them.
-5. **Apply to AdSense**, paste publisher snippet into <head>.
-6. **Roster wave 3:** +100 accurate legends (more Asia, Latam, women's, EuroLeague) toward 1,000+.
-7. Then build App #2 (Prediction Game).
+1. **Point legendsguess.com at the deploy** (needs Hostinger/Netlify dashboard — see LAUNCH-GUIDE.md):
+   - EASIEST: Netlify → "Add new site → Import from Git" → pick `legends-guess` repo → publish dir auto-reads `07-legends-guess` from netlify.toml → deploy → "Domain settings → add legendsguess.com" → follow Netlify DNS records → in Hostinger set nameservers/records to Netlify. OR
+   - Hostinger direct: upload the 4 files in 07-legends-guess/ to `public_html`.
+   - After custom domain works, add a CNAME file in gh-pages OR just rely on the host; keep GitHub Pages as backup.
+2. **Apply to AdSense** once legendsguess.com is live a few days; paste publisher `<script>` into `<head>` of index.html + all 3 legal pages, then activate the AD SPACE slots.
+3. **Roster wave 3:** +100 accurate legends (more Asia, Latam, women's, EuroLeague) toward 1,000+.
+4. Then build App #2 (Prediction Game).
 
 ## GIT — create & push (run in the football lovers folder on F:)
 ```bash
