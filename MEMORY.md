@@ -15,8 +15,12 @@
 ## Data model (07-legends-guess DATA array)
 {s:"⚽"|"🏀", n:name, f:flag, c:country, p:position, b:eraStartYear, cl:[clubs earliest→latest], q:"clip search query"}
 
+## Masterpiece roadmap
+- Full world-class plan + live progress = **ROADMAP.md** (UI/UX pass, PWA, AdSense compliance files, analytics, roster waves, VPS+Cloudflare deploy).
+- Deploy target = owner's **VPS with Cloudflare in front** (not plain static host — owner runs paid ads → spiky global traffic). Cloudflare CDN is non-negotiable.
+
 ## Roster status
-- Football: 138 · Basketball: 80 · TOTAL: 218.
+- Football: 186 · Basketball: 114 · TOTAL: 300 (after wave 3). Wave 4 (+80) in progress via parallel agent.
 - Target: 500+/sport → 1,000+/sport, plus extra puzzle formats (guess-by-trophies, guess-the-moment).
 - Coverage so far: modern stars, 90s/2000s classics, strong African set, some Asian/Latam, women's football (Marta, Rapinoe, Morgan, Sam Kerr, Bonmati…), NBA classics + WNBA (Taurasi, A'ja Wilson, Caitlin Clark…).
 

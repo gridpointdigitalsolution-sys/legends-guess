@@ -25,6 +25,9 @@
 4. Add AdSense code snippet to <head> once you have your publisher ID.
 5. Keep expanding the roster toward 1,000+ (accuracy-first waves).
 
+## Masterpiece roadmap
+Full world-class build plan + progress tracking lives in **ROADMAP.md** (UI/UX, PWA, AdSense files, analytics, roster waves, VPS+Cloudflare deploy). Update it as items ship.
+
 ## Guardrails / decisions locked in
 - NEVER host/re-upload video. Embed or link only. (Copyright-safe.)
 - AdSense needs: own domain (have it), privacy policy, about/contact, real content (the game counts), light ad density, a few days live before applying.

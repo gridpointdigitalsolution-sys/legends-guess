@@ -2,14 +2,33 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Legends Guess — Daily Football &amp; Basketball Player Puzzle + Highlights</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Legends Guess — Daily Football &amp; Basketball Legend Puzzle + Highlights</title>
 <meta name="description" content="Legends Guess: guess the mystery football (soccer) or basketball legend from their career, then watch their best highlights. New puzzles daily, endless practice mode. Free to play.">
 <meta name="keywords" content="football quiz, soccer player guessing game, basketball legends quiz, guess the player, football highlights, NBA legends, daily football game">
-<meta property="og:title" content="Legends Guess — Football &amp; Basketball Player Puzzle">
-<meta property="og:description" content="Guess the legend from their career, then watch them play. Free daily puzzles.">
+<meta name="theme-color" content="#0a0f1e">
+<link rel="canonical" href="https://legendsguess.com/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Legends Guess">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://legendsguess.com/">
+<meta property="og:title" content="Legends Guess — Guess the Legend, Watch Them Play">
+<meta property="og:description" content="Guess the mystery football or basketball legend from their career, then watch their highlights. New daily puzzles — free.">
+<meta property="og:image" content="https://legendsguess.com/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Legends Guess — Guess the Legend, Watch Them Play">
+<meta name="twitter:description" content="Daily football &amp; basketball legend puzzle + highlights. Free.">
+<meta name="twitter:image" content="https://legendsguess.com/og-image.png">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Sora:wght@400;500;600;700;800&display=swap');
 :root{
   --bg:#0a0f1e;--bg2:#0d1730;--card:#13203c;--card2:#1a294c;
   --ftbl:#22c55e;--ftbl-d:#16a34a;--bball:#f97316;--bball-d:#ea580c;
@@ -18,7 +37,14 @@
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:linear-gradient(180deg,#0a0f1e,#0b1428);color:var(--text);min-height:100vh}
+body{font-family:'Sora',system-ui,-apple-system,sans-serif;background:#080c18;color:var(--text);min-height:100vh;position:relative;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-2;background:
+  radial-gradient(60% 45% at 15% 8%, rgba(34,197,94,.20), transparent 60%),
+  radial-gradient(55% 40% at 88% 92%, rgba(249,115,22,.16), transparent 62%),
+  radial-gradient(50% 45% at 92% 12%, rgba(59,130,246,.12), transparent 60%),
+  linear-gradient(180deg,#0a0f1e,#080c18 60%,#0a0f1e)}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 button{font-family:inherit;cursor:pointer;border:none}input{font-family:inherit}
 header{position:sticky;top:0;z-index:50;background:rgba(10,15,30,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .hin{max-width:560px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:11px 16px}
@@ -100,7 +126,105 @@ main{max-width:560px;margin:0 auto;padding:14px 16px 60px}
 .legal{background:var(--card);border-radius:12px;padding:11px 13px;font-size:.74rem;color:var(--muted);line-height:1.55;margin-top:10px}
 footer{text-align:center;color:#3a4f7d;font-size:.74rem;padding:22px 16px;line-height:1.7}
 footer a{color:#5975ad;text-decoration:none;cursor:pointer}
-@media(min-width:600px){.mbg{align-items:center}.modal{border-radius:20px}}
+@media(min-width:600px){.mbg{align-items:center}.modal{border-radius:24px}}
+
+/* ============ MASTERPIECE LAYER ============ */
+:root{--disp:'Bricolage Grotesque','Sora',sans-serif}
+.logo,.qhead,.wtitle,.rname,.modal h2,.stat .n,.stepcard .n,.mode-tag,.watch-h{font-family:var(--disp)}
+.logo{font-size:1.3rem;letter-spacing:-.03em;display:flex;align-items:center;gap:2px}
+.logo::first-letter{font-size:1.15em}
+header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14);box-shadow:0 1px 0 rgba(255,255,255,.03)}
+.ico{background:rgba(255,255,255,.05);border:1px solid var(--line);backdrop-filter:blur(6px);transition:transform .15s,background .15s,border-color .15s}
+.ico:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
+.ico:active{transform:scale(.94)}
+
+/* glass cards */
+.howstrip,.clue,.grow,.sport,.stat,.stepcard,.mode-tag,.legal,#gi,#sug,.modal{
+  background:linear-gradient(180deg,rgba(26,41,76,.55),rgba(19,32,60,.65));
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.sport{border:1px solid var(--line);padding:5px;border-radius:16px}
+.sport button{border-radius:12px;transition:all .18s cubic-bezier(.4,1.3,.5,1);letter-spacing:.01em}
+.sport button.on{box-shadow:0 6px 20px -6px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.25);transform:translateY(-1px)}
+.howstrip{border-radius:16px;border:1px solid var(--line)}
+.mode-tag{border:1px solid var(--line);text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.top-strip b{font-family:var(--disp)}
+
+.qhead{font-size:1.15rem;letter-spacing:-.01em}
+#clues{gap:9px}
+.clue{border-radius:16px;border:1px solid var(--line);border-left:4px solid var(--accent);
+  box-shadow:0 8px 24px -14px rgba(0,0,0,.7);opacity:0;transform:translateY(8px);animation:clueIn .5s cubic-bezier(.2,.8,.2,1) forwards}
+.clue:nth-child(1){animation-delay:.02s}.clue:nth-child(2){animation-delay:.09s}.clue:nth-child(3){animation-delay:.16s}
+.clue:nth-child(4){animation-delay:.23s}.clue:nth-child(5){animation-delay:.30s}.clue:nth-child(6){animation-delay:.37s}
+.clue:nth-child(7){animation-delay:.44s}.clue:nth-child(8){animation-delay:.51s}.clue:nth-child(9){animation-delay:.58s}
+.clue.locked{border-left-color:#2a3b5f;opacity:.62}
+@keyframes clueIn{to{opacity:1;transform:translateY(0)}}
+.clue .k{font-weight:700;letter-spacing:.09em}
+.clue .v{font-size:1rem;letter-spacing:-.005em}
+
+.grow{border-radius:13px;animation:rowIn .32s cubic-bezier(.2,.9,.2,1)}
+@keyframes rowIn{from{transform:translateX(-8px);opacity:0}to{transform:translateX(0);opacity:1}}
+.grow.right{background:linear-gradient(180deg,rgba(34,197,94,.16),rgba(19,32,60,.6));box-shadow:0 0 0 1px rgba(34,197,94,.4),0 6px 18px -8px rgba(34,197,94,.5)}
+.grow.wrong{background:linear-gradient(180deg,rgba(239,68,68,.10),rgba(19,32,60,.6))}
+
+#gi{border-radius:15px;border:2px solid #2a3b63;transition:border-color .18s,box-shadow .18s;font-family:'Sora',sans-serif}
+#gi:focus{box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+#sug{border-radius:15px;border:1px solid var(--line)}
+.btn{border-radius:15px;letter-spacing:.01em;position:relative;overflow:hidden;transition:transform .12s,filter .18s,box-shadow .18s}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent-d));box-shadow:0 10px 26px -10px color-mix(in srgb,var(--accent) 70%,transparent)}
+.btn-p:hover{filter:brightness(1.06);box-shadow:0 14px 32px -10px color-mix(in srgb,var(--accent) 80%,transparent)}
+.btn-gold{background:linear-gradient(135deg,#fcd34d,#f59e0b);box-shadow:0 10px 26px -10px rgba(251,191,36,.6)}
+.btn-g{border:1px solid var(--line)}
+.btn:hover{transform:translateY(-1px)}.btn:active{transform:scale(.98)}
+.btn-p::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-20deg);animation:sheen 4.5s ease-in-out infinite}
+@keyframes sheen{0%,72%{left:-60%}86%,100%{left:130%}}
+
+/* streak flame */
+.flame{display:inline-flex;align-items:center;gap:3px}
+.flame.hot .fi{animation:flick .9s ease-in-out infinite;filter:drop-shadow(0 0 6px rgba(251,146,60,.7))}
+@keyframes flick{0%,100%{transform:scale(1) rotate(-2deg)}50%{transform:scale(1.15) rotate(2deg)}}
+
+/* ad slot polish */
+.ad-slot{border-radius:14px;background:rgba(13,23,48,.4)}
+
+/* modals */
+.mbg{background:rgba(4,7,15,.7);backdrop-filter:blur(4px)}
+.modal{border:1px solid rgba(251,191,36,.12);box-shadow:0 -20px 60px -20px rgba(0,0,0,.8)}
+.wtitle{font-size:1.9rem;letter-spacing:-.02em}
+.rname{font-size:1.6rem;letter-spacing:-.02em}
+.remoji{animation:pop2 .5s cubic-bezier(.2,1.5,.4,1)}
+@keyframes pop2{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+.stat .n{font-size:1.6rem}
+.wbtn{border-radius:14px;transition:transform .12s,filter .15s}.wbtn:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.stepcard{border:1px solid var(--line);border-radius:16px}
+
+/* share image */
+#shareImgWrap{margin:6px 0 12px;border-radius:16px;overflow:hidden;border:1px solid var(--line);display:none}
+#shareImg{display:block;width:100%}
+.dl-row{display:flex;gap:8px;margin-bottom:8px}.dl-row .btn{flex:1;padding:12px}
+
+/* confetti */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:200;display:none}
+
+/* cookie banner */
+#cookie{position:fixed;left:12px;right:12px;bottom:12px;max-width:540px;margin:0 auto;z-index:150;
+  background:linear-gradient(180deg,rgba(26,41,76,.96),rgba(13,23,48,.98));backdrop-filter:blur(12px);
+  border:1px solid rgba(251,191,36,.2);border-radius:18px;padding:15px 17px;box-shadow:0 20px 50px -15px rgba(0,0,0,.8);
+  display:none;transform:translateY(20px);opacity:0;transition:.35s cubic-bezier(.2,.9,.2,1)}
+#cookie.show{display:block;transform:translateY(0);opacity:1}
+#cookie p{font-size:.82rem;color:var(--muted);line-height:1.5;margin-bottom:10px}
+#cookie p a{color:var(--accent)}
+#cookie .cbtns{display:flex;gap:8px}
+#cookie .cbtns button{flex:1;padding:11px;border-radius:11px;font-weight:800;font-size:.86rem}
+.cok{background:linear-gradient(135deg,var(--accent),var(--accent-d));color:#06210f}
+.cno{background:rgba(255,255,255,.06);color:var(--text);border:1px solid var(--line)}
+
+/* install pill */
+#installBtn{display:none}
+
+/* a11y focus */
+:focus-visible{outline:3px solid color-mix(in srgb,var(--gold) 75%,transparent);outline-offset:2px;border-radius:8px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -108,8 +232,10 @@ footer a{color:#5975ad;text-decoration:none;cursor:pointer}
   <div class="hin">
     <div class="logo">🏅 Legends<b>Guess</b></div>
     <div class="hbtns">
-      <button class="ico" id="statsBtn" title="Stats">📊</button>
-      <button class="ico" id="helpBtn" title="How to play">❓</button>
+      <button class="ico" id="installBtn" title="Install app" aria-label="Install app">⬇️</button>
+      <button class="ico" id="soundBtn" title="Sound on/off" aria-label="Toggle sound">🔊</button>
+      <button class="ico" id="statsBtn" title="Stats" aria-label="Your stats">📊</button>
+      <button class="ico" id="helpBtn" title="How to play" aria-label="How to play">❓</button>
     </div>
   </div>
 </header>
@@ -129,7 +255,7 @@ footer a{color:#5975ad;text-decoration:none;cursor:pointer}
   <div class="top-strip">
     <div>Puzzle <b id="pNo">#—</b></div>
     <div class="mode-tag" id="modeTag">DAILY</div>
-    <div>Streak 🔥 <b id="streakTop">0</b></div>
+    <div class="flame" id="flameWrap">Streak <span class="fi">🔥</span> <b id="streakTop">0</b></div>
   </div>
 
   <div class="qhead">Who is this legend? <span class="tries" id="triesLeft">6 guesses left</span></div>
@@ -194,6 +320,7 @@ footer a{color:#5975ad;text-decoration:none;cursor:pointer}
   <div class="rname" id="rName">—</div>
   <div class="rsub" id="rSub">—</div>
   <div class="rgrid" id="rGrid">—</div>
+  <div id="shareImgWrap"><img id="shareImg" alt="Your Legends Guess result card"></div>
   <div class="watch-h">🎬 Watch <span id="watchName">them</span> play</div>
   <div class="watch-sub">Tap to see their best highlights (opens the original creators)</div>
   <div class="watch" id="watch"></div>
@@ -202,6 +329,7 @@ footer a{color:#5975ad;text-decoration:none;cursor:pointer}
     <button class="btn btn-g" id="shareX">Share on X</button>
     <button class="btn btn-g" id="copyBtn">Copy</button>
   </div>
+  <div class="dl-row"><button class="btn btn-g" id="saveImgBtn">📸 Save result image</button></div>
   <div class="brow"><button class="btn btn-gold" id="againBtn">🎲 Play another (Endless)</button></div>
   <div class="ad-slot" style="margin-top:14px">AD SPACE — result screen (highest value)</div>
   <div class="legal">We host no videos. Highlight buttons open the original creators on YouTube/TikTok/Instagram — they keep all views &amp; credit. Unofficial fan game, not affiliated with any league, club or player.</div>
@@ -212,6 +340,16 @@ footer a{color:#5975ad;text-decoration:none;cursor:pointer}
   Fan-made · We host no video · Rights belong to their owners.<br>
   <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a>
 </footer>
+
+<canvas id="confetti"></canvas>
+
+<div id="cookie" role="dialog" aria-label="Cookie notice">
+  <p>We use local storage for your game stats, and cookies for ads (Google AdSense) to keep Legends Guess free. See our <a href="privacy.html">Privacy Policy</a>.</p>
+  <div class="cbtns">
+    <button class="cno" id="ckNo">Decline</button>
+    <button class="cok" id="ckYes">Accept</button>
+  </div>
+</div>
 
 <script>
 'use strict';
@@ -521,7 +659,89 @@ const DATA=[
 {s:"🏀",n:"Rick Barry",f:"🇺🇸",c:"USA",p:"Forward",b:1965,cl:["San Francisco Warriors","Golden State Warriors","Houston Rockets"],q:"Rick Barry highlights free throws"},
 {s:"🏀",n:"Bob Cousy",f:"🇺🇸",c:"USA",p:"Point Guard",b:1950,cl:["Boston Celtics","Cincinnati Royals"],q:"Bob Cousy highlights assists"},
 {s:"🏀",n:"Willis Reed",f:"🇺🇸",c:"USA",p:"Center",b:1964,cl:["New York Knicks"],q:"Willis Reed highlights"},
-{s:"🏀",n:"Wes Unseld",f:"🇺🇸",c:"USA",p:"Center",b:1968,cl:["Baltimore Bullets","Washington Bullets"],q:"Wes Unseld highlights rebounds"}
+{s:"🏀",n:"Wes Unseld",f:"🇺🇸",c:"USA",p:"Center",b:1968,cl:["Baltimore Bullets","Washington Bullets"],q:"Wes Unseld highlights rebounds"},
+/* ===== WAVE 4 — FOOTBALL: historic greats, Latam, Asia, Africa, women ===== */
+{s:"⚽",n:"Alfredo Di Stefano",f:"🇦🇷",c:"Argentina",p:"Forward",b:1945,cl:["River Plate","Millonarios","Real Madrid","Espanyol"],q:"Alfredo Di Stefano best goals Real Madrid legend"},
+{s:"⚽",n:"Ferenc Puskas",f:"🇭🇺",c:"Hungary",p:"Forward",b:1943,cl:["Budapest Honved","Real Madrid"],q:"Ferenc Puskas best goals galloping major"},
+{s:"⚽",n:"Eusebio",f:"🇵🇹",c:"Portugal",p:"Forward",b:1960,cl:["Benfica"],q:"Eusebio best goals Benfica black panther"},
+{s:"⚽",n:"Lev Yashin",f:"🇷🇺",c:"Soviet Union",p:"Goalkeeper",b:1950,cl:["Dynamo Moscow"],q:"Lev Yashin best saves black spider"},
+{s:"⚽",n:"Garrincha",f:"🇧🇷",c:"Brazil",p:"Forward",b:1953,cl:["Botafogo","Corinthians"],q:"Garrincha best dribbling skills goals"},
+{s:"⚽",n:"Bobby Charlton",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Midfielder",b:1956,cl:["Manchester United","Preston North End"],q:"Bobby Charlton best goals long shots"},
+{s:"⚽",n:"Denis Law",f:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",c:"Scotland",p:"Forward",b:1956,cl:["Huddersfield Town","Manchester City","Torino","Manchester United","Manchester City"],q:"Denis Law best goals the king"},
+{s:"⚽",n:"Michel Platini",f:"🇫🇷",c:"France",p:"Midfielder",b:1972,cl:["Nancy","Saint-Etienne","Juventus"],q:"Michel Platini best goals free kicks"},
+{s:"⚽",n:"Zbigniew Boniek",f:"🇵🇱",c:"Poland",p:"Forward",b:1975,cl:["Widzew Lodz","Juventus","Roma"],q:"Zbigniew Boniek best goals skills"},
+{s:"⚽",n:"Gheorghe Hagi",f:"🇷🇴",c:"Romania",p:"Midfielder",b:1983,cl:["Sportul Studentesc","Steaua Bucharest","Real Madrid","Brescia","Barcelona","Galatasaray"],q:"Gheorghe Hagi best goals skills maradona carpathians"},
+{s:"⚽",n:"Zico",f:"🇧🇷",c:"Brazil",p:"Midfielder",b:1971,cl:["Flamengo","Udinese","Flamengo","Kashima Antlers"],q:"Zico best goals free kicks white pele"},
+{s:"⚽",n:"Socrates",f:"🇧🇷",c:"Brazil",p:"Midfielder",b:1974,cl:["Botafogo-SP","Corinthians","Fiorentina","Flamengo","Santos"],q:"Socrates best goals skills backheel"},
+{s:"⚽",n:"Rivelino",f:"🇧🇷",c:"Brazil",p:"Midfielder",b:1965,cl:["Corinthians","Fluminense","Al-Hilal"],q:"Rivelino best goals free kicks elastico"},
+{s:"⚽",n:"Enzo Francescoli",f:"🇺🇾",c:"Uruguay",p:"Forward",b:1980,cl:["Montevideo Wanderers","River Plate","Racing Paris","Marseille","Cagliari","Torino","River Plate"],q:"Enzo Francescoli best goals skills el principe"},
+{s:"⚽",n:"Cha Bum-kun",f:"🇰🇷",c:"South Korea",p:"Forward",b:1979,cl:["Darmstadt 98","Eintracht Frankfurt","Bayer Leverkusen"],q:"Cha Bum-kun best goals Bundesliga legend"},
+{s:"⚽",n:"Lothar Matthaus",f:"🇩🇪",c:"Germany",p:"Midfielder",b:1979,cl:["Borussia Monchengladbach","Bayern Munich","Inter Milan","Bayern Munich","MetroStars"],q:"Lothar Matthaus best goals long shots"},
+{s:"⚽",n:"Michael Laudrup",f:"🇩🇰",c:"Denmark",p:"Midfielder",b:1982,cl:["Brondby","Lazio","Juventus","Barcelona","Real Madrid","Vissel Kobe","Ajax"],q:"Michael Laudrup best assists skills"},
+{s:"⚽",n:"Gary Lineker",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Forward",b:1978,cl:["Leicester City","Everton","Barcelona","Tottenham Hotspur","Nagoya Grampus Eight"],q:"Gary Lineker best goals poacher"},
+{s:"⚽",n:"Kenny Dalglish",f:"🏴󠁧󠁢󠁳󠁣󠁴󠁿",c:"Scotland",p:"Forward",b:1971,cl:["Celtic","Liverpool"],q:"Kenny Dalglish best goals king kenny"},
+{s:"⚽",n:"Alan Shearer",f:"🏴󠁧󠁢󠁥󠁮󠁧󠁿",c:"England",p:"Forward",b:1988,cl:["Southampton","Blackburn Rovers","Newcastle United"],q:"Alan Shearer best goals Premier League record"},
+{s:"⚽",n:"Henrik Larsson",f:"🇸🇪",c:"Sweden",p:"Forward",b:1992,cl:["Helsingborg","Feyenoord","Celtic","Barcelona","Helsingborg"],q:"Henrik Larsson best goals Celtic king of kings"},
+{s:"⚽",n:"Davor Suker",f:"🇭🇷",c:"Croatia",p:"Forward",b:1984,cl:["Osijek","Dinamo Zagreb","Sevilla","Real Madrid","Arsenal","West Ham United"],q:"Davor Suker best goals World Cup 1998"},
+{s:"⚽",n:"Predrag Mijatovic",f:"🇲🇪",c:"Montenegro",p:"Forward",b:1987,cl:["Buducnost","Partizan","Valencia","Real Madrid","Fiorentina","Levante"],q:"Predrag Mijatovic best goals Real Madrid"},
+{s:"⚽",n:"Marcelo Salas",f:"🇨🇱",c:"Chile",p:"Forward",b:1993,cl:["Universidad de Chile","River Plate","Lazio","Juventus"],q:"Marcelo Salas best goals el matador"},
+{s:"⚽",n:"Ivan Zamorano",f:"🇨🇱",c:"Chile",p:"Forward",b:1985,cl:["Cobresal","Sevilla","Real Madrid","Inter Milan","America"],q:"Ivan Zamorano best goals bam bam"},
+{s:"⚽",n:"Ronald Koeman",f:"🇳🇱",c:"Netherlands",p:"Defender",b:1980,cl:["Groningen","Ajax","PSV Eindhoven","Barcelona","Feyenoord"],q:"Ronald Koeman best goals free kicks"},
+{s:"⚽",n:"Edgar Davids",f:"🇳🇱",c:"Netherlands",p:"Midfielder",b:1991,cl:["Ajax","AC Milan","Juventus","Barcelona","Inter Milan","Tottenham Hotspur"],q:"Edgar Davids best tackles skills pitbull"},
+{s:"⚽",n:"Patrick Vieira",f:"🇫🇷",c:"France",p:"Midfielder",b:1993,cl:["Cannes","AC Milan","Arsenal","Juventus","Inter Milan","Manchester City"],q:"Patrick Vieira best tackles goals Arsenal"},
+{s:"⚽",n:"Robert Pires",f:"🇫🇷",c:"France",p:"Midfielder",b:1992,cl:["Metz","Marseille","Arsenal","Villarreal","Aston Villa"],q:"Robert Pires best goals skills Arsenal invincibles"},
+{s:"⚽",n:"Lilian Thuram",f:"🇫🇷",c:"France",p:"Defender",b:1991,cl:["Monaco","Parma","Juventus","Barcelona"],q:"Lilian Thuram best defending World Cup 1998"},
+{s:"⚽",n:"Claude Makelele",f:"🇫🇷",c:"France",p:"Midfielder",b:1992,cl:["Nantes","Marseille","Celta Vigo","Real Madrid","Chelsea","Paris Saint-Germain"],q:"Claude Makelele best tackles role"},
+{s:"⚽",n:"Roy Keane",f:"🇮🇪",c:"Ireland",p:"Midfielder",b:1990,cl:["Cobh Ramblers","Nottingham Forest","Manchester United","Celtic"],q:"Roy Keane best tackles goals captain"},
+{s:"⚽",n:"Lucas Radebe",f:"🇿🇦",c:"South Africa",p:"Defender",b:1990,cl:["Kaizer Chiefs","Leeds United"],q:"Lucas Radebe best defending chief Leeds"},
+{s:"⚽",n:"Frederic Kanoute",f:"🇲🇱",c:"Mali",p:"Forward",b:1997,cl:["Lyon","West Ham United","Tottenham Hotspur","Sevilla"],q:"Frederic Kanoute best goals Sevilla skills"},
+{s:"⚽",n:"Nemanja Vidic",f:"🇷🇸",c:"Serbia",p:"Defender",b:2000,cl:["Red Star Belgrade","Spartak Moscow","Manchester United","Inter Milan"],q:"Nemanja Vidic best defending tackles United"},
+{s:"⚽",n:"Aleksandar Mitrovic",f:"🇷🇸",c:"Serbia",p:"Forward",b:2013,cl:["Partizan","Anderlecht","Newcastle United","Fulham","Al-Hilal"],q:"Aleksandar Mitrovic best goals headers"},
+{s:"⚽",n:"Rafael Leao",f:"🇵🇹",c:"Portugal",p:"Forward",b:2018,cl:["Sporting CP","Lille","AC Milan"],q:"Rafael Leao best goals skills speed Milan"},
+{s:"⚽",n:"Federico Valverde",f:"🇺🇾",c:"Uruguay",p:"Midfielder",b:2015,cl:["Penarol","Real Madrid"],q:"Federico Valverde best goals long shots Real Madrid"},
+{s:"⚽",n:"Homare Sawa",f:"🇯🇵",c:"Japan",p:"Midfielder",b:1993,cl:["Nippon TV Beleza","Atlanta Beat","INAC Kobe Leonessa"],q:"Homare Sawa best goals World Cup 2011"},
+{s:"⚽",n:"Wendie Renard",f:"🇫🇷",c:"France",p:"Defender",b:2006,cl:["Olympique Lyonnais"],q:"Wendie Renard best headers goals Lyon captain"},
+/* ===== WAVE 4 — BASKETBALL: historic NBA, EuroLeague/international, WNBA ===== */
+{s:"🏀",n:"Bob Pettit",f:"🇺🇸",c:"USA",p:"Forward",b:1954,cl:["St. Louis Hawks"],q:"Bob Pettit best plays Hawks legend"},
+{s:"🏀",n:"Walt Frazier",f:"🇺🇸",c:"USA",p:"Point Guard",b:1967,cl:["New York Knicks","Cleveland Cavaliers"],q:"Walt Frazier best plays Clyde Knicks"},
+{s:"🏀",n:"Earl Monroe",f:"🇺🇸",c:"USA",p:"Guard",b:1967,cl:["Baltimore Bullets","New York Knicks"],q:"Earl Monroe best moves the pearl"},
+{s:"🏀",n:"Nate Thurmond",f:"🇺🇸",c:"USA",p:"Center",b:1963,cl:["San Francisco Warriors","Chicago Bulls","Cleveland Cavaliers"],q:"Nate Thurmond best rebounds blocks"},
+{s:"🏀",n:"Dave Cowens",f:"🇺🇸",c:"USA",p:"Center",b:1970,cl:["Boston Celtics","Milwaukee Bucks"],q:"Dave Cowens best plays Celtics"},
+{s:"🏀",n:"Bill Walton",f:"🇺🇸",c:"USA",p:"Center",b:1974,cl:["Portland Trail Blazers","San Diego Clippers","Boston Celtics"],q:"Bill Walton best passing center Blazers"},
+{s:"🏀",n:"Bob Lanier",f:"🇺🇸",c:"USA",p:"Center",b:1970,cl:["Detroit Pistons","Milwaukee Bucks"],q:"Bob Lanier best hook shot plays"},
+{s:"🏀",n:"Elvin Hayes",f:"🇺🇸",c:"USA",p:"Forward",b:1968,cl:["San Diego Rockets","Washington Bullets","Houston Rockets"],q:"Elvin Hayes best turnaround jumper big E"},
+{s:"🏀",n:"David Thompson",f:"🇺🇸",c:"USA",p:"Guard",b:1975,cl:["Denver Nuggets","Seattle SuperSonics"],q:"David Thompson best dunks skywalker"},
+{s:"🏀",n:"Artis Gilmore",f:"🇺🇸",c:"USA",p:"Center",b:1971,cl:["Kentucky Colonels","Chicago Bulls","San Antonio Spurs"],q:"Artis Gilmore best dunks A-train"},
+{s:"🏀",n:"Dan Issel",f:"🇺🇸",c:"USA",p:"Center",b:1970,cl:["Kentucky Colonels","Denver Nuggets"],q:"Dan Issel best scoring the horse"},
+{s:"🏀",n:"Chris Mullin",f:"🇺🇸",c:"USA",p:"Forward",b:1985,cl:["Golden State Warriors","Indiana Pacers","Golden State Warriors"],q:"Chris Mullin best shooting Run TMC"},
+{s:"🏀",n:"Alex English",f:"🇺🇸",c:"USA",p:"Forward",b:1976,cl:["Milwaukee Bucks","Indiana Pacers","Denver Nuggets","Dallas Mavericks"],q:"Alex English best midrange scoring Nuggets"},
+{s:"🏀",n:"Kevin Johnson",f:"🇺🇸",c:"USA",p:"Point Guard",b:1987,cl:["Cleveland Cavaliers","Phoenix Suns"],q:"Kevin Johnson best dunks assists Suns"},
+{s:"🏀",n:"Tim Hardaway",f:"🇺🇸",c:"USA",p:"Point Guard",b:1989,cl:["Golden State Warriors","Miami Heat","Dallas Mavericks"],q:"Tim Hardaway best crossover killer"},
+{s:"🏀",n:"Mitch Richmond",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:1988,cl:["Golden State Warriors","Sacramento Kings","Washington Wizards","Los Angeles Lakers"],q:"Mitch Richmond best scoring the rock"},
+{s:"🏀",n:"Detlef Schrempf",f:"🇩🇪",c:"Germany",p:"Forward",b:1985,cl:["Dallas Mavericks","Indiana Pacers","Seattle SuperSonics","Portland Trail Blazers"],q:"Detlef Schrempf best plays Sonics"},
+{s:"🏀",n:"Larry Johnson",f:"🇺🇸",c:"USA",p:"Forward",b:1991,cl:["Charlotte Hornets","New York Knicks"],q:"Larry Johnson best dunks grandmama four point play"},
+{s:"🏀",n:"Amar'e Stoudemire",f:"🇺🇸",c:"USA",p:"Forward",b:2002,cl:["Phoenix Suns","New York Knicks","Dallas Mavericks","Miami Heat"],q:"Amar'e Stoudemire best dunks STAT Suns"},
+{s:"🏀",n:"Zach Randolph",f:"🇺🇸",c:"USA",p:"Forward",b:2001,cl:["Portland Trail Blazers","New York Knicks","Los Angeles Clippers","Memphis Grizzlies","Sacramento Kings"],q:"Zach Randolph best post moves Z-Bo Grizzlies"},
+{s:"🏀",n:"Gilbert Arenas",f:"🇺🇸",c:"USA",p:"Shooting Guard",b:2001,cl:["Golden State Warriors","Washington Wizards","Orlando Magic","Memphis Grizzlies"],q:"Gilbert Arenas best buzzer beaters agent zero"},
+{s:"🏀",n:"Shawn Marion",f:"🇺🇸",c:"USA",p:"Forward",b:1999,cl:["Phoenix Suns","Miami Heat","Toronto Raptors","Dallas Mavericks","Cleveland Cavaliers"],q:"Shawn Marion best dunks the matrix"},
+{s:"🏀",n:"Rasheed Wallace",f:"🇺🇸",c:"USA",p:"Forward",b:1995,cl:["Washington Bullets","Portland Trail Blazers","Detroit Pistons","Boston Celtics"],q:"Rasheed Wallace best plays Pistons ball dont lie"},
+{s:"🏀",n:"Drazen Petrovic",f:"🇭🇷",c:"Croatia",p:"Shooting Guard",b:1979,cl:["Cibona Zagreb","Real Madrid","Portland Trail Blazers","New Jersey Nets"],q:"Drazen Petrovic best shooting Mozart"},
+{s:"🏀",n:"Arvydas Sabonis",f:"🇱🇹",c:"Lithuania",p:"Center",b:1981,cl:["Zalgiris Kaunas","Real Madrid","Portland Trail Blazers"],q:"Arvydas Sabonis best passing center"},
+{s:"🏀",n:"Marc Gasol",f:"🇪🇸",c:"Spain",p:"Center",b:2008,cl:["Memphis Grizzlies","Toronto Raptors","Los Angeles Lakers"],q:"Marc Gasol best passing defense Grizzlies"},
+{s:"🏀",n:"Juan Carlos Navarro",f:"🇪🇸",c:"Spain",p:"Shooting Guard",b:1997,cl:["FC Barcelona","Memphis Grizzlies","FC Barcelona"],q:"Juan Carlos Navarro best bomba floater EuroLeague"},
+{s:"🏀",n:"Dimitris Diamantidis",f:"🇬🇷",c:"Greece",p:"Point Guard",b:1999,cl:["Iraklis","Panathinaikos"],q:"Dimitris Diamantidis best assists defense 3D"},
+{s:"🏀",n:"Andrei Kirilenko",f:"🇷🇺",c:"Russia",p:"Forward",b:1998,cl:["CSKA Moscow","Utah Jazz","Minnesota Timberwolves","Brooklyn Nets"],q:"Andrei Kirilenko best blocks AK47 Jazz"},
+{s:"🏀",n:"Zydrunas Ilgauskas",f:"🇱🇹",c:"Lithuania",p:"Center",b:1997,cl:["Cleveland Cavaliers","Miami Heat"],q:"Zydrunas Ilgauskas best plays Z Cavs"},
+{s:"🏀",n:"Sarunas Marciulionis",f:"🇱🇹",c:"Lithuania",p:"Guard",b:1989,cl:["Golden State Warriors","Seattle SuperSonics","Sacramento Kings"],q:"Sarunas Marciulionis best drives Warriors"},
+{s:"🏀",n:"Nikos Galis",f:"🇬🇷",c:"Greece",p:"Guard",b:1979,cl:["Aris Thessaloniki","Panathinaikos"],q:"Nikos Galis best scoring Greek legend"},
+{s:"🏀",n:"Cynthia Cooper",f:"🇺🇸",c:"USA",p:"Guard",b:1997,cl:["Houston Comets"],q:"Cynthia Cooper best plays Comets MVP"},
+{s:"🏀",n:"Sheryl Swoopes",f:"🇺🇸",c:"USA",p:"Forward",b:1997,cl:["Houston Comets","Seattle Storm","Tulsa Shock"],q:"Sheryl Swoopes best plays female Jordan"},
+{s:"🏀",n:"Tamika Catchings",f:"🇺🇸",c:"USA",p:"Forward",b:2002,cl:["Indiana Fever"],q:"Tamika Catchings best plays defense Fever"},
+{s:"🏀",n:"Tina Thompson",f:"🇺🇸",c:"USA",p:"Forward",b:1997,cl:["Houston Comets","Los Angeles Sparks","Seattle Storm"],q:"Tina Thompson best scoring Comets"},
+{s:"🏀",n:"Lauren Jackson",f:"🇦🇺",c:"Australia",p:"Forward",b:2001,cl:["Seattle Storm"],q:"Lauren Jackson best scoring Storm MVP"},
+{s:"🏀",n:"Elena Delle Donne",f:"🇺🇸",c:"USA",p:"Forward",b:2013,cl:["Chicago Sky","Washington Mystics"],q:"Elena Delle Donne best shooting Mystics MVP"},
+{s:"🏀",n:"Brittney Griner",f:"🇺🇸",c:"USA",p:"Center",b:2013,cl:["Phoenix Mercury","Atlanta Dream"],q:"Brittney Griner best dunks blocks Mercury"},
+{s:"🏀",n:"Nneka Ogwumike",f:"🇺🇸",c:"USA",p:"Forward",b:2012,cl:["Los Angeles Sparks","Seattle Storm"],q:"Nneka Ogwumike best plays Sparks MVP"}
 ];
 
 const $=id=>document.getElementById(id);
@@ -686,7 +906,87 @@ function last(){const w=guesses.length&&guesses[guesses.length-1].ok;return{w,t:
 $('shareWa').addEventListener('click',()=>{const r=last();window.open('https://wa.me/?text='+encodeURIComponent(shareTxt(r.w,r.t)),'_blank')});
 $('shareX').addEventListener('click',()=>{const r=last();window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTxt(r.w,r.t)),'_blank')});
 $('copyBtn').addEventListener('click',function(){const r=last(),t=shareTxt(r.w,r.t),b=this;function ok(){b.textContent='Copied ✅';setTimeout(()=>b.textContent='Copy',1400)}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok).catch(fb)}else fb();function fb(){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');ok()}catch(e){}document.body.removeChild(ta)}});
+/* ============ MASTERPIECE JS LAYER ============ */
+/* --- sound + haptics --- */
+let SND=store.get('sound')!=='0',actx;
+function setSoundIcon(){$('soundBtn').textContent=SND?'🔊':'🔇'}
+function beep(freq,dur,type,vol){if(!SND)return;try{actx=actx||new(window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();
+  const o=actx.createOscillator(),g=actx.createGain();o.type=type||'sine';o.frequency.value=freq;const t=actx.currentTime;
+  g.gain.setValueAtTime(vol||.06,t);g.gain.exponentialRampToValueAtTime(.0001,t+(dur||.15));o.connect(g);g.connect(actx.destination);o.start(t);o.stop(t+(dur||.15))}catch(e){}}
+function sfxRight(){beep(660,.09,'triangle',.07);setTimeout(()=>beep(990,.16,'triangle',.07),85)}
+function sfxWrong(){beep(170,.18,'sawtooth',.05)}
+function sfxWin(){[523,659,784,1046].forEach((f,i)=>setTimeout(()=>beep(f,.2,'triangle',.07),i*110))}
+function sfxLose(){[330,247].forEach((f,i)=>setTimeout(()=>beep(f,.26,'sine',.06),i*160))}
+function haptic(p){try{navigator.vibrate&&navigator.vibrate(p)}catch(e){}}
+$('soundBtn').addEventListener('click',()=>{SND=!SND;store.set('sound',SND?'1':'0');setSoundIcon();if(SND)beep(880,.1,'triangle',.06)});
+setSoundIcon();
+
+/* --- streak flame --- */
+function updateFlame(){const s=+(store.get('streak-'+sport)||0);$('flameWrap').classList.toggle('hot',s>=2)}
+
+/* --- confetti --- */
+const cc=$('confetti'),ctxc=cc.getContext('2d');let raf=0;
+function confetti(){cc.style.display='block';cc.width=innerWidth;cc.height=innerHeight;
+  const cols=['#22c55e','#f97316','#fbbf24','#3b82f6','#eef3ff'];
+  const parts=Array.from({length:150},()=>({x:Math.random()*cc.width,y:-20-Math.random()*cc.height*.3,
+    r:4+Math.random()*7,c:cols[(Math.random()*cols.length)|0],vy:2.4+Math.random()*4,vx:-2.4+Math.random()*4.8,a:Math.random()*6.28,va:-.2+Math.random()*.4}));
+  cancelAnimationFrame(raf);let s0=null;
+  (function loop(ts){if(!s0)s0=ts;const el=ts-s0;ctxc.clearRect(0,0,cc.width,cc.height);
+    parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.a+=p.va;p.vy+=.05;
+      ctxc.save();ctxc.translate(p.x,p.y);ctxc.rotate(p.a);ctxc.fillStyle=p.c;ctxc.fillRect(-p.r/2,-p.r/2,p.r,p.r*.55);ctxc.restore()});
+    if(el<2600)raf=requestAnimationFrame(loop);else{cc.style.display='none';ctxc.clearRect(0,0,cc.width,cc.height)}})(0)}
+
+/* --- shareable result image (spoiler-free, Wordle-style) --- */
+function rr(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath()}
+let shareURL=null;
+function buildShareImage(win,tries){
+  const c=document.createElement('canvas');c.width=1080;c.height=1080;const g=c.getContext('2d');
+  const isF=sport==='⚽',ag=isF?'#22c55e':'#f97316';
+  const grad=g.createLinearGradient(0,0,1080,1080);grad.addColorStop(0,isF?'#06301a':'#3a1a05');grad.addColorStop(1,'#0a0f1e');
+  g.fillStyle=grad;g.fillRect(0,0,1080,1080);
+  g.globalAlpha=.16;g.fillStyle=ag;g.beginPath();g.arc(170,180,340,0,7);g.fill();
+  g.beginPath();g.arc(940,930,300,0,7);g.fill();g.globalAlpha=1;
+  g.textAlign='center';
+  g.fillStyle='#eef3ff';g.font='800 66px Sora,system-ui,sans-serif';g.fillText('🏅 LEGENDS GUESS',540,150);
+  g.fillStyle=ag;g.font='700 40px Sora,system-ui,sans-serif';g.fillText(sport+'  '+(mode==='endless'?'ENDLESS':'DAILY #'+pNum),540,214);
+  g.fillStyle='#fbbf24';g.font='800 150px Sora,system-ui,sans-serif';g.fillText(win?tries+'/6':'X/6',540,410);
+  g.fillStyle='#8aa0c8';g.font='600 36px Sora,system-ui,sans-serif';
+  g.fillText(win?(tries<=2?'Solved like a legend!':'Solved it!'):'So close — beat me!',540,470);
+  const cells=6,sz=126,gap=16,tot=cells*sz+(cells-1)*gap,x0=540-tot/2,yy=560;
+  for(let i=0;i<cells;i++){let col='#1c2942';if(win&&i===tries-1)col=ag;else if(i<tries)col='#ef4444';
+    g.fillStyle=col;rr(g,x0+i*(sz+gap),yy,sz,sz,22);g.fill()}
+  g.fillStyle='#eef3ff';g.font='800 52px Sora,system-ui,sans-serif';g.fillText('legendsguess.com',540,870);
+  g.fillStyle='#8aa0c8';g.font='600 34px Sora,system-ui,sans-serif';g.fillText('Guess the legend  •  Watch them play',540,930);
+  return c.toDataURL('image/png')}
+
+/* --- wrap game hooks (logic untouched) --- */
+const _showResult=showResult;
+showResult=function(win,tries){_showResult(win,tries);
+  try{shareURL=buildShareImage(win,tries);$('shareImg').src=shareURL;$('shareImgWrap').style.display='block'}catch(e){$('shareImgWrap').style.display='none'}};
+const _finish=finish;
+finish=function(win){_finish(win);if(win){confetti();sfxWin();haptic([30,40,70])}else{sfxLose();haptic(120)}updateFlame()};
+const _makeGuess=makeGuess;
+makeGuess=function(name){const b=guesses.length;_makeGuess(name);
+  if(guesses.length>b&&!over){const l=guesses[guesses.length-1];l.ok?sfxRight():sfxWrong();haptic(l.ok?40:18)}};
+const _start=start;start=function(e){_start(e);updateFlame()};
+$('saveImgBtn').addEventListener('click',()=>{if(!shareURL)return;const a=document.createElement('a');a.href=shareURL;
+  a.download='legends-guess-'+(isFsafe())+'-'+(mode==='endless'?'endless':pNum)+'.png';document.body.appendChild(a);a.click();a.remove()});
+function isFsafe(){return sport==='⚽'?'football':'basketball'}
+
+/* --- PWA install --- */
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}
+let deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('installBtn').style.display='flex'});
+$('installBtn').addEventListener('click',async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();try{await deferredPrompt.userChoice}catch(e){}deferredPrompt=null;$('installBtn').style.display='none'});
+window.addEventListener('appinstalled',()=>{$('installBtn').style.display='none'});
+
+/* --- cookie consent --- */
+if(store.get('cookieChoice')===null){setTimeout(()=>$('cookie').classList.add('show'),1200)}
+$('ckYes').addEventListener('click',()=>{store.set('cookieChoice','accept');$('cookie').classList.remove('show')});
+$('ckNo').addEventListener('click',()=>{store.set('cookieChoice','decline');$('cookie').classList.remove('show')});
+
 start(false);
+updateFlame();
 if(store.get('seenWelcome')===null){openM('welcome');store.set('seenWelcome','1')}
 </script>
 </body>
