@@ -150,6 +150,14 @@ header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14)
 .top-strip b{font-family:var(--disp)}
 
 .qhead{font-size:1.15rem;letter-spacing:-.01em}
+#nameTiles{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;align-items:flex-end;margin:0 0 14px;min-height:36px}
+#nameTiles .tile{width:27px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--disp);font-weight:800;font-size:1.08rem;background:rgba(255,255,255,.035);border:1.5px solid var(--line);color:var(--text);box-shadow:inset 0 -2px 0 rgba(0,0,0,.25)}
+#nameTiles .tile.shown{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 26%,transparent),rgba(19,32,60,.55));border-color:var(--accent);color:#fff;text-shadow:0 1px 6px color-mix(in srgb,var(--accent) 60%,transparent)}
+#nameTiles .tile.win{animation:tileWin .45s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes tileWin{from{transform:rotateX(90deg) scale(.9);opacity:0}to{transform:rotateX(0) scale(1);opacity:1}}
+#nameTiles .tpunc{min-width:12px;height:36px;display:flex;align-items:flex-end;justify-content:center;color:var(--muted);font-weight:800;font-size:1.05rem;padding-bottom:3px}
+#nameTiles .tgap{width:16px}
 #clues{gap:9px}
 .clue{border-radius:16px;border:1px solid var(--line);border-left:4px solid var(--accent);
   box-shadow:0 8px 24px -14px rgba(0,0,0,.7);opacity:0;transform:translateY(8px);animation:clueIn .5s cubic-bezier(.2,.8,.2,1) forwards}
@@ -259,6 +267,7 @@ header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14)
   </div>
 
   <div class="qhead">Who is this legend? <span class="tries" id="triesLeft">6 guesses left</span></div>
+  <div id="nameTiles" aria-label="Name hint — first letter and length"></div>
 
   <section id="clues"></section>
   <section id="guessRows"></section>
@@ -294,7 +303,7 @@ header{background:rgba(9,13,26,.72);border-bottom:1px solid rgba(251,191,36,.14)
   <button class="close" data-close="helpModal">✕</button>
   <h2>How to play 🏅</h2>
   <p><b>1. Pick a sport</b> — ⚽ Football or 🏀 Basketball at the top.</p>
-  <p><b>2. Guess the legend</b> — the cards show clues about their career (clubs/teams they played for, in order, plus nation, era, and their initial). Type a name in the box and press SUBMIT GUESS.</p>
+  <p><b>2. Guess the legend</b> — the cards show clues about their career (clubs/teams they played for, in order, plus nation and era), and you get a masked hint of their name showing the first letter and how many letters it has. Type a name in the box and press SUBMIT GUESS.</p>
   <p><b>3. Wrong guess = new clue.</b> Each miss unlocks the next clue. You have 6 guesses total.</p>
   <p><b>4. Watch them play 🎬</b> — when you solve it (or press "Give up"), highlight buttons appear so you can watch their best moments instantly.</p>
   <p>Come back daily for a new puzzle in each sport, keep your 🔥 streak, and use 🎲 Endless for unlimited games.</p>
@@ -813,7 +822,6 @@ function buildClues(p){
   for(let i=1;i<p.cl.length;i++)l.push({k:(sport==="🏀"?"Team ":"Club ")+(i+1),v:p.cl[i]});
   l.push({k:"Nation",v:p.f+" "+p.c});
   l.push({k:"Era from",v:String(p.b)+"s"});
-  l.push({k:"Initial",v:'Name starts with "'+p.n[0]+'"'});
   return l;
 }
 function updTries(){
@@ -839,6 +847,20 @@ function start(endless){
   }
   renderAll();
 }
+function renderTiles(){
+  const t=$('nameTiles');if(!t||!answer)return;t.innerHTML='';
+  const nm=answer.n,rev=over;
+  [...nm].forEach((ch,i)=>{
+    if(ch===' '){const s=document.createElement('span');s.className='tgap';t.appendChild(s);return}
+    if(!/[A-Za-z]/.test(ch)){const p=document.createElement('span');p.className='tpunc';p.textContent=ch;t.appendChild(p);return}
+    const shown=(i===0||rev);
+    const d=document.createElement('span');
+    d.className='tile'+(shown?' shown':'')+(rev?' win':'');
+    d.style.animationDelay=(rev?(i*0.03)+'s':'0s');
+    d.textContent=shown?ch:'';
+    t.appendChild(d);
+  });
+}
 function renderAll(){
   const c=$('clues');c.innerHTML='';
   clues.forEach((cl,i)=>{
@@ -853,6 +875,7 @@ function renderAll(){
     d.innerHTML='<span><span class="num">'+(i+1)+'/'+MAX+'</span>'+(gu.name||'—')+'</span><span>'+(gu.ok?'✅':'❌')+'</span>';
     g.appendChild(d);
   });
+  renderTiles();
   updTries();
 }
 function makeGuess(name){

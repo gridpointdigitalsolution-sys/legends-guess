@@ -3,7 +3,7 @@
 ## Project identity
 - Name: **Legends Guess** (portfolio brand for football + basketball fan apps).
 - Domain: **legendsguess.com** (Hostinger). Backups considered: guessthelegend.com, playlegendsguess.com.
-- Owner email on domain: cbnotion02@gmail.com. Account: GridpointDigitalSolution@gmail.com.
+- Public contact email: hello@legendsguess.com (used in app privacy/contact pages).
 
 ## Product decisions
 - Flagship = Legends Guess (guess-the-legend + integrated highlights).
