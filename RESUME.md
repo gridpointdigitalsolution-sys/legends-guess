@@ -18,7 +18,7 @@
 - [x] UI/UX world-class pass — Bricolage/Sora fonts, gradient-mesh bg + grain, staggered motion, confetti, streak flame, shareable result image, sound+haptics, a11y focus. Verified via jsdom smoke test (0 errors) + live.
 - [x] PWA — manifest, service worker, generated icons (192/512/maskable/apple-touch), favicon.svg, install button.
 - [x] Compliance files — robots.txt, sitemap.xml, ads.txt, 404.html, cookie-consent banner. OG social card (1200×630).
-- [x] Roster waves 4 + 5 + 6 → 480 legends (306 ⚽ / 174 🏀).
+- [x] Roster waves 4 + 5 + 6 → 548 legends (374 ⚽ / 174 🏀).
 - [x] **DEPLOYED LIVE** → https://legendsguess.com (Contabo VPS, dedicated Cloudflare tunnel under owner's account, isolated `legendsguess` user). VCC untouched.
 - [x] **Desktop polish** — responsive two-column layout ≥980px + mobile. Web-app for all browsers (no app store yet).
 - [x] Email → hello@legendsguess.com everywhere (Gridpoint refs removed).

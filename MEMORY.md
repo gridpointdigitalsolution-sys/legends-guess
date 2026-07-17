@@ -10,7 +10,7 @@
 - Two sports in one app: ⚽ Football and 🏀 Basketball (toggle).
 - Monetization = Google AdSense first (free to users). Later: affiliate/sponsors on other apps.
 - Clips via LIVE SEARCH links only — no hosting, no hardcoded IDs. Legal + unbreakable.
-- Grow roster in accurate waves (wrong career = broken puzzle). Currently 480 legends.
+- Grow roster in accurate waves (wrong career = broken puzzle). Currently 548 legends.
 - **LIVE at https://legendsguess.com** (Contabo VPS + dedicated Cloudflare tunnel under owner account; isolated `legendsguess` user). Web-app only for now — no Play Store / App Store yet (later feature). Must work for any desktop + mobile browser.
 
 ## Data model (07-legends-guess DATA array)
@@ -21,7 +21,7 @@
 - Deploy target = owner's **VPS with Cloudflare in front** (not plain static host — owner runs paid ads → spiky global traffic). Cloudflare CDN is non-negotiable.
 
 ## Roster status
-- Football: 306 · Basketball: 174 · TOTAL: 480 (after wave 6). Football expanding further (owner priority); basketball healthy.
+- Football: 374 · Basketball: 174 · TOTAL: 548 (after wave 6). Football expanding further (owner priority); basketball healthy.
 - Target: 500+/sport → 1,000+/sport, plus extra puzzle formats (guess-by-trophies, guess-the-moment).
 - Coverage so far: modern stars, 90s/2000s classics, strong African set, some Asian/Latam, women's football (Marta, Rapinoe, Morgan, Sam Kerr, Bonmati…), NBA classics + WNBA (Taurasi, A'ja Wilson, Caitlin Clark…).
 

@@ -35,7 +35,7 @@ Legend: [x] done · [~] in progress · [ ] todo
 - [x] Wave 1+2: 218 (138 ⚽ / 80 🏀)
 - [x] Wave 3: 300 (186 ⚽ / 114 🏀)
 - [x] Wave 4: 380 (226 ⚽ / 154 🏀) — historic greats, EuroLeague, women's, Asia/Latam/Africa
-- [x] Wave 5: 480 (306 ⚽ / 174 🏀) — 90s/00s greats, Japan/Iran/India/Mexico, more WNBA
+- [x] Wave 5: 548 (374 ⚽ / 174 🏀) — 90s/00s greats, Japan/Iran/India/Mexico, more WNBA
 - [ ] Continue waves → 500 → 1,000 per sport (verify every club order + era before shipping)
 
 ## F. Deploy — Contabo VPS + Cloudflare Tunnel  ✅ LIVE (https://legendsguess.com)
