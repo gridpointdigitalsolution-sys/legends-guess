@@ -10,7 +10,7 @@
 - Two sports in one app: ⚽ Football and 🏀 Basketball (toggle).
 - Monetization = Google AdSense first (free to users). Later: affiliate/sponsors on other apps.
 - Clips via LIVE SEARCH links only — no hosting, no hardcoded IDs. Legal + unbreakable.
-- Grow roster in accurate waves (wrong career = broken puzzle). Currently 548 legends.
+- Grow roster in accurate waves (wrong career = broken puzzle). Currently 644 legends.
 - **LIVE at https://legendsguess.com** (Contabo VPS + dedicated Cloudflare tunnel under owner account; isolated `legendsguess` user). Web-app only for now — no Play Store / App Store yet (later feature). Must work for any desktop + mobile browser.
 
 ## Data model (07-legends-guess DATA array)
