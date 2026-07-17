@@ -35,8 +35,10 @@ Legend: [x] done · [~] in progress · [ ] todo
 - [x] Wave 1+2: 218 (138 ⚽ / 80 🏀)
 - [x] Wave 3: 300 (186 ⚽ / 114 🏀)
 - [x] Wave 4: 380 (226 ⚽ / 154 🏀) — historic greats, EuroLeague, women's, Asia/Latam/Africa
-- [x] Wave 5: 548 (374 ⚽ / 174 🏀) — 90s/00s greats, Japan/Iran/India/Mexico, more WNBA
-- [ ] Continue waves → 500 → 1,000 per sport (verify every club order + era before shipping)
+- [x] Wave 5: 420 (246 ⚽ / 174 🏀) — 90s/00s greats, Japan/Iran/India/Mexico, more WNBA
+- [x] Wave 6: 480 (306 ⚽ / 174 🏀) — global football depth (Latam/Africa/Asia/USA/women/classics)
+- [x] Wave 7: 548 (374 ⚽ / 174 🏀) — E.Europe/Scandinavia/Turkey/Africa/Asia/Latam/women/historic. ⚽ football now 374.
+- [ ] Continue waves → 500 → 1,000 per sport (football focus; verify every club order + era before shipping)
 
 ## F. Deploy — Contabo VPS + Cloudflare Tunnel  ✅ LIVE (https://legendsguess.com)
 - [x] GitHub repo + live proof (GitHub Pages backup)
