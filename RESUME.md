@@ -14,7 +14,15 @@
 - [x] **Legal pages built + wired** — 07-legends-guess/{privacy,about,contact}.html (real content, dark theme). Footer links now point to real pages (removed the old alert() popups).
 - [x] **Live URL set** — `const SITE='https://legendsguess.com'` in the flagship.
 
+## DONE (masterpiece session)
+- [x] UI/UX world-class pass — Bricolage/Sora fonts, gradient-mesh bg + grain, staggered motion, confetti, streak flame, shareable result image, sound+haptics, a11y focus. Verified via jsdom smoke test (0 errors) + live.
+- [x] PWA — manifest, service worker, generated icons (192/512/maskable/apple-touch), favicon.svg, install button.
+- [x] Compliance files — robots.txt, sitemap.xml, ads.txt, 404.html, cookie-consent banner. OG social card (1200×630).
+- [x] Roster wave 4 → 380 legends (226 ⚽ / 154 🏀).
+- See **ROADMAP.md** for the full checklist + what remains.
+
 ## NEXT (in order)
+0. **Pro email** — pick hello@ vs support@legendsguess.com so contact/privacy pages can use it.
 1. **Point legendsguess.com at the deploy** (needs Hostinger/Netlify dashboard — see LAUNCH-GUIDE.md):
    - EASIEST: Netlify → "Add new site → Import from Git" → pick `legends-guess` repo → publish dir auto-reads `07-legends-guess` from netlify.toml → deploy → "Domain settings → add legendsguess.com" → follow Netlify DNS records → in Hostinger set nameservers/records to Netlify. OR
    - Hostinger direct: upload the 4 files in 07-legends-guess/ to `public_html`.
