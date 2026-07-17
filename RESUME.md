@@ -18,31 +18,27 @@
 - [x] UI/UX world-class pass — Bricolage/Sora fonts, gradient-mesh bg + grain, staggered motion, confetti, streak flame, shareable result image, sound+haptics, a11y focus. Verified via jsdom smoke test (0 errors) + live.
 - [x] PWA — manifest, service worker, generated icons (192/512/maskable/apple-touch), favicon.svg, install button.
 - [x] Compliance files — robots.txt, sitemap.xml, ads.txt, 404.html, cookie-consent banner. OG social card (1200×630).
-- [x] Roster waves 4 + 5 → 480 legends (246 ⚽ / 174 🏀).
+- [x] Roster waves 4 + 5 + 6 → 480 legends (306 ⚽ / 174 🏀).
+- [x] **DEPLOYED LIVE** → https://legendsguess.com (Contabo VPS, dedicated Cloudflare tunnel under owner's account, isolated `legendsguess` user). VCC untouched.
+- [x] **Desktop polish** — responsive two-column layout ≥980px + mobile. Web-app for all browsers (no app store yet).
+- [x] Email → hello@legendsguess.com everywhere (Gridpoint refs removed).
 - See **ROADMAP.md** for the full checklist + what remains.
 
-## NEXT (in order)
-0. **Pro email** — pick hello@ vs support@legendsguess.com so contact/privacy pages can use it.
-1. **Point legendsguess.com at the deploy** (needs Hostinger/Netlify dashboard — see LAUNCH-GUIDE.md):
-   - EASIEST: Netlify → "Add new site → Import from Git" → pick `legends-guess` repo → publish dir auto-reads `07-legends-guess` from netlify.toml → deploy → "Domain settings → add legendsguess.com" → follow Netlify DNS records → in Hostinger set nameservers/records to Netlify. OR
-   - Hostinger direct: upload the 4 files in 07-legends-guess/ to `public_html`.
-   - After custom domain works, add a CNAME file in gh-pages OR just rely on the host; keep GitHub Pages as backup.
-2. **Apply to AdSense** once legendsguess.com is live a few days; paste publisher `<script>` into `<head>` of index.html + all 3 legal pages, then activate the AD SPACE slots.
-3. **Roster wave 3:** +100 accurate legends (more Asia, Latam, women's, EuroLeague) toward 1,000+.
-4. Then build App #2 (Prediction Game).
+## NEXT (in order, post-live)
+1. **Apply to Google AdSense** — site is live; wait a few days, then apply. On approval: paste publisher `<script>` into `<head>` of index + about/privacy/contact, fill the ads.txt line, activate the 3 AD SPACE slots.
+2. **Analytics** — GA4 or Plausible (owner picks) to measure promo traffic.
+3. **hello@legendsguess.com mailbox** — create on host (add MX record; already referenced in pages).
+4. **SEO** — per-legend / programmatic pages for organic traffic (big lever, later phase).
+5. **Roster** — keep expanding football in accuracy waves (owner priority) → 500 → 1,000/sport.
+6. Later: App #2 (Prediction Game); optional app-store wrap.
 
-## GIT — create & push (run in the football lovers folder on F:)
+## UPDATE THE LIVE SITE after code/roster changes
 ```bash
-cd /path/to/football-lovers        # your F: football lovers folder
-git init
-git add .
-git commit -m "Legends Guess: 218-legend football+basketball game + vault + docs"
-git branch -M main
-# create empty repo on GitHub first (github.com/new), then:
-git remote add origin https://github.com/<your-username>/<repo>.git
-git push -u origin main
+# 1) commit to main, then sync flagship to gh-pages branch, then:
+ssh -i ~/.ssh/vcc_contabo_ed25519 -o IdentitiesOnly=yes vcc \
+  "runuser -u legendsguess -- bash -lc 'cd /opt/legendsguess/site && git pull'"
 ```
-Then in Netlify/Hostinger: "Import from Git" → pick the repo → set base/publish to `07-legends-guess` (or root) → deploy → add domain legendsguess.com.
+(gh-pages branch = the flat web root the VPS serves. Static Node server reads files live — no restart needed.)
 
 ## Quick test locally
-Open `07-legends-guess/index.html` in a browser. Pick a sport, guess, watch highlights unlock.
+Open `07-legends-guess/index.html` in a browser. Pick a sport, guess, watch the name tiles + highlights unlock.

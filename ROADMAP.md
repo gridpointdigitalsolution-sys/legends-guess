@@ -12,6 +12,7 @@ Legend: [x] done · [~] in progress · [ ] todo
 - [x] Auto-generated shareable **RESULT IMAGE** (canvas → PNG, spoiler-free) + Save-image button
 - [x] Sound effects (WebAudio) + toggle (persisted), mobile haptics
 - [x] Accessibility — :focus-visible rings, ARIA labels, prefers-reduced-motion honoured
+- [x] **Desktop layout** — responsive two-column "stage" (clues left / controls sticky right) at ≥980px, wider container, larger type; single column on mobile. Web-app for all browsers (no app-store build for now).
 - [ ] (Optional) light/dark toggle — deferred (dark theme is the brand)
 
 ## B. PWA / app-like  (DONE)

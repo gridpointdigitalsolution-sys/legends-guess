@@ -3,8 +3,13 @@
 **Owner:** Churchill Bracknell · **Domain:** legendsguess.com (Hostinger, registered 2026-07-17)
 **Goal:** launch free football+basketball web games, monetize via Google AdSense, then build the other apps.
 
+## ✅ STATUS: LIVE at https://legendsguess.com (as of 2026-07-17)
+- Deployed on owner's Contabo VPS via a **dedicated Cloudflare tunnel under the owner's own account** (not the shared VerifiedCarCheck tunnel). Fully isolated `legendsguess` user, static Node server on 127.0.0.1:3011. Full deploy details + update flow in **ROADMAP.md § F**.
+- Flagship now: **480 legends (306 ⚽ / 174 🏀)**, world-class UI/UX (Bricolage/Sora fonts, motion, confetti, streak flame, shareable result image, sound, PWA installable, cookie banner), **responsive desktop + mobile** layout, real privacy/about/contact pages, hello@legendsguess.com contact, robots/sitemap/ads.txt/404, OG social card.
+- Full progress + what remains lives in **ROADMAP.md** (single source of truth).
+
 ## What exists (all in this folder, all working)
-1. **07-legends-guess/index.html** — FLAGSHIP. Guess the ⚽/🏀 legend from their career (6 tries), then "Watch them play" opens their real highlights (YouTube/TikTok/IG search — legal, unlimited, nothing hosted). 218 legends (138 football, 80 basketball). Daily + Endless modes, streaks, share grids, welcome/how-to, AdSense slots + privacy/about/contact placeholders. Mobile-first, single file.
+1. **07-legends-guess/index.html** — FLAGSHIP (LIVE). Guess the ⚽/🏀 legend from their career (6 tries) + masked name-tile hint, then "Watch them play" opens their real highlights (YouTube/TikTok/IG search — legal, unlimited, nothing hosted). **480 legends**. Daily + Endless, streaks, share image, PWA, AdSense slots (not yet activated). Single self-contained file.
 2. **06-legends-clip-vault/index.html** — Browse legends, filter (Skills/Goals/Africa/era…), open their clips.
 3. **01-daily-football-game/index.html** — Footy Guess (football-only original).
 4. **02–05** — briefs only (README.md in each) for the next money apps.
