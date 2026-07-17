@@ -37,12 +37,12 @@ Legend: [x] done · [~] in progress · [ ] todo
 - [x] Wave 5: 480 (306 ⚽ / 174 🏀) — 90s/00s greats, Japan/Iran/India/Mexico, more WNBA
 - [ ] Continue waves → 500 → 1,000 per sport (verify every club order + era before shipping)
 
-## F. Deploy — Contabo VPS + Cloudflare Tunnel  (server DONE; 1 DNS record pending)
-- [x] GitHub repo + live proof (GitHub Pages)
-- [x] Isolated home on shared Contabo VPS (109.199.105.176): user `legendsguess` (uid 1002, no sudo/docker), /opt/legendsguess, systemd --user service, Node static server bound 127.0.0.1:3011 only. Deployed from gh-pages (git pull to update).
-- [x] Cloudflare Tunnel ingress: added `legendsguess.com` + `www` → localhost:3011 in /root/.cloudflared/config.yml (above 404, VCC rules untouched, backup at config.yml.bak.legendsguess). cloudflared restarted, active. VCC health verified still ok.
-- [ ] **PENDING (user, Cloudflare dashboard):** DNS for legendsguess.com must be **CNAME @ → 5acf974a-0b0e-48b1-8e0d-7428982d7d5e.cfargotunnel.com, Proxied (orange)**. Current record 530s = not routing to tunnel. Server can't set it (no cert.pem/API token on box). Once set, site is instantly live over HTTPS.
-- Update live site after roster/code changes: push gh-pages, then on VPS `runuser -u legendsguess -- bash -lc 'cd /opt/legendsguess/site && git pull'`.
+## F. Deploy — Contabo VPS + Cloudflare Tunnel  ✅ LIVE (https://legendsguess.com)
+- [x] GitHub repo + live proof (GitHub Pages backup)
+- [x] Isolated home on shared Contabo VPS (109.199.105.176): user `legendsguess` (uid 1002, NO sudo/docker/root), /opt/legendsguess, Node static server bound **127.0.0.1:3011 only** via systemd --user service `legendsguess`. Site = git clone of gh-pages at /opt/legendsguess/site.
+- [x] **Dedicated Cloudflare tunnel** `legendsguess` (id 774f20bb-fdf2-4e5d-818b-998110ee8674) under the OWNER's own Cloudflare account (Digitalmindss01) — NOT the shared VCC tunnel (cross-account, so VCC's 5acf974a tunnel couldn't serve it). Runs as the `legendsguess` user via systemd --user service `cloudflared-legendsguess`. Config/cert in /home/legendsguess/.cloudflared. DNS CNAME legendsguess.com + www → 774f20bb…cfargotunnel.com (Cloudflare does TLS).
+- [x] Shared VCC tunnel config restored to pristine (my temp lines removed). VCC health verified still `ok`. Full isolation: never touched /opt/verifiedcarcheck, /root apps, other /opt/*.
+- **Update live site after changes:** push to gh-pages, then `ssh -i ~/.ssh/vcc_contabo_ed25519 -o IdentitiesOnly=yes vcc "runuser -u legendsguess -- bash -lc 'cd /opt/legendsguess/site && git pull'"`.
 
 ## Decisions locked
 - VPS is the home (owner running paid ads, global spiky traffic). Cloudflare MUST sit in front.
