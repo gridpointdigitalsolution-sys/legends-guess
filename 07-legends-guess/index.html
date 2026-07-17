@@ -263,7 +263,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 @keyframes enterUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes enterDown{from{opacity:0;transform:translateY(-100%)}to{opacity:1;transform:translateY(0)}}
 /* logo life */
-.logo{transition:transform .2s}
+.logo{transition:transform .2s;text-decoration:none;color:var(--text);cursor:pointer}
 .logo:hover{transform:scale(1.04)}
 .logo b{animation:glow 3.4s ease-in-out infinite}
 @keyframes glow{0%,100%{text-shadow:0 0 0 transparent}50%{text-shadow:0 0 15px color-mix(in srgb,var(--accent) 60%,transparent)}}
@@ -322,7 +322,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 <body>
 <header>
   <div class="hin">
-    <div class="logo">🏅 Legends<b>Guess</b></div>
+    <a href="index.html" class="logo" title="Legends Guess — home">🏅 Legends<b>Guess</b></a>
     <div class="hbtns">
       <button class="ico" id="installBtn" title="Install app" aria-label="Install app">⬇️</button>
       <button class="ico" id="soundBtn" title="Sound on/off" aria-label="Toggle sound">🔊</button>
@@ -1244,9 +1244,18 @@ function dailyIdx(){
   const rng=mulberry32(days*salt+42);
   return Math.floor(rng()*pool().length);
 }
+const REGION={
+"Argentina":"South America","Brazil":"South America","Chile":"South America","Colombia":"South America","Ecuador":"South America","Paraguay":"South America","Peru":"South America","Uruguay":"South America",
+"USA":"North America","Canada":"North America","Mexico":"North America","Costa Rica":"North America","Bahamas":"North America","Trinidad and Tobago":"North America",
+"Algeria":"Africa","Cameroon":"Africa","DR Congo":"Africa","Republic of the Congo":"Africa","Egypt":"Africa","Gabon":"Africa","Ghana":"Africa","Ivory Coast":"Africa","Liberia":"Africa","Mali":"Africa","Morocco":"Africa","Nigeria":"Africa","Nigeria/USA":"Africa","Senegal":"Africa","South Africa":"Africa","South Sudan":"Africa","Sudan":"Africa","Togo":"Africa","Zambia":"Africa",
+"China":"Asia","India":"Asia","Iran":"Asia","Japan":"Asia","Saudi Arabia":"Asia","South Korea":"Asia",
+"Australia":"Oceania",
+"Belgium":"Europe","Bulgaria":"Europe","Croatia":"Europe","Czech Republic":"Europe","Czechia":"Europe","Denmark":"Europe","England":"Europe","Finland":"Europe","France":"Europe","Georgia":"Europe","Germany":"Europe","Greece":"Europe","Hungary":"Europe","Iceland":"Europe","Ireland":"Europe","Italy":"Europe","Latvia":"Europe","Lithuania":"Europe","Montenegro":"Europe","Netherlands":"Europe","Northern Ireland":"Europe","Norway":"Europe","Poland":"Europe","Portugal":"Europe","Romania":"Europe","Russia":"Europe","Scotland":"Europe","Serbia":"Europe","Slovenia":"Europe","Soviet Union":"Europe","Spain":"Europe","Sweden":"Europe","Turkey":"Europe","Ukraine":"Europe","Wales":"Europe"
+};
 function buildClues(p){
   const l=[{k:sport==="🏀"?"Role":"Position",v:p.p},{k:(sport==="🏀"?"Team":"Club")+" 1",v:p.cl[0]}];
   for(let i=1;i<p.cl.length;i++)l.push({k:(sport==="🏀"?"Team ":"Club ")+(i+1),v:p.cl[i]});
+  l.push({k:"Region",v:REGION[p.c]||"—"});
   l.push({k:"Nation",v:p.f+" "+p.c});
   l.push({k:"Era from",v:String(p.b)+"s"});
   return l;
@@ -1494,6 +1503,16 @@ $('ckNo').addEventListener('click',()=>{store.set('cookieChoice','decline');$('c
 start(false);
 updateFlame();
 if(store.get('seenWelcome')===null){openM('welcome');store.set('seenWelcome','1')}
+</script>
+
+<!-- Google Analytics 4 — replace G-XXXXXXXXXX with your Measurement ID from analytics.google.com. Loads only if set + cookies not declined. -->
+<script>
+(function(){var GA_ID='G-XXXXXXXXXX';
+ if(!GA_ID||GA_ID.indexOf('XXXX')>-1)return;
+ try{if(localStorage.getItem('cookieChoice')==='decline')return}catch(e){}
+ var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+GA_ID;document.head.appendChild(s);
+ window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config',GA_ID);
+})();
 </script>
 </body>
 </html>
