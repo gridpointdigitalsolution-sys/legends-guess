@@ -5,7 +5,7 @@
 
 ## ✅ STATUS: LIVE at https://legendsguess.com (as of 2026-07-17)
 - Deployed on owner's Contabo VPS via a **dedicated Cloudflare tunnel under the owner's own account** (not the shared VerifiedCarCheck tunnel). Fully isolated `legendsguess` user, static Node server on 127.0.0.1:3011. Full deploy details + update flow in **ROADMAP.md § F**.
-- Flagship now: **644 legends (374 ⚽ / 174 🏀)**, world-class UI/UX (Bricolage/Sora fonts, motion, confetti, streak flame, shareable result image, sound, PWA installable, cookie banner), **responsive desktop + mobile** layout, real privacy/about/contact pages, hello@legendsguess.com contact, robots/sitemap/ads.txt/404, OG social card.
+- Flagship now: **897 legends (549 ⚽ / 348 🏀)**, world-class UI/UX (Bricolage/Sora fonts, motion, confetti, streak flame, shareable result image, sound, PWA installable, cookie banner), **image-forward legend carousel with crest-avatars** (football top row / basketball bottom, photo-ready `.mimg`), clue icon tiles + gold glow on newest clue, **mobile == desktop wow**, instant-load (no blocking modal), real privacy/about/contact pages, hello@legendsguess.com contact, robots/sitemap/ads.txt/404, OG social card.
 - Full progress + what remains lives in **ROADMAP.md** (single source of truth).
 
 ## What exists (all in this folder, all working)

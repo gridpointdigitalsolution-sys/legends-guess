@@ -10,7 +10,7 @@
 - Two sports in one app: ⚽ Football and 🏀 Basketball (toggle).
 - Monetization = Google AdSense first (free to users). Later: affiliate/sponsors on other apps.
 - Clips via LIVE SEARCH links only — no hosting, no hardcoded IDs. Legal + unbreakable.
-- Grow roster in accurate waves (wrong career = broken puzzle). Currently 792 legends (489 ⚽ / 303 🏀). Targets: football 1,000, basketball 500.
+- Grow roster in accurate waves (wrong career = broken puzzle). Currently 897 legends (549 ⚽ / 348 🏀). Targets: football 1,000, basketball 500.
 - **LIVE at https://legendsguess.com** (Contabo VPS + dedicated Cloudflare tunnel under owner account; isolated `legendsguess` user). Web-app only for now — no Play Store / App Store yet (later feature). Must work for any desktop + mobile browser.
 
 ## Data model (07-legends-guess DATA array)
@@ -21,8 +21,8 @@
 - Deploy target = owner's **VPS with Cloudflare in front** (not plain static host — owner runs paid ads → spiky global traffic). Cloudflare CDN is non-negotiable.
 
 ## Roster status
-- Football: 489 · Basketball: 303 · TOTAL: 792 (after wave 11). Expanding both toward targets.
-- Features live: daily+endless, difficulty modes (easy/normal/hard = 3/2/1 starting clues), Region clue, masked name tiles, warmer hints (region/nation/era/position ✓✗ on wrong guess), Wordle-style stats + guess distribution, next-puzzle countdown, streak flame, confetti, share-image, sound, PWA, floating particles. SEO: JSON-LD + legends.html browse-all + sitemap. GA4 wired (awaiting Measurement ID). Email hello@legendsguess.com working.
+- Football: 549 · Basketball: 348 · TOTAL: 897 (after roster wave +105). Expanding both toward targets.
+- Features live: daily+endless, difficulty modes (easy/normal/hard = 3/2/1 starting clues, separate daily legend per difficulty), Region clue, masked name tiles, clue **icon tiles** + **gold auto-glow on newest clue**, warmer hints (region/nation/era/position ✓✗ on wrong guess), Wordle-style stats + guess distribution, next-puzzle countdown, streak flame, confetti, share-image, sound, PWA, floating particles. **Image-forward legend carousel with generated crest-avatars** (football top / basketball bottom, `.mimg` photo-ready), instant load (no blocking welcome modal), ad placeholders hidden until live. SEO: JSON-LD + legends.html browse-all + sitemap. GA4 wired (awaiting Measurement ID). Email hello@legendsguess.com working.
 - Target: 500+/sport → 1,000+/sport, plus extra puzzle formats (guess-by-trophies, guess-the-moment).
 - Coverage so far: modern stars, 90s/2000s classics, strong African set, some Asian/Latam, women's football (Marta, Rapinoe, Morgan, Sam Kerr, Bonmati…), NBA classics + WNBA (Taurasi, A'ja Wilson, Caitlin Clark…).
 

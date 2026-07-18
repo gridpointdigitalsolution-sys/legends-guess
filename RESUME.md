@@ -1,5 +1,23 @@
 # ▶ RESUME — pick up here in Claude Code CLI
 
+## DONE (latest session — mobile-wow + image carousel + roster wave)
+- [x] **Diagnosed why owner "saw no wow"** — viewed the LIVE site in-browser: (1) first-load welcome modal + cookie banner covered everything, (2) cursor-glow/3D-tilt were desktop-mouse-only → invisible on phone. Fixed both.
+- [x] **Clue cards upgraded** — icon tiles (📍 position, 🏟️ club, 🌍 region, 🚩 nation, 📅 era), newest-revealed clue GLOWS gold + auto-pulses (mobile-visible, no mouse), all-clue entrance stagger.
+- [x] **Hid AD placeholder boxes** (`.ad-slot{display:none}`) — no more "AD SPACE — activate after AdSense" half-built look. Re-enable when ads go live.
+- [x] **Lighter first load** — removed the blocking welcome modal auto-open; game shows instantly; ❓ help button nudges new users; help modal still reachable.
+- [x] **Bolder hero** — bigger tagline (1.62rem mobile / 2.15rem desktop) + drifting ⚽🏀 behind hero.
+- [x] **Carousel redesign = image-forward** — big cards with generated **crest-avatars** (`legendAvatar()`: team-color gradient + player monogram + country code + sport ball, inline SVG data-URI). Football slides top row, basketball bottom. **Photo-ready**: `.mimg` can take real free-licensed (Wikimedia CC) portraits later. Section **gaps** added for launcher feel. Identical mobile + desktop.
+- [x] **Roster +105 → 897 legends (549 ⚽ / 348 🏀)** — 2 parallel agents (football +60, basketball +45), validated: 0 schema errors, 0 dups, chronological clubs, flags matched. REGION += Jamaica/New Zealand/Switzerland. legends.html regenerated (897 cards).
+- [x] All deployed → main + gh-pages + VPS pull, verified live on Cloudflare edge (http 200, new names + markers served).
+
+## NEXT (open)
+- [ ] **Real free-licensed faces (optional)** — source Wikimedia CC-BY/PD portraits for the ~36 featured carousel legends, drop URLs into a `img:` field → `.mimg` (fallback already = avatar). Needs per-image license check + attribution page. NO copyrighted/scraped photos (AdSense risk).
+- [ ] **Keep roster growing** toward 1,000 ⚽ / 500 🏀 in accurate waves (need +451 ⚽ / +152 🏀).
+- [ ] **GA4** — owner supplies Measurement ID (G-XXXX); snippet already in place (placeholder), loads only if set + cookies not declined.
+- [ ] **Search Console** — owner supplies TXT/meta (use Digitalmindss01@gmail.com Cloudflare acct); submit sitemap https://legendsguess.com/sitemap.xml.
+- [ ] **Owner: revoke the Cloudflare API token** that was pasted in chat earlier.
+- [ ] Deploy flow reminder: git repo root = `legends-guess-repo/football-apps` (branch `main` → GitHub). VPS serves the **gh-pages** branch (app flattened at root) from `/opt/legendsguess/site`. Deploy = commit main → copy files into gh-pages worktree (`F:/Football LOvers/_ghp_wt`) → push gh-pages → `ssh vcc` (key `~/.ssh/vcc_contabo_ed25519`, ProxyCommand tunnel) → `sudo -u legendsguess git -C /opt/legendsguess/site pull --ff-only origin gh-pages`.
+
 ## DONE
 - [x] Market research + 5 money ideas (RESEARCH-REPORT.md)
 - [x] Legends Guess flagship built — 218 legends, daily+endless, highlights, welcome guide, AdSense slots
