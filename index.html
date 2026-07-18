@@ -455,7 +455,6 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
     <div class="hero-sub" id="heroSub">Loading the hall of legends…</div>
     <div class="marquee" id="marquee">
       <div class="mrow" id="mrow1"></div>
-      <div class="mrow rev" id="mrow2"></div>
     </div>
   </section>
 
@@ -1887,9 +1886,9 @@ function buildMarquee(){
   const by={};DATA.forEach(p=>by[p.n]=p);
   const list=feat.map(n=>by[n]).filter(Boolean);
   const card=p=>'<div class="mcard tilt"><img class="mimg" alt="" loading="lazy" src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+' · '+p.b+'s</div></div></div>';
-  const ft=list.filter(p=>p.s==='⚽'),bb=list.filter(p=>p.s==='🏀');
-  const a=ft.map(card).join(''),b=bb.map(card).join('');
-  if($('mrow1'))$('mrow1').innerHTML=a+a;if($('mrow2'))$('mrow2').innerHTML=b+b;
+  const ft=list.filter(p=>p.s==='⚽');
+  const a=ft.map(card).join('');
+  if($('mrow1'))$('mrow1').innerHTML=a+a;
   if($('heroSub'))$('heroSub').innerHTML='<b>'+DATA.length+'</b> legends · ⚽ football + 🏀 basketball · new puzzle every day';
   if($('marquee'))$('marquee').addEventListener('click',()=>{location.href='legends.html'});
 }
