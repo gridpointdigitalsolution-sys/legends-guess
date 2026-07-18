@@ -1689,7 +1689,7 @@ function buildClues(p){
   const clubs=p.cl.map((c,i)=>({ic:"🏟️",k:(sport==="🏀"?"Team ":"Club ")+(i+1),v:c}));
   const region={ic:"🌍",k:"Region",v:REGION[p.c]||"—"};
   const nation={ic:"🚩",k:"Nation",v:p.f+" "+p.c};
-  const era={ic:"📅",k:"Era from",v:String(p.b)+"s"};
+  const era={ic:"📅",k:"Era",v:(Math.floor(p.b/10)*10)+"s"};
   // Hard: broad clues first, specific clubs LAST (much tougher, still fair).
   // Easy/Normal: clubs early (more identifying) — Easy just starts with more revealed.
   if(DIFF==='hard') return [pos,region,era,nation,...clubs];
@@ -2048,14 +2048,14 @@ function buildMarquee(){
   const feat=['Lionel Messi','Cristiano Ronaldo','Pele','Diego Maradona','Ronaldinho','Zinedine Zidane','Kylian Mbappe','Ronaldo Nazario','Johan Cruyff','Thierry Henry','George Weah','Neymar',"Samuel Eto'o",'Marta','Zlatan Ibrahimovic','Sadio Mane','Andrea Pirlo','Roberto Carlos','Didier Drogba','Ferenc Puskas','Mia Hamm','Megan Rapinoe','Michael Jordan','LeBron James','Kobe Bryant','Stephen Curry','Giannis Antetokounmpo','Magic Johnson','Kareem Abdul-Jabbar','Luka Doncic','Larry Bird',"A'ja Wilson",'Hakeem Olajuwon','Tim Duncan','Kevin Durant','Wilt Chamberlain'];
   const by={};DATA.forEach(p=>by[p.n]=p);
   const list=feat.map(n=>by[n]).filter(Boolean);
-  const card=p=>{const ph=FACES[p.n];return '<div class="mcard tilt"><img class="mimg" alt="'+p.n+'" loading="lazy"'+(ph?' data-face="'+ph+'"':'')+' src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+' · '+p.b+'s</div></div></div>';};
+  const card=p=>{const ph=FACES[p.n];return '<div class="mcard tilt"><img class="mimg" alt="'+p.n+'" loading="lazy"'+(ph?' data-face="'+ph+'"':'')+' src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+' · '+(Math.floor(p.b/10)*10)+'s</div></div></div>';};
   const ft=list.filter(p=>p.s==='⚽');
   const a=ft.map(card).join('');
   if($('mrow1')){$('mrow1').innerHTML=a+a;
     // upgrade to real photo only after it loads (silhouette can never break)
     $('mrow1').querySelectorAll('.mimg[data-face]').forEach(el=>{const u=el.getAttribute('data-face');const im=new Image();im.onload=()=>{el.src=u;el.classList.add('hasface')};im.src=u;});}
   if($('heroSub'))$('heroSub').innerHTML='<b>'+DATA.length+'</b> legends · ⚽ football + 🏀 basketball · new puzzle every day';
-  if($('marquee'))$('marquee').addEventListener('click',()=>{location.href='legends.html'});
+  if($('marquee'))$('marquee').addEventListener('click',()=>{const s=document.querySelector('.stage');if(s)s.scrollIntoView({behavior:'smooth',block:'start'});});
 }
 /* --- WOW: cursor glow + 3D tilt --- */
 (function(){
