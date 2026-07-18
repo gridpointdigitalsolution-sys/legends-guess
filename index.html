@@ -1860,20 +1860,25 @@ $('ckNo').addEventListener('click',()=>{store.set('cookieChoice','decline');$('c
 function legendAvatar(p){
   let h=0;for(let i=0;i<p.n.length;i++)h=(h*31+p.n.charCodeAt(i))>>>0;
   const hue=h%360,isFt=p.s==='⚽';
-  const c1=isFt?'hsl('+(130+(hue%50))+',68%,44%)':'hsl('+(20+(hue%40))+',88%,52%)';
-  const c2='hsl('+hue+',48%,20%)';
-  const ini=p.n.split(' ').filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const c1=isFt?'hsl('+(130+(hue%50))+',66%,45%)':'hsl('+(20+(hue%40))+',86%,53%)';
+  const c2='hsl('+hue+',50%,18%)';
   const cc=(p.c||'').replace(/[^A-Za-z ]/g,'').slice(0,3).toUpperCase();
-  const ball=isFt?'⚽':'🏀';
+  const ST="fill='none' stroke='rgba(255,255,255,.94)' stroke-width='15' stroke-linecap='round' stroke-linejoin='round'";
+  const HD="fill='rgba(255,255,255,.94)'";
+  // sport-specific human silhouette (footballer kicking / basketballer shooting overhead)
+  const fig=isFt
+    ? "<g "+ST+"><path d='M72 54 L74 92'/><path d='M74 64 L52 74'/><path d='M74 61 L96 49'/><path d='M74 92 L62 124'/><path d='M74 92 L106 101'/></g>"
+      +"<circle cx='71' cy='38' r='13' "+HD+"/><circle cx='120' cy='106' r='9' "+HD+"/>"
+    : "<g "+ST+"><path d='M85 60 L85 100'/><path d='M85 68 L67 42'/><path d='M85 68 L103 42'/><path d='M85 100 L71 128'/><path d='M85 100 L99 128'/></g>"
+      +"<circle cx='85' cy='46' r='13' "+HD+"/><circle cx='85' cy='29' r='11' "+HD+"/>";
   const svg="<svg xmlns='http://www.w3.org/2000/svg' width='170' height='170'>"
    +"<defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='"+c1+"'/><stop offset='1' stop-color='"+c2+"'/></linearGradient></defs>"
    +"<rect width='170' height='170' fill='url(#g)'/>"
-   +"<circle cx='85' cy='150' r='58' fill='rgba(255,255,255,.14)'/>"
-   +"<circle cx='85' cy='66' r='40' fill='rgba(255,255,255,.18)'/>"
-   +"<text x='85' y='80' font-family='Sora,Arial,sans-serif' font-size='40' font-weight='800' fill='#fff' text-anchor='middle'>"+ini+"</text>"
-   +"<rect x='0' y='138' width='170' height='32' fill='rgba(0,0,0,.34)'/>"
+   +"<circle cx='85' cy='118' r='72' fill='rgba(0,0,0,.10)'/>"
+   +fig
+   +"<rect x='0' y='138' width='170' height='32' fill='rgba(0,0,0,.36)'/>"
    +"<text x='12' y='160' font-family='Sora,Arial' font-size='16' font-weight='800' fill='#fff' letter-spacing='1.5'>"+cc+"</text>"
-   +"<text x='158' y='161' font-family='Arial' font-size='19' text-anchor='end'>"+ball+"</text>"
+   +"<text x='158' y='161' font-family='Arial' font-size='19' text-anchor='end'>"+(isFt?'⚽':'🏀')+"</text>"
    +"</svg>";
   return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
 }
