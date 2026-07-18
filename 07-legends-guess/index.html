@@ -332,7 +332,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
   border:1px solid var(--line);border-radius:16px;overflow:hidden;cursor:pointer;
   box-shadow:0 10px 24px -16px rgba(0,0,0,.8);transition:transform .2s,border-color .2s,box-shadow .2s}
 .mcard:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 16px 32px -14px rgba(0,0,0,.85)}
-.mcard .mimg{width:100%;height:124px;object-fit:cover;display:block;background:var(--bg2)}
+.mcard .mimg{width:100%;height:124px;object-fit:cover;object-position:50% 18%;display:block;background:var(--bg2)}
 .mcard .minfo{padding:8px 10px 9px}
 .mcard .mn{font-weight:800;font-size:.85rem;line-height:1.12;letter-spacing:-.01em;
   display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
@@ -1689,11 +1689,10 @@ function buildClues(p){
   const clubs=p.cl.map((c,i)=>({ic:"🏟️",k:(sport==="🏀"?"Team ":"Club ")+(i+1),v:c}));
   const region={ic:"🌍",k:"Region",v:REGION[p.c]||"—"};
   const nation={ic:"🚩",k:"Nation",v:p.f+" "+p.c};
-  const era={ic:"📅",k:"Era",v:(Math.floor(p.b/10)*10)+"s"};
   // Hard: broad clues first, specific clubs LAST (much tougher, still fair).
   // Easy/Normal: clubs early (more identifying) — Easy just starts with more revealed.
-  if(DIFF==='hard') return [pos,region,era,nation,...clubs];
-  return [pos,...clubs,region,nation,era];
+  if(DIFF==='hard') return [pos,region,nation,...clubs];
+  return [pos,...clubs,region,nation];
 }
 function updTries(){
   const left=MAX-guesses.length;
@@ -1750,7 +1749,7 @@ function renderAll(){
     const d=document.createElement('div');d.className='grow '+(gu.ok?'right':'wrong');
     let chips='';
     if(gu.hint){const H=gu.hint;const c=(v,l)=>'<span class="chip '+(v?'y':'n')+'">'+(v?'✓':'✗')+' '+l+'</span>';
-      chips='<div class="chips">'+c(H.pos,'Position')+c(H.region,'Region')+c(H.nation,'Nation')+c(H.era,'Era')+'</div>';}
+      chips='<div class="chips">'+c(H.pos,'Position')+c(H.region,'Region')+c(H.nation,'Nation')+'</div>';}
     d.innerHTML='<div class="growtop"><span><span class="num">'+(i+1)+'/'+MAX+'</span>'+(gu.name||'—')+'</span><span>'+(gu.ok?'✅':'❌')+'</span></div>'+chips;
     g.appendChild(d);
   });
@@ -1770,7 +1769,7 @@ function makeGuess(name){
   if(!pl){flash();return}
   if(guesses.some(g=>norm(g.name)===norm(pl.n)))return;
   const ok=norm(pl.n)===norm(answer.n);
-  const hint=ok?null:{pos:pl.p===answer.p,region:REGION[pl.c]===REGION[answer.c],nation:pl.c===answer.c,era:Math.floor(pl.b/10)===Math.floor(answer.b/10)};
+  const hint=ok?null:{pos:pl.p===answer.p,region:REGION[pl.c]===REGION[answer.c],nation:pl.c===answer.c};
   guesses.push({name:pl.n,ok,hint});$('gi').value='';hideSug();
   if(ok){finish(true)}
   else{revealed=Math.min(revealed+1,clues.length);if(guesses.length>=MAX)finish(false)}
@@ -2048,7 +2047,7 @@ function buildMarquee(){
   const feat=['Lionel Messi','Cristiano Ronaldo','Pele','Diego Maradona','Ronaldinho','Zinedine Zidane','Kylian Mbappe','Ronaldo Nazario','Johan Cruyff','Thierry Henry','George Weah','Neymar',"Samuel Eto'o",'Marta','Zlatan Ibrahimovic','Sadio Mane','Andrea Pirlo','Roberto Carlos','Didier Drogba','Ferenc Puskas','Mia Hamm','Megan Rapinoe','Michael Jordan','LeBron James','Kobe Bryant','Stephen Curry','Giannis Antetokounmpo','Magic Johnson','Kareem Abdul-Jabbar','Luka Doncic','Larry Bird',"A'ja Wilson",'Hakeem Olajuwon','Tim Duncan','Kevin Durant','Wilt Chamberlain'];
   const by={};DATA.forEach(p=>by[p.n]=p);
   const list=feat.map(n=>by[n]).filter(Boolean);
-  const card=p=>{const ph=FACES[p.n];return '<div class="mcard tilt"><img class="mimg" alt="'+p.n+'" loading="lazy"'+(ph?' data-face="'+ph+'"':'')+' src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+' · '+(Math.floor(p.b/10)*10)+'s</div></div></div>';};
+  const card=p=>{const ph=FACES[p.n];return '<div class="mcard tilt"><img class="mimg" alt="'+p.n+'" loading="lazy"'+(ph?' data-face="'+ph+'"':'')+' src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+'</div></div></div>';};
   const ft=list.filter(p=>p.s==='⚽');
   const a=ft.map(card).join('');
   if($('mrow1')){$('mrow1').innerHTML=a+a;
