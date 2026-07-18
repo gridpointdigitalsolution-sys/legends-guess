@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="google-site-verification" content="wtkFP7hd5DkoW7nxKd0E_qaa-S5ownY0vwPvJJlrrdw" />
 <title>Legends Guess — Daily Football &amp; Basketball Legend Puzzle + Highlights</title>
 <meta name="description" content="Legends Guess: guess the mystery football (soccer) or basketball legend from their career, then watch their best highlights. New puzzles daily, endless practice mode. Free to play.">
 <meta name="keywords" content="football quiz, soccer player guessing game, basketball legends quiz, guess the player, football highlights, NBA legends, daily football game">
@@ -498,9 +499,13 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
         <div id="sug"></div>
       </div>
       <button class="btn btn-p" id="guessBtn">SUBMIT GUESS</button>
-      <div class="brow">
+      <div class="brow" id="playRow">
         <button class="btn btn-g" id="revealBtn">Give up → see answer + 🎬</button>
         <button class="btn btn-g" id="endlessBtn">🎲 Endless</button>
+      </div>
+      <div class="brow" id="overRow" style="display:none">
+        <button class="btn btn-p" id="newGameBtn">▶ New Game</button>
+        <button class="btn btn-g" id="watchAgainBtn">🎬 Watch / result</button>
       </div>
       <div class="ad-slot">AD SPACE — in-content (activate after AdSense approval)</div>
     </div>
@@ -587,7 +592,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 <footer>
   <b>LegendsGuess</b> — free daily football &amp; basketball player puzzles + highlights.<br>
   Fan-made · We host no video · Rights belong to their owners.<br>
-  <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="legends.html">All legends</a>
+  <a href="about.html">About</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="legends.html">All legends</a> · <a href="credits.html">Photo credits</a>
 </footer>
 
 <div id="cursorGlow" aria-hidden="true"></div>
@@ -1751,6 +1756,13 @@ function renderAll(){
   });
   renderTiles();
   updTries();
+  updControls();
+}
+function updControls(){
+  const on=over;
+  const set=(id,show,disp)=>{const e=$(id);if(e)e.style.display=show?(disp||''):'none';};
+  set('iwrap',!on);set('guessBtn',!on);set('playRow',!on,'flex');
+  set('overRow',on,'flex');
 }
 function makeGuess(name){
   if(over)return;
@@ -1840,6 +1852,8 @@ document.addEventListener('click',e=>{if(!$('iwrap').contains(e.target))hideSug(
 $('guessBtn').addEventListener('click',()=>makeGuess($('gi').value));
 $('revealBtn').addEventListener('click',()=>{if(!over)finish(false)});
 $('endlessBtn').addEventListener('click',()=>start(true));
+$('newGameBtn').addEventListener('click',()=>{closeM('resultModal');start(true);window.scrollTo({top:0,behavior:'smooth'})});
+$('watchAgainBtn').addEventListener('click',()=>{if(answer)showResult(guesses.some(g=>g.ok),guesses.length)});
 $('againBtn').addEventListener('click',()=>{closeM('resultModal');start(true)});
 function pickSport(s){sport=s;if(s==="⚽"){$('ftBtn').className='on ft';$('bbBtn').className=''}else{$('bbBtn').className='on bb';$('ftBtn').className=''}start(false)}
 $('ftBtn').addEventListener('click',()=>{if(sport!=="⚽")pickSport("⚽")});
@@ -1979,8 +1993,32 @@ if(store.get('cookieChoice')===null){setTimeout(()=>$('cookie').classList.add('s
 $('ckYes').addEventListener('click',()=>{store.set('cookieChoice','accept');$('cookie').classList.remove('show')});
 $('ckNo').addEventListener('click',()=>{store.set('cookieChoice','decline');$('cookie').classList.remove('show')});
 
-// designer avatar (team-color gradient + monogram + country) — legal, no photos needed.
-// pass p.img later to swap in a real free-licensed portrait; falls back here on error.
+// real free-licensed portraits (Wikimedia Commons; credits in credits.html). Silhouette avatar is the guaranteed fallback.
+const FACES={
+  "Lionel Messi":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178_%28cropped_2%29.jpg/500px-Lionel_Messi_NE_Revolution_Inter_Miami_7.9.25-178_%28cropped_2%29.jpg",
+  "Cristiano Ronaldo":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Cristiano_Ronaldo_2275_%28cropped%29.jpg/500px-Cristiano_Ronaldo_2275_%28cropped%29.jpg",
+  "Pele":"https://upload.wikimedia.org/wikipedia/commons/5/5e/Pele_con_brasil_%28cropped%29.jpg",
+  "Diego Maradona":"https://upload.wikimedia.org/wikipedia/commons/6/6b/Diego_Maradona_%28cropped%29.jpg",
+  "Ronaldinho":"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Ronaldinho_in_2019.jpg/500px-Ronaldinho_in_2019.jpg",
+  "Zinedine Zidane":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Zinedine_Zidane_2015_%28cropped%29.jpg/500px-Zinedine_Zidane_2015_%28cropped%29.jpg",
+  "Kylian Mbappe":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Kylian_Mbapp%C3%A9_%28cropped%29.jpg/500px-Kylian_Mbapp%C3%A9_%28cropped%29.jpg",
+  "Ronaldo Nazario":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ronaldo_Lu%C3%ADs_Naz%C3%A1rio_de_Lima_2019_%283x4_cropped%29.jpg/500px-Ronaldo_Lu%C3%ADs_Naz%C3%A1rio_de_Lima_2019_%283x4_cropped%29.jpg",
+  "Johan Cruyff":"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Johan_Cruijff_%281974%29.jpg/500px-Johan_Cruijff_%281974%29.jpg",
+  "Thierry Henry":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Thierry_Henry_%2851649035951%29_%28cropped%29.jpg/500px-Thierry_Henry_%2851649035951%29_%28cropped%29.jpg",
+  "George Weah":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/George_Weah_2019_%28cropped%29.png/500px-George_Weah_2019_%28cropped%29.png",
+  "Neymar":"https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Neymar_%28cropped%29.jpg/500px-Neymar_%28cropped%29.jpg",
+  "Samuel Eto'o":"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Sammuel_Eto%27o_Fils_02.jpg/500px-Sammuel_Eto%27o_Fils_02.jpg",
+  "Marta":"https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Football_against_poverty_2014_-_Marta_%282%29.jpg/500px-Football_against_poverty_2014_-_Marta_%282%29.jpg",
+  "Zlatan Ibrahimovic":"https://upload.wikimedia.org/wikipedia/commons/c/cd/Zlatan_Ibrahimovic_%28cropped%29.jpg",
+  "Sadio Mane":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Sadio_Mane_N%2A10_du_Senegal_%28cropped%29.jpg/500px-Sadio_Mane_N%2A10_du_Senegal_%28cropped%29.jpg",
+  "Andrea Pirlo":"https://upload.wikimedia.org/wikipedia/commons/6/6e/20150616_-_Portugal_-_Italie_-_Gen%C3%A8ve_-_Andrea_Pirlo_%28cropped%29.jpg",
+  "Roberto Carlos":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/25th_Laureus_World_Sports_Awards_-_Red_Carpet_-_Roberto_Carlos_-_240422_192822.jpg/500px-25th_Laureus_World_Sports_Awards_-_Red_Carpet_-_Roberto_Carlos_-_240422_192822.jpg",
+  "Didier Drogba":"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Didier_Drogba_%282019%29_%28cropped%29.jpg/500px-Didier_Drogba_%282019%29_%28cropped%29.jpg",
+  "Ferenc Puskas":"https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Ferenc_Pusk%C3%A1s_%28cropped%29.jpg/500px-Ferenc_Pusk%C3%A1s_%28cropped%29.jpg",
+  "Mia Hamm":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Mia_Hamm_2010_cropped.jpg/500px-Mia_Hamm_2010_cropped.jpg",
+  "Megan Rapinoe":"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Megan_Rapinoe_%2848675274817%29_%28cropped%29.jpg/500px-Megan_Rapinoe_%2848675274817%29_%28cropped%29.jpg"
+};
+// designer avatar (team-color gradient + player silhouette + country) — legal, guaranteed fallback.
 function legendAvatar(p){
   let h=0;for(let i=0;i<p.n.length;i++)h=(h*31+p.n.charCodeAt(i))>>>0;
   const hue=h%360,isFt=p.s==='⚽';
@@ -2010,10 +2048,12 @@ function buildMarquee(){
   const feat=['Lionel Messi','Cristiano Ronaldo','Pele','Diego Maradona','Ronaldinho','Zinedine Zidane','Kylian Mbappe','Ronaldo Nazario','Johan Cruyff','Thierry Henry','George Weah','Neymar',"Samuel Eto'o",'Marta','Zlatan Ibrahimovic','Sadio Mane','Andrea Pirlo','Roberto Carlos','Didier Drogba','Ferenc Puskas','Mia Hamm','Megan Rapinoe','Michael Jordan','LeBron James','Kobe Bryant','Stephen Curry','Giannis Antetokounmpo','Magic Johnson','Kareem Abdul-Jabbar','Luka Doncic','Larry Bird',"A'ja Wilson",'Hakeem Olajuwon','Tim Duncan','Kevin Durant','Wilt Chamberlain'];
   const by={};DATA.forEach(p=>by[p.n]=p);
   const list=feat.map(n=>by[n]).filter(Boolean);
-  const card=p=>'<div class="mcard tilt"><img class="mimg" alt="" loading="lazy" src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+' · '+p.b+'s</div></div></div>';
+  const card=p=>{const ph=FACES[p.n];return '<div class="mcard tilt"><img class="mimg" alt="'+p.n+'" loading="lazy"'+(ph?' data-face="'+ph+'"':'')+' src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+' · '+p.b+'s</div></div></div>';};
   const ft=list.filter(p=>p.s==='⚽');
   const a=ft.map(card).join('');
-  if($('mrow1'))$('mrow1').innerHTML=a+a;
+  if($('mrow1')){$('mrow1').innerHTML=a+a;
+    // upgrade to real photo only after it loads (silhouette can never break)
+    $('mrow1').querySelectorAll('.mimg[data-face]').forEach(el=>{const u=el.getAttribute('data-face');const im=new Image();im.onload=()=>{el.src=u;el.classList.add('hasface')};im.src=u;});}
   if($('heroSub'))$('heroSub').innerHTML='<b>'+DATA.length+'</b> legends · ⚽ football + 🏀 basketball · new puzzle every day';
   if($('marquee'))$('marquee').addEventListener('click',()=>{location.href='legends.html'});
 }
