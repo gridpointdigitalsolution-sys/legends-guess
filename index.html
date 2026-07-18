@@ -2046,7 +2046,7 @@ function buildMarquee(){
   const by={};DATA.forEach(p=>by[p.n]=p);
   const list=feat.map(n=>by[n]).filter(Boolean);
   const card=p=>{const ph=FACES[p.n];return '<div class="mcard tilt"><img class="mimg" alt="'+p.n+'" loading="lazy"'+(ph?' data-face="'+ph+'"':'')+' src="'+legendAvatar(p)+'"><div class="minfo"><div class="mn">'+p.n+'</div><div class="ms">'+p.f+' '+p.c+'</div></div></div>';};
-  const ft=list.filter(p=>p.s==='⚽');
+  const ft=list.filter(p=>p.s==='⚽'&&FACES[p.n]);
   const a=ft.map(card).join('');
   if($('mrow1')){$('mrow1').innerHTML=a+a;
     // upgrade to real photo only after it loads (silhouette can never break)
