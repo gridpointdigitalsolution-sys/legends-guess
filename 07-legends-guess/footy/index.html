@@ -8,17 +8,17 @@
 <meta name="description" content="Footy Guess: guess the mystery football (soccer) legend from their career, then watch their best highlights. New puzzles daily, endless practice mode. Free to play.">
 <meta name="keywords" content="football quiz, soccer player guessing game, basketball legends quiz, guess the player, football highlights, NBA legends, daily football game">
 <meta name="theme-color" content="#0a0f1e">
-<link rel="canonical" href="https://legendsguess.com/footy/">
-<link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="manifest" href="/manifest.webmanifest">
+<link rel="canonical" href="https://footy.legendsguess.com/">
+<link rel="icon" type="image/svg+xml" href="https://legendsguess.com/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://legendsguess.com/favicon-32.png">
+<link rel="apple-touch-icon" href="https://legendsguess.com/apple-touch-icon.png">
+<link rel="manifest" href="https://legendsguess.com/manifest.webmanifest">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Footy Guess">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://legendsguess.com/footy/">
+<meta property="og:url" content="https://footy.legendsguess.com/">
 <meta property="og:title" content="Footy Guess — Guess the Legend, Watch Them Play">
 <meta property="og:description" content="Guess the mystery football legend from their career, then watch their highlights. New daily puzzles — free.">
 <meta property="og:image" content="https://legendsguess.com/og-image.png">
@@ -440,7 +440,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 <body>
 <header>
   <div class="hin">
-    <a href="/footy/" class="logo" title="Footy Guess — home">⚽ Footy<b>Guess</b></a>
+    <a href="https://footy.legendsguess.com/" class="logo" title="Footy Guess — home">⚽ Footy<b>Guess</b></a>
     <div class="hbtns">
       <button class="ico" id="installBtn" title="Install app" aria-label="Install app">⬇️</button>
       <button class="ico" id="soundBtn" title="Sound on/off" aria-label="Toggle sound">🔊</button>
@@ -585,15 +585,15 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
     <p><b>Is Footy Guess free?</b> Yes — completely free, no account needed, new daily puzzles in both sports plus an endless mode.</p>
     <p><b>How do I play?</b> Read the career clues, type a legend's name, and submit. Each wrong guess reveals a new clue; you get six tries. Solve it (or give up) and highlight buttons appear.</p>
     <p><b>Where do the highlights come from?</b> We host no video. "Watch" buttons open a live search on YouTube, TikTok or Instagram, so all views and credit stay with the original creators.</p>
-    <p><b>Which legends are included?</b> Football and basketball greats across every era and continent — see the full <a href="/legends.html">list of legends</a>.</p>
+    <p><b>Which legends are included?</b> Football and basketball greats across every era and continent — see the full <a href="https://legendsguess.com/legends.html">list of legends</a>.</p>
   </details>
-  <p class="seo-links"><a href="/legends.html">Browse all legends</a> · <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.html">Contact</a></p>
+  <p class="seo-links"><a href="https://legendsguess.com/legends.html">Browse all legends</a> · <a href="https://legendsguess.com/about.html">About</a> · <a href="https://legendsguess.com/privacy.html">Privacy</a> · <a href="https://legendsguess.com/contact.html">Contact</a></p>
 </section>
 
 <footer>
   <b>LegendsGuess</b> — free daily football &amp; basketball player puzzles + highlights.<br>
   Fan-made · We host no video · Rights belong to their owners.<br>
-  <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a> · <a href="/contact.html">Contact</a> · <a href="/legends.html">All legends</a> · <a href="/credits.html">Photo credits</a>
+  <a href="https://legendsguess.com/about.html">About</a> · <a href="https://legendsguess.com/privacy.html">Privacy</a> · <a href="https://legendsguess.com/contact.html">Contact</a> · <a href="https://legendsguess.com/legends.html">All legends</a> · <a href="https://legendsguess.com/credits.html">Photo credits</a>
 </footer>
 
 <div id="cursorGlow" aria-hidden="true"></div>
@@ -602,7 +602,7 @@ header{animation:enterDown .55s cubic-bezier(.2,.85,.25,1) both}
 <canvas id="confetti"></canvas>
 
 <div id="cookie" role="dialog" aria-label="Cookie notice">
-  <p>We use local storage for your game stats, and cookies for ads (Google AdSense) to keep Footy Guess free. See our <a href="/privacy.html">Privacy Policy</a>.</p>
+  <p>We use local storage for your game stats, and cookies for ads (Google AdSense) to keep Footy Guess free. See our <a href="https://legendsguess.com/privacy.html">Privacy Policy</a>.</p>
   <div class="cbtns">
     <button class="cno" id="ckNo">Decline</button>
     <button class="cok" id="ckYes">Accept</button>
@@ -1796,7 +1796,7 @@ function finish(win){
   showResult(win,guesses.length);
 }
 function grid(win,tries){let s='';for(let i=0;i<tries;i++)s+=(i===tries-1&&win)?'🟩':'🟥';if(!win)for(let i=tries;i<MAX;i++)s+='⬛';return s}
-const SITE='https://legendsguess.com/footy';
+const SITE='https://footy.legendsguess.com';
 function shareTxt(win,tries){const lbl=mode==="endless"?"(endless)":"#"+pNum;return 'Footy Guess '+sport+' '+lbl+' '+(win?tries+'/'+MAX:'X/'+MAX)+'\n'+grid(win,tries)+'\nBeat me: '+SITE}
 function ytS(q){return 'https://www.youtube.com/results?search_query='+encodeURIComponent(q)}
 function tkS(q){return 'https://www.tiktok.com/search?q='+encodeURIComponent(q)}
